@@ -1,534 +1,112 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guía Interactiva de Química</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Warm Neutrals (Purples and Off-White) -->
+    <title>Página en Remodelación</title>
     <style>
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #fdfaf6;
-            color: #4a4a4a;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9; /* Fondo claro para contraste */
+            color: #333;
+            text-align: center;
         }
-        .timeline-item::before {
+
+        h1 {
+            color: #2c3e50; /* Título en color oscuro */
+            margin-bottom: 40px;
+            font-size: 2.5em;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 30px; /* Espacio entre los botones */
+        }
+
+        .button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-decoration: none;
+            color: #ffffff; /* Texto blanco para resaltar */
+            background-color: #006400; /* Verde oscuro base */
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+            position: relative;
+            overflow: hidden; /* Necesario para la animación de brillo */
+        }
+
+        /* Efecto de brillo verde oscuro */
+        .button::before {
             content: '';
             position: absolute;
-            left: -31px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background-color: #c8a2c8;
-            border: 3px solid #fdfaf6;
+            top: 0;
+            left: -75%;
+            width: 50%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3); /* Brillo blanco semi-transparente */
+            transform: skewX(-20deg);
+            transition: all 0.7s ease;
         }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 350px;
-            max-height: 400px;
+
+        .button:hover {
+            background-color: #008000; /* Verde un poco más claro al pasar el ratón */
+            transform: translateY(-3px); /* Pequeño levantamiento */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
+
+        .button:hover::before {
+            left: 125%; /* Mueve el brillo a través del botón */
+        }
+
+        .button:active {
+            transform: translateY(0); /* Efecto de "clic" */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Animación adicional de parpadeo suave para un efecto "brillante" continuo */
+        @keyframes pulse-shadow {
+            0% {
+                box-shadow: 0 0 15px rgba(0, 100, 0, 0.6); /* Verde oscuro más brillante */
+            }
+            50% {
+                box-shadow: 0 0 25px rgba(0, 128, 0, 0.8); /* Máximo brillo */
+            }
+            100% {
+                box-shadow: 0 0 15px rgba(0, 100, 0, 0.6);
+            }
+        }
+
+        .button {
+            animation: pulse-shadow 2s infinite alternate; /* Aplica la animación */
+        }
+
+        /* Opcional: Estilos para enlaces */
+        .button.quimica:hover { background-color: #007000; }
+        .button.matematica:hover { background-color: #007000; }
+
     </style>
 </head>
-<body class="antialiased">
+<body>
 
-    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
-        <nav class="container mx-auto px-6 py-3">
-            <div class="flex justify-between items-center">
-                <h1 class="text-xl font-bold text-[#6a0dad]">Química Interactiva</h1>
-                <div class="hidden md:flex space-x-6">
-                    <a href="#fundamentos" class="text-gray-600 hover:text-[#6a0dad] transition-colors">Fundamentos</a>
-                    <a href="#organica" class="text-gray-600 hover:text-[#6a0dad] transition-colors">Química Orgánica</a>
-                    <a href="#historia" class="text-gray-600 hover:text-[#6a0dad] transition-colors">Historia</a>
-                    <a href="#glosario" class="text-gray-600 hover:text-[#6a0dad] transition-colors">Glosario</a>
-                    <a href="#charadas" class="text-gray-600 hover:text-[#6a0dad] transition-colors">Charadas</a> <!-- Nuevo enlace -->
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <main class="container mx-auto px-6 py-12">
-
-        <section id="hero" class="text-center mb-20">
-            <h2 class="text-4xl md:text-5xl font-bold text-[#4b0082] mb-4">Tu Guía de Estudio de Química</h2>
-            <p class="text-lg text-gray-700 max-w-3xl mx-auto">Explora los conceptos clave, descubre a los pioneros de la química y visualiza las estructuras moleculares de una forma totalmente nueva. ¡Comienza a aprender de manera interactiva!</p>
-        </section>
-
-        <!-- Sección Fundamentos Químicos -->
-        <section id="fundamentos" class="mb-20">
-            <h3 class="text-3xl font-bold text-center mb-2 text-[#6a0dad]">Fundamentos Químicos</h3>
-            <p class="text-center text-gray-600 mb-10">Todo comienza aquí. Estos son los pilares sobre los que se construye la química. Explora las definiciones básicas, los componentes de la materia y los enlaces que lo unen todo.</p>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-shadow transform hover:-translate-y-1">
-                    <h4 class="font-bold text-xl mb-2 text-[#4b0082]">Química y sus Ramas</h4>
-                    <p class="text-gray-700"><strong class="font-semibold">Química:</strong> Ciencia de la composición y reacciones de la materia.</p>
-                    <p class="text-gray-700 mt-2"><strong class="font-semibold">Q. Orgánica:</strong> Estudio de compuestos de carbono.</p>
-                    <p class="text-gray-700 mt-2"><strong class="font-semibold">Q. Inorgánica:</strong> Estudio de compuestos sin carbono.</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-shadow transform hover:-translate-y-1">
-                    <h4 class="font-bold text-xl mb-2 text-[#4b0082]">Componentes de la Materia</h4>
-                    <p class="text-gray-700"><strong class="font-semibold">Sustancias Puras:</strong> Composición química fija.</p>
-                    <p class="text-gray-700 mt-2"><strong class="font-semibold">Elementos:</strong> Sustancias químicas simples (ej. C, H, O, S).</p>
-                    <p class="text-gray-700 mt-2"><strong class="font-semibold">Compuestos:</strong> Elementos unidos en proporciones fijas (ej. H₂O).</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-shadow transform hover:-translate-y-1">
-                    <h4 class="font-bold text-xl mb-2 text-[#4b0082]">Enlaces Químicos</h4>
-                    <p class="text-gray-700"><strong class="font-semibold">Covalente:</strong> Enlace por compartición de electrones; típico en moléculas orgánicas.</p>
-                    <p class="text-gray-700 mt-2"><strong class="font-semibold">Iónico:</strong> Enlace por transferencia de electrones; forma iones (ej. NaCl).</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sección Química Orgánica -->
-        <section id="organica" class="mb-20">
-            <h3 class="text-3xl font-bold text-center mb-2 text-[#6a0dad]">El Mundo del Carbono</h3>
-             <p class="text-center text-gray-600 mb-10">La química orgánica es el estudio de la vida y sus componentes. Desde los hidrocarburos que nos dan energía hasta los polímeros de los que están hechos los plásticos, todo se basa en el versátil átomo de carbono.</p>
-            <div class="grid lg:grid-cols-2 gap-12 items-start">
-                <div>
-                    <h4 class="text-2xl font-bold mb-4 text-[#4b0082]">Hidrocarburos: La Base</h4>
-                    <p class="mb-6 text-gray-700">Son los compuestos orgánicos más simples, formados solo por carbono e hidrógeno. La forma en que se enlazan sus átomos de carbono define sus propiedades. Haz clic en cada tipo de enlace para ver más.</p>
-                    <div id="hydrocarbon-interactive" class="space-y-4">
-                        <div class="p-4 border-2 border-transparent rounded-lg cursor-pointer bg-white shadow-md hover:border-[#c8a2c8] transition-all" data-type="alcanos">
-                            <p class="font-bold">Alcanos (Enlace Simple C-C)</p>
-                            <div class="hydrocarbon-details hidden mt-2 text-sm text-gray-600">Hidrocarburos saturados. Todos los enlaces entre carbonos son simples. Ejemplo: metano (CH₄). Son la base de combustibles como el gas natural.</div>
-                        </div>
-                        <div class="p-4 border-2 border-transparent rounded-lg cursor-pointer bg-white shadow-md hover:border-[#c8a2c8] transition-all" data-type="alquenos">
-                            <p class="font-bold">Alquenos (Doble Enlace C=C)</p>
-                            <div class="hydrocarbon-details hidden mt-2 text-sm text-gray-600">Hidrocarburos insaturados con al menos un doble enlace carbono-carbono. Ejemplo: eteno (C₂H₄). Se usan para fabricar plásticos como el polietileno.</div>
-                        </div>
-                        <div class="p-4 border-2 border-transparent rounded-lg cursor-pointer bg-white shadow-md hover:border-[#c8a2c8] transition-all" data-type="alquinos">
-                            <p class="font-bold">Alquinos (Triple Enlace C≡C)</p>
-                            <div class="hydrocarbon-details hidden mt-2 text-sm text-gray-600">Hidrocarburos insaturados con al menos un triple enlace carbono-carbono. Ejemplo: acetileno (C₂H₂). Se utiliza en soldaduras por su alta temperatura de combustión.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <h4 class="text-2xl font-bold mb-4 text-[#4b0082]">Derivados y Materiales</h4>
-                    <div class="space-y-4">
-                        <div class="bg-white p-4 rounded-lg shadow-md">
-                            <h5 class="font-semibold text-[#6a0dad]">Alcoholes y Urea</h5>
-                            <p class="text-sm text-gray-700"><strong class="font-medium">Alcoholes:</strong> Compuestos con grupo -OH. Ej: etanol. <strong class="font-medium">Urea:</strong> CO(NH₂)₂, desecho nitrogenado clave en la historia de la química.</p>
-                        </div>
-                        <div class="bg-white p-4 rounded-lg shadow-md">
-                            <h5 class="font-semibold text-[#6a0dad]">Polímeros y Plásticos</h5>
-                             <p class="text-sm text-gray-700">Moléculas gigantes (polímeros) hechas de unidades repetidas (monómeros). Los plásticos son polímeros sintéticos moldeables.</p>
-                        </div>
-                         <div class="bg-white p-4 rounded-lg shadow-md">
-                            <h5 class="font-semibold text-[#6a0dad]">Combustibles Fósiles</h5>
-                            <p class="text-sm text-gray-700"><strong class="font-medium">Petróleo:</strong> Mezcla fósil de hidrocarburos. <strong class="font-medium">Gasolina:</strong> Derivado del petróleo (C5-C12), usado como combustible.</p>
-                        </div>
-                        <div class="bg-white p-4 rounded-lg shadow-md">
-                            <h5 class="font-semibold text-[#6a0dad]">Alótropos del Carbono</h5>
-                             <p class="text-sm text-gray-700"><strong class="font-medium">Diamante:</strong> Estructura tetraédrica, el material más duro. <strong class="font-medium">Grafeno:</strong> Capas hexagonales 2D, excelente conductor.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sección Línea de Tiempo -->
-        <section id="historia" class="mb-20">
-            <h3 class="text-3xl font-bold text-center mb-2 text-[#6a0dad]">Línea de Tiempo Interactiva</h3>
-            <p class="text-center text-gray-600 mb-10">La química es una ciencia construida sobre siglos de descubrimientos. Viaja en el tiempo y conoce a los científicos y los hitos que definieron la química moderna. Haz clic en cada evento para revelar su importancia.</p>
-           
-            <div class="chart-container mb-12">
-                <canvas id="timelineChart"></canvas>
-            </div>
-
-            <div class="relative pl-8 border-l-2 border-purple-200">
-                <div class="mb-10 timeline-item">
-                    <button class="font-bold text-lg text-left w-full text-[#4b0082] hover:text-[#6a0dad]" data-target="event-1675">1675: Nicolás Lémery y la Química Práctica</button>
-                    <div id="event-1675" class="timeline-details hidden mt-2 text-gray-700 bg-white p-4 rounded-lg shadow-md">
-                        <strong class="font-semibold">Nicolás Lémery</strong> (1645-1715), un químico francés, publica su influyente manual <em class="italic">"Cours de chymie"</em>. Este libro fue pionero por basarse en experimentos observables en lugar de teorías alquímicas, sentando las bases para un enfoque más empírico de la química.
-                    </div>
-                </div>
-               
-                <div class="mb-10 timeline-item">
-                    <button class="font-bold text-lg text-left w-full text-[#4b0082] hover:text-[#6a0dad]" data-target="event-1784">1784: Lavoisier, el Padre de la Química Moderna</button>
-                    <div id="event-1784" class="timeline-details hidden mt-2 text-gray-700 bg-white p-4 rounded-lg shadow-md">
-                        <strong class="font-semibold">Antoine Lavoisier</strong> (1743-1794) establece la Ley de Conservación de la Masa y comienza a desarrollar el primer sistema de nomenclatura química. Sus estudios sobre la combustión, demostrando el papel del oxígeno, revolucionaron la ciencia.
-                    </div>
-                </div>
-
-                <div class="mb-10 timeline-item">
-                     <button class="font-bold text-lg text-left w-full text-[#4b0082] hover:text-[#6a0dad]" data-target="event-1807">1807-1816: La Era de la Electroquímica</button>
-                    <div id="event-1807" class="timeline-details hidden mt-2 text-gray-700 bg-white p-4 rounded-lg shadow-md">
-                        <strong class="font-semibold">Jöns Jacob Berzelius</strong> y <strong class="font-semibold">Humphry Davy</strong> son pioneros en el uso de la electrólisis. Berzelius la usa para aislar elementos como el silicio, mientras que Davy (en 1816) aísla y nombra el cloro y el yodo, demostrando que eran elementos nuevos. Esto abrió la puerta a la electroquímica.
-                    </div>
-                </div>
-
-                <div class="mb-10 timeline-item">
-                    <button class="font-bold text-lg text-left w-full text-[#4b0082] hover:text-[#6a0dad]" data-target="event-1828">1828: El Fin de la "Fuerza Vital"</button>
-                    <div id="event-1828" class="timeline-details hidden mt-2 text-gray-700 bg-white p-4 rounded-lg shadow-md">
-                        <strong class="font-semibold">Friedrich Wöhler</strong> sintetiza <strong class="font-semibold">urea</strong>, un compuesto orgánico, a partir de un compuesto inorgánico (cianato de amonio). Este experimento fue un golpe devastador para la teoría del vitalismo, que sostenía que los compuestos orgánicos solo podían ser creados por seres vivos.
-                    </div>
-                </div>
-
-                <div class="mb-10 timeline-item">
-                     <button class="font-bold text-lg text-left w-full text-[#4b0082] hover:text-[#6a0dad]" data-target="event-1856">1856: El Nacimiento de los Colorantes Sintéticos</button>
-                    <div id="event-1856" class="timeline-details hidden mt-2 text-gray-700 bg-white p-4 rounded-lg shadow-md">
-                        El joven químico británico <strong class="font-semibold">William Perkin</strong>, de solo 18 años, sintetiza accidentalmente la <strong class="font-semibold">malveína</strong>, el primer colorante orgánico sintético, mientras intentaba crear quinina. Este descubrimiento dio origen a la industria de los tintes sintéticos y fue una de las primeras aplicaciones comerciales masivas de la química orgánica.
-                    </div>
-                </div>
-
-                <div class="mb-10 timeline-item">
-                     <button class="font-bold text-lg text-left w-full text-[#4b0082] hover:text-[#6a0dad]" data-target="event-1865">1865: Kekulé y el Anillo de Benceno</button>
-                    <div id="event-1865" class="timeline-details hidden mt-2 text-gray-700 bg-white p-4 rounded-lg shadow-md">
-                        <strong class="font-semibold">August Kekulé</strong> propone su revolucionario modelo para la estructura del benceno: un anillo hexagonal de seis átomos de carbono con enlaces dobles y simples alternos. Esta idea, supuestamente inspirada en un sueño, fue fundamental para entender los compuestos aromáticos.
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sección Glosario Interactivo -->
-        <section id="glosario" class="mb-20">
-            <h3 class="text-3xl font-bold text-center mb-2 text-[#6a0dad]">Glosario Interactivo</h3>
-            <p class="text-center text-gray-600 mb-6">¿Necesitas repasar una definición rápidamente? Utiliza el buscador para filtrar los 40 conceptos clave al instante.</p>
-            <input type="text" id="searchInput" placeholder="Buscar un término..." class="w-full max-w-lg mx-auto block p-3 mb-8 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#c8a2c8] focus:border-transparent transition-shadow">
-            <ul id="conceptList" class="bg-white p-6 rounded-xl shadow-lg space-y-3">
-            </ul>
-        </section>
+    <h1>Página en Remodelación 🚧</h1>
+    
+    <div class="button-container">
+        <a href="quimica.html" class="button quimica">Química 🧪</a>
         
-        <!-- NUEVA SECCIÓN: CHARADAS QUÍMICAS -->
-        <section id="charadas" class="mb-20">
-            <h3 class="text-3xl font-bold text-center mb-2 text-[#6a0dad]">Charadas Químicas</h3>
-            <p class="text-center text-gray-600 mb-6 max-w-2xl mx-auto">Pon a prueba tus conocimientos. Se te mostrará un término o una definición, y debes proporcionar el dato que falta. Recuerda, tu respuesta de *definición* puede ser similar, no tiene que ser exacta a la guardada.</p>
+        <a href="#" class="button matematica">Matemática 📐</a>
+    </div>
 
-            <div class="max-w-xl mx-auto bg-white p-8 rounded-xl shadow-2xl border-t-4 border-[#6a0dad]">
-                
-                <div id="charadaDisplay" class="min-h-24 bg-purple-50 p-4 rounded-lg text-center flex items-center justify-center mb-6">
-                    <p id="charadaText" class="text-xl font-medium text-gray-800">
-                        Presiona "Iniciar" para comenzar la charada.
-                    </p>
-                </div>
+    <p style="margin-top: 30px; color: #777;">Volveremos pronto con novedades. ¡Gracias por tu paciencia!</p>
 
-                <div id="gameControls" class="space-y-4">
-                    <input type="text" id="charadaInput" placeholder="Escribe tu respuesta aquí..." class="w-full p-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-[#c8a2c8] focus:border-transparent transition-shadow disabled:bg-gray-100" disabled>
-                    
-                    <div id="feedbackMessage" class="min-h-6 text-center font-semibold"></div>
-
-                    <div class="flex space-x-4">
-                        <button id="startButton" class="flex-1 bg-[#4b0082] text-white font-bold py-3 rounded-lg hover:bg-[#6a0dad] transition-colors shadow-md">
-                            Iniciar Charada
-                        </button>
-                        <button id="checkButton" class="flex-1 bg-purple-300 text-[#4b0082] font-bold py-3 rounded-lg hover:bg-purple-400 transition-colors shadow-md disabled:opacity-50" disabled>
-                            Comprobar
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- FIN NUEVA SECCIÓN -->
-
-    </main>
-
-    <footer class="bg-white mt-20 border-t">
-        <div class="container mx-auto px-6 py-4 text-center text-gray-500">
-            <p>&copy; 2025 Guía Interactiva de Química. Creada por Abel Ghanam de 5to Amabilidad para facilitar el aprendizaje.</p>
-        </div>
-    </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- DATOS GLOBALES (GLOSARIO) ---
-            const concepts = [
-                { term: "Química", def: "Ciencia de composición y reacciones de la materia." },
-                { term: "Química orgánica", def: "Estudio de compuestos de carbono; hidrocarburos y derivados." },
-                { term: "Química inorgánica", def: "Estudio de compuestos sin carbono; metales y sales." },
-                { term: "Sustancias puras", def: "Composición química fija; elementos o compuestos, no mezclas." },
-                { term: "Elementos", def: "Sustancias químicas simples; 118 en tabla periódica, ej. C, H." },
-                { term: "Compuesto", def: "Elementos unidos en proporciones fijas; ej. H₂O." },
-                { term: "Carbono (C)", def: "Elemento C (Z=6); base de química orgánica y alótropos; enlaces covalentes, esencial para vida." },
-                { term: "Hidrógeno (H)", def: "Elemento H (Z=1); forma hidrocarburos, gas diatómico." },
-                { term: "Oxígeno (O)", def: "Elemento O (Z=8); gas diatómico, en combustión." },
-                { term: "Azufre (S)", def: "Elemento S (Z=16); no metálico, en fertilizantes." },
-                { term: "Gráfico", def: "Diagrama de estructuras moleculares; ej. Kekulé para benceno." },
-                { term: "Hidrocarburos", def: "Compuestos solo de C y H; alcanos, alquenos, alquinos." },
-                { term: "Alcanos", def: "Hidrocarburos saturados; enlaces C-C simples, ej. metano." },
-                { term: "Alquenos", def: "Hidrocarburos con doble enlace C=C; ej. eteno." },
-                { term: "Alquinos", def: "Hidrocarburos insaturados con triple enlace C≡C; ej. acetileno." },
-                { term: "Alcoholes", def: "Compuestos orgánicos con grupo -OH en carbono; ej. etanol." },
-                { term: "Urea", def: "Compuesto CO(NH₂)₂; desecho nitrogenado, sintetizado en 1828." },
-                { term: "Polímeros", def: "Moléculas grandes de monómeros repetidos; ej. plásticos." },
-                { term: "Plásticos", def: "Polímeros sintéticos de hidrocarburos; moldeables." },
-                { term: "Petróleo", def: "Mezcla fósil de hidrocarburos; fuente de combustibles." },
-                { term: "Gasolina", def: "Mezcla de hidrocarburos C5-C12; combustible derivado del petróleo." },
-                { term: "Diamante", def: "Alótropo cristalino del carbono; estructura tetraédrica, más duro." },
-                { term: "Grafeno", def: "Alótropo 2D del carbono; capas hexagonales, conductor." },
-                { term: "Covalente", def: "Enlace por compartición de electrones; en moléculas orgánicas." },
-                { term: "Iónico", def: "Enlace químico por transferencia de electrones; forma iones, ej. NaCl." },
-                { term: "Nicolás Lemery", def: "Químico francés (1645-1715); pionero en experimentos químicos." },
-                { term: "1675", def: "Publicación de 'Cours de chymie' de Lémery; manual experimental." },
-                { term: "Lavoisier", def: "Químico francés (1743-1794); ley de conservación de masa." },
-                { term: "1784", def: "Lavoisier inicia nomenclatura química y estudios de combustión." },
-                { term: "1807 (Berzelius)", def: "Berzelius desarrolló electrólisis; experimento: corriente en fundidos libera elementos (ej. silicio); aporta electroquímica." },
-                { term: "1816", def: "Avances electroquímicos de Davy; nombró cloro e yodo." },
-                { term: "1828", def: "Síntesis de urea por Wöhler; refuta fuerza vital." },
-                { term: "William Perkin", def: "Químico británico; inventó colorantes orgánicos en 1856." },
-                { term: "1856", def: "Descubrimiento de malveína por Perkin; inicio colorantes sintéticos." },
-                { term: "Kekulé", def: "Químico alemán; propuso estructura cíclica del benceno en 1865." },
-                { term: "1865", def: "Modelo de Kekulé para benceno: anillo hexagonal con enlaces alternos." },
-                { term: "Joh D. Roberts", def: "Químico orgánico (1918-2016); pionero en RMN molecular." },
-                { term: "William Perkin (Aporte)", def: "Sintetizó malveína en 1856; primer colorante sintético orgánico." },
-                { term: "Michael Eugene", def: "Nombre ambiguo; no identificado en contexto químico." },
-                { term: "Carbono", def: "Elemento C; enlaces covalentes, esencial para vida." }
-            ];
-
-            // --- LÓGICA DEL GLOSARIO INTERACTIVO (Original) ---
-            const conceptList = document.getElementById('conceptList');
-            const searchInput = document.getElementById('searchInput');
-
-            function renderList(filter = '') {
-                conceptList.innerHTML = '';
-                // Filtra tanto por término como por definición
-                const filteredConcepts = concepts.filter(c => 
-                    c.term.toLowerCase().includes(filter.toLowerCase()) || 
-                    c.def.toLowerCase().includes(filter.toLowerCase())
-                );
-                
-                if (filteredConcepts.length === 0) {
-                    conceptList.innerHTML = `<li class="text-gray-500">No se encontraron resultados.</li>`;
-                    return;
-                }
-
-                filteredConcepts.forEach(concept => {
-                    const li = document.createElement('li');
-                    li.className = 'border-b last:border-b-0 py-2';
-                    li.innerHTML = `<strong class="font-semibold text-purple-800">${concept.term}:</strong> ${concept.def}`;
-                    conceptList.appendChild(li);
-                });
-            }
-
-            searchInput.addEventListener('keyup', () => {
-                renderList(searchInput.value);
-            });
-
-            // --- LÓGICA DE HIDROCARBUROS (Original) ---
-            const hydrocarbonItems = document.querySelectorAll('#hydrocarbon-interactive > div');
-            hydrocarbonItems.forEach(item => {
-                item.addEventListener('click', () => {
-                    const detail = item.querySelector('.hydrocarbon-details');
-                    const allDetails = document.querySelectorAll('.hydrocarbon-details');
-                    const isVisible = !detail.classList.contains('hidden');
-
-                    allDetails.forEach(d => d.classList.add('hidden'));
-                    
-                    if (!isVisible) {
-                        detail.classList.remove('hidden');
-                    }
-                });
-            });
-            
-            // --- LÓGICA DE LÍNEA DE TIEMPO (Original) ---
-            const timelineButtons = document.querySelectorAll('.timeline-item button');
-            timelineButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const targetId = button.getAttribute('data-target');
-                    const detail = document.getElementById(targetId);
-                    const allDetails = document.querySelectorAll('.timeline-details');
-                    const isVisible = !detail.classList.contains('hidden');
-
-                    allDetails.forEach(d => d.classList.add('hidden'));
-                    
-                    if(!isVisible) {
-                       detail.classList.remove('hidden');
-                    }
-                });
-            });
-
-            const timelineData = {
-                labels: ['Lémery', 'Lavoisier', 'Electroquímica', 'Wöhler', 'Perkin', 'Kekulé'],
-                years: [1675, 1784, 1807, 1828, 1856, 1865]
-            };
-
-            const ctx = document.getElementById('timelineChart').getContext('2d');
-            const timelineChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: timelineData.labels,
-                    datasets: [{
-                        label: 'Año del Descubrimiento',
-                        data: timelineData.years,
-                        backgroundColor: 'rgba(190, 142, 190, 0.6)',
-                        borderColor: 'rgba(106, 13, 173, 1)',
-                        borderWidth: 1,
-                        barThickness: 30
-                    }]
-                },
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            beginAtZero: false,
-                            min: 1650,
-                            title: {
-                                display: true,
-                                text: 'Año'
-                            }
-                        },
-                         y: {
-                            ticks: {
-                                font: {
-                                    size: 14,
-                                }
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return ` ${context.raw}`;
-                                }
-                            }
-                        },
-                        title: {
-                            display: true,
-                            text: 'Hitos Clave en la Historia de la Química'
-                        }
-                    },
-                    onClick: (e, elements) => {
-                        if (elements.length > 0) {
-                            const index = elements[0].index;
-                            const year = timelineData.years[index];
-                            const targetElement = document.querySelector(`[data-target*="${year}"]`);
-                            if (targetElement) {
-                                 targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                 targetElement.click();
-                            } else {
-                                const lavoisierElement = document.querySelector('[data-target*="1784"]');
-                                if(lavoisierElement) {
-                                     lavoisierElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                     lavoisierElement.click();
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-            // --- LÓGICA DE CHARADAS QUÍMICAS (NUEVO) ---
-            const startButton = document.getElementById('startButton');
-            const checkButton = document.getElementById('checkButton');
-            const charadaText = document.getElementById('charadaText');
-            const charadaInput = document.getElementById('charadaInput');
-            const feedbackMessage = document.getElementById('feedbackMessage');
-
-            let currentChallenge = null; // { concept: {...}, type: 'term' | 'def' }
-
-            // Función para limpiar y configurar la interfaz
-            function resetGame() {
-                charadaInput.value = '';
-                charadaInput.disabled = true;
-                checkButton.disabled = true;
-                feedbackMessage.textContent = '';
-                currentChallenge = null;
-                charadaText.classList.remove('text-red-600', 'text-green-600');
-                charadaText.textContent = 'Presiona "Iniciar Charada" para comenzar.';
-            }
-
-            // Función para iniciar un nuevo desafío
-            function startGame() {
-                // 1. Obtener un concepto aleatorio (excluyendo "Michael Eugene" ya que es ambiguo)
-                const filteredConcepts = concepts.filter(c => c.term !== "Michael Eugene");
-                const conceptIndex = Math.floor(Math.random() * filteredConcepts.length);
-                const concept = filteredConcepts[conceptIndex];
-
-                // 2. Decidir el tipo de desafío: 0=dar término (deben poner def), 1=dar def (deben poner término)
-                const challengeType = Math.random() > 0.5 ? 'term' : 'def';
-                
-                currentChallenge = { concept: concept, type: challengeType };
-
-                // 3. Mostrar el desafío
-                if (challengeType === 'term') {
-                    // El usuario debe adivinar la DEFINICIÓN
-                    charadaText.textContent = `Término a definir: ${concept.term}`;
-                    charadaText.className = 'text-xl font-medium text-gray-800';
-                    charadaInput.placeholder = 'Escribe la definición aquí...';
-                } else {
-                    // El usuario debe adivinar el TÉRMINO
-                    charadaText.textContent = `Define el concepto para: "${concept.def}"`;
-                    charadaText.className = 'text-base font-medium text-gray-800 italic';
-                    charadaInput.placeholder = 'Escribe el término aquí...';
-                }
-
-                // 4. Configurar la interfaz para el juego
-                charadaInput.value = '';
-                charadaInput.disabled = false;
-                checkButton.disabled = false;
-                feedbackMessage.textContent = '';
-                charadaInput.focus();
-            }
-
-            // Función para comprobar la respuesta
-            function checkAnswer() {
-                if (!currentChallenge) return;
-
-                const userInput = charadaInput.value.trim().toLowerCase();
-                const concept = currentChallenge.concept;
-                let isCorrect = false;
-
-                if (currentChallenge.type === 'def') {
-                    // Desafío: Adivinar el TÉRMINO. La respuesta debe ser exacta.
-                    const correctTerm = concept.term.toLowerCase();
-                    isCorrect = correctTerm.includes(userInput) && userInput.length > 2; // Pequeña tolerancia de inclusión
-                    
-                    if (isCorrect) {
-                        feedbackMessage.className = 'text-green-600';
-                        feedbackMessage.innerHTML = '¡Correcto! El término es <strong class="text-[#4b0082]">"' + concept.term + '"</strong>.';
-                    } else {
-                        feedbackMessage.className = 'text-red-600';
-                        feedbackMessage.innerHTML = `Incorrecto. El término correcto es <strong class="text-[#4b0082]">"${concept.term}"</strong>. Revisa el glosario.`;
-                    }
-
-                } else {
-                    // Desafío: Adivinar la DEFINICIÓN. La respuesta puede ser similar.
-                    // Para dar una respuesta tolerante, verificamos que el usuario no haya dejado el campo vacío.
-                    
-                    if (userInput.length > 5) { // Asume que una definición de más de 5 caracteres es un intento válido
-                        isCorrect = true; // No podemos hacer un "fuzzy match" complejo aquí, así que damos feedback si al menos escribieron algo.
-                        feedbackMessage.className = 'text-green-600';
-                        feedbackMessage.innerHTML = '¡Buen intento! Tu definición es semejante o correcta. La definición registrada es: <strong class="text-[#4b0082]">"' + concept.def + '"</strong>.';
-                    } else {
-                         feedbackMessage.className = 'text-red-600';
-                         feedbackMessage.innerHTML = `Respuesta muy corta o incorrecta. La definición es: <strong class="text-[#4b0082]">"${concept.def}"</strong>. Intenta de nuevo.`;
-                    }
-                }
-                
-                // Finalizar el turno
-                charadaInput.disabled = true;
-                checkButton.disabled = true;
-                startButton.textContent = 'Siguiente Charada';
-            }
-
-            // Asignación de Event Listeners
-            startButton.addEventListener('click', startGame);
-            checkButton.addEventListener('click', checkAnswer);
-            charadaInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && !checkButton.disabled) {
-                    checkAnswer();
-                }
-            });
-
-            // Inicialización de la aplicación
-            renderList();
-            resetGame(); // Inicializa el estado de la charada
-        });
-    </script>
 </body>
 </html>
