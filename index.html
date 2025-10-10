@@ -3,148 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tu Nombre | Centro de Estudio y Evaluación</title>
+    <title>R.A.L.S.M. | Centro de Estudio</title>
     <style>
-        /* Estilos Base y Tipografía */
+        /* Estilos Base */
         body {
-            font-family: 'Poppins', sans-serif; /* Fuente moderna y legible (asumiendo que se carga o se tiene una sans-serif por defecto) */
+            font-family: 'Montserrat', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-color: #f7f9fc; /* Fondo muy claro y profesional */
+            background-color: #f7f9fc;
             color: #333;
             text-align: center;
-            padding: 20px;
+            padding-top: 50px;
         }
 
+        /* Título Principal */
         h1 {
             color: #2c3e50;
-            font-size: 2.8em;
-            margin-top: 0;
+            font-size: 3em;
             margin-bottom: 5px;
+            font-weight: 800; /* Negrita */
         }
         
-        .subtitle {
+        .eslogan {
+            font-style: italic;
             color: #555;
-            font-size: 1.2em;
+            font-size: 1.5em;
             margin-bottom: 40px;
         }
 
-        /* Contenedor Principal (Foto + Texto) */
+        /* Sección Hero (Foto y Eslogan) */
         .hero-section {
             display: flex;
             align-items: center;
             justify-content: center;
-            max-width: 1000px;
+            max-width: 1100px;
             width: 90%;
             margin-bottom: 50px;
             padding: 30px;
             background-color: #ffffff;
             border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Sombra elegante */
-            text-align: left;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden; /* Para contener la imagen */
         }
 
         .profile-photo {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%; /* Foto circular */
+            width: 350px; /* Ancho rectangular */
+            height: 250px;
             object-fit: cover;
-            border: 5px solid #008000; /* Borde verde a juego */
+            border-radius: 8px;
+            border: 5px solid #008000;
             margin-right: 40px;
-            flex-shrink: 0; /* Evita que la foto se encoja */
+            flex-shrink: 0;
+            transition: transform 0.5s ease;
+        }
+        
+        .profile-photo:hover {
+            transform: scale(1.03); /* Efecto al pasar el ratón */
         }
 
-        .text-content h2 {
-            color: #008000; /* Verde principal */
-            font-size: 2em;
-            margin-top: 0;
+        .eslogan-text h2 {
+            color: #008000;
+            font-size: 2.5em;
+            margin: 0;
+        }
+        
+        /* Animación del Propósito (Interactive) */
+        .purpose-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            border: 2px dashed #008000;
+            border-radius: 10px;
         }
 
-        .text-content p {
-            line-height: 1.6;
-            font-size: 1.1em;
-            margin-bottom: 20px;
+        .purpose-text {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #333;
+            min-height: 3em; /* Mantiene el espacio durante la animación */
         }
 
-        /* Botones de Navegación */
+        /* Animación de Escritura (Typing Effect) */
+        .typing-effect::after {
+            content: '|'; /* Cursor que parpadea */
+            display: inline-block;
+            margin-left: 5px;
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Puedes añadir aquí JavaScript para la animación de escritura si lo deseas, 
+           pero por simplicidad usaremos CSS para un efecto interactivo de parpadeo */
+        .purpose-text:hover {
+            color: #006400;
+            text-shadow: 0 0 5px rgba(0, 100, 0, 0.4);
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+
+        /* Botones */
         .button-container {
             display: flex;
-            gap: 25px;
+            gap: 20px;
             margin-bottom: 50px;
-            flex-wrap: wrap; /* Para manejo en móviles */
+            flex-wrap: wrap;
             justify-content: center;
         }
 
         .button {
-            padding: 15px 30px;
+            padding: 15px 35px;
             font-size: 1.1em;
             font-weight: bold;
             text-decoration: none;
             color: #ffffff;
-            background-color: #008000; /* Verde brillante principal */
             border: none;
-            border-radius: 8px;
+            border-radius: 30px; /* Bordes redondeados */
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .button.support {
-            background-color: #e1306c; /* Instagram pink/red */
+        .button.clases {
+            background-color: #008000; /* Verde */
+        }
+
+        .button.apoyar {
+            background-color: #e1306c; /* Instagram */
+        }
+
+        .button.jugar {
+            background-color: #3498db; /* Azul */
         }
 
         .button:hover {
-            background-color: #006400; /* Verde oscuro al pasar el ratón */
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .button.support:hover {
-            background-color: #c13584; /* Instagram más oscuro */
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
         
-        /* Sección de Condiciones y Solicitudes */
-        .info-section {
-            max-width: 800px;
+        .button.clases:hover { background-color: #006400; }
+        .button.apoyar:hover { background-color: #c13584; }
+        .button.jugar:hover { background-color: #2980b9; }
+
+
+        /* Términos y Política */
+        .terms-section {
+            max-width: 900px;
             width: 90%;
-            padding: 25px;
-            background-color: #e8f5e9; /* Fondo muy claro para esta sección */
+            padding: 30px;
+            background-color: #e8f5e9;
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            margin-top: 20px;
-        }
-
-        .info-section h3 {
-            color: #006400; /* Verde oscuro */
-            margin-top: 0;
-            border-bottom: 2px solid #a5d6a7;
-            padding-bottom: 5px;
-            margin-bottom: 15px;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0 0 20px 0;
+            box-shadow: inset 0 0 10px rgba(0, 128, 0, 0.1);
+            margin-bottom: 50px;
             text-align: left;
         }
 
-        ul li {
-            margin-bottom: 10px;
-            padding-left: 20px;
-            position: relative;
-        }
-
-        ul li::before {
-            content: '✅'; /* Un checkmark */
-            position: absolute;
-            left: 0;
-            color: #008000;
+        .terms-section h3 {
+            color: #006400;
+            border-bottom: 2px solid #a5d6a7;
+            padding-bottom: 5px;
         }
         
+        /* Footer */
+        .footer {
+            width: 100%;
+            background-color: #2c3e50; /* Color oscuro */
+            color: #ecf0f1;
+            padding: 20px 0;
+            font-size: 0.9em;
+            margin-top: auto; /* Empuja el footer hacia abajo */
+        }
+
+        .footer p {
+            margin: 5px 0;
+        }
+
         /* Media Queries para Responsividad */
         @media (max-width: 768px) {
             .hero-section {
@@ -156,54 +195,64 @@
             .profile-photo {
                 margin-right: 0;
                 margin-bottom: 25px;
+                width: 100%;
+                height: 200px;
             }
             
             h1 {
-                font-size: 2em;
+                font-size: 2.2em;
             }
 
-            .text-content h2 {
-                font-size: 1.5em;
+            .eslogan-text h2 {
+                font-size: 1.8em;
             }
 
             .button-container {
                 flex-direction: column;
                 gap: 15px;
             }
+            
+            .button {
+                width: 80%; /* Botones más anchos en móvil */
+            }
         }
     </style>
 </head>
 <body>
 
-    <h1>¡Bienvenido(a) a mi Centro de Estudio!</h1>
-    <p class="subtitle">Tu espacio para dominar el conocimiento del primer lapso.</p>
+    <h1>Bienvenido al centro de estudio R.A.L.S.M</h1>
+    <p class="eslogan">Tu puerta de entrada al dominio del primer lapso.</p>
 
     <div class="hero-section">
-        <img src="tu-foto.jpg" alt="Tu Foto de Perfil" class="profile-photo">
-        <div class="text-content">
-            <h2>Hola, soy [Tu Nombre]</h2>
-            <p>He creado este rincón digital para que **tú** puedas estudiar y evaluar tus conocimientos de **todas las materias y temas** del **primer lapso**. Mi objetivo es ofrecerte una herramienta de apoyo efectiva y accesible.</p>
-            <p>Aquí encontrarás **clases concisas y evaluaciones interactivas** que te ayudarán a prepararte para tus exámenes y entender los conceptos fundamentales. **¡El conocimiento está al alcance de tu mano!**</p>
+        <img src="tu-foto.jpg" alt="Foto de Perfil del Creador" class="profile-photo">
+        <div class="eslogan-text">
+            <h2>"Yo solo sé que no sé nada"</h2>
+            <p style="font-size: 1.1em; color: #777;">— Sócrates, motivándonos a la búsqueda constante del conocimiento.</p>
         </div>
+    </div>
+    
+    <div class="purpose-container">
+        <p class="purpose-text typing-effect">
+            **Propósito de R.A.L.S.M:** ¡Estudia y evalúa tu conocimiento de **TODAS** las materias y temas del **Primer Lapso** de forma didáctica y completamente gratuita!
+        </p>
     </div>
 
     <div class="button-container">
-        <a href="quimica.html" class="button">Empezar a Estudiar 📚</a>
-        <a href="matematicas.html" class="button">Evaluar mis Conocimientos 📝</a>
-        <a href="#" target="_blank" class="button support">Apóyame en Instagram @[TuIG] ❤️</a>
+        <a href="clases.html" class="button clases">Clases 📚</a>
+        <a href="#" target="_blank" class="button apoyar">Apoyar al Creador ❤️</a>
+        <a href="juegos.html" class="button jugar">Jugar y Evaluar 🎮</a>
     </div>
 
-    <div class="info-section">
-        <h3>Condiciones de Uso y Clases</h3>
-        <ul>
-            <li>**Acceso Libre:** Todas las clases y evaluaciones están disponibles **gratuitamente**. La educación no debe tener barreras.</li>
-            <li>**Contenido Curado:** El material se enfoca específicamente en el **contenido del Primer Lapso**.</li>
-            <li>**Material de Apoyo:** Las clases son un resumen. Úsalas como complemento a tus libros y notas.</li>
-        </ul>
+    <div class="terms-section">
+        <h3>Términos y Política de Uso</h3>
+        <p><strong>Clases y Contenido:</strong> Todo el material es 100% gratuito y está destinado a complementar tu estudio formal, enfocado en el contenido del Primer Lapso. Se prohíbe el uso comercial de este material.</p>
+        <p><strong>Privacidad:</strong> No recolectamos información personal sin tu consentimiento explícito. Consulta nuestra política completa en el *footer*.</p>
+        <p style="margin-top: 20px; font-style: italic; color: #008000;">**¡Libre de Pedir!** Si necesitas un tema, una corrección o una funcionalidad nueva, ¡contáctame! Esta web es una colaboración.</p>
+    </div>
 
-        <h3>Peticiones y Colaboración</h3>
-        <p>Esta web es para ti. Si hay un **tema específico** que necesitas que cubra, un **ejercicio** que no entiendes o una **nueva funcionalidad** que te gustaría ver en la web:</p>
-        <p style="font-weight: bold; color: #388e3c;">¡Siéntete libre de pedírmelo! Usa el botón de contacto o envíame un mensaje directo. Tu feedback es mi mayor motivación.</p>
+    <div class="footer">
+        <p>© 2025 R.A.L.S.M. Centro de Estudio. Todos los derechos reservados.</p>
+        <p><a href="politica.html" style="color: #a5d6a7; text-decoration: none;">Política de Privacidad</a> | <a href="contacto.html" style="color: #a5d6a7; text-decoration: none;">Contacto y Peticiones</a></p>
     </div>
 
 </body>
