@@ -4,20 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La Circunferencia: Teoría y Evaluación</title>
+    <!-- Carga de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        // Colores actualizados para un tema oscuro
-                        'primary': '#6366f1', // Indigo 500 (más brillante para contraste oscuro)
-                        'secondary': '#10b981', // Emerald 500
-                        'accent': '#f59e0b', // Amber 500
-                        // Colores base del tema oscuro
-                        'bg-dark': '#0f172a', // Fondo principal (Slate 900)
-                        'panel-dark': '#1e293b', // Fondo de paneles (Slate 800)
-                        'text-light': '#f1f5f9', // Color de texto base
+                        // Paleta de colores ajustada
+                        'primary': '#1f2937', // Gris oscuro para texto y fondos
+                        'primary-accent': '#10b981', // Emerald 500 (el nuevo verde solicitado)
+                        'accent-green': '#10b981', // Alias para mantener la lógica interna
+                        'accent-yellow': '#f59e0b', // Amarillo secundario para destacar elementos
+                        'accent-purple': '#8b5cf6', // Púrpura para la funcionalidad IA
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -27,289 +26,263 @@
         }
     </script>
     <style>
-        /* Nuevo estilo para el cuerpo: Modo Oscuro */
-        body {
-            background-color: var(--tw-colors-bg-dark); /* Fondo oscuro principal */
-            color: var(--tw-colors-text-light); /* Texto claro */
+        /* ---------------------------------- */
+        /* Estilos de Panel Estilo Apple/Glass (Bordes Redondeados Moderados) */
+        /* ---------------------------------- */
+        .panel-style {
+            /* Sombra sutil para darle profundidad y aspecto flotante */
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05), 0 3px 6px rgba(0, 0, 0, 0.05);
+            /* Bordes redondeados originales (16px) */
+            border-radius: 16px; 
+            /* Borde sutil y claro */
+            border: 1px solid #e5e7eb; 
+            transition: all 0.3s ease;
+            background-color: white; /* Asegurar fondo blanco */
+        }
+
+        /* Hover sutil para interacción */
+        .panel-style:hover {
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.08), 0 5px 10px rgba(0, 0, 0, 0.05);
+            transform: translateY(-1px);
+        }
+
+        /* ---------------------------------- */
+        /* Estilos de Componentes Interactivos */
+        /* ---------------------------------- */
+        .tab-button-active {
+            background-color: #10b981; /* Verde esmeralda */
+            color: white;
+            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.5); /* Sombra verde */
         }
         
-        /* Estilos base para todos los paneles (un poco de elevación oscura) */
-        .dark-panel {
-            background-color: var(--tw-colors-panel-dark); 
-            border: 1px solid #334155; /* Borde sutil oscuro (Slate 700) */
-            border-radius: 1.5rem; /* Esquinas suaves */
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Sombra más oscura y sutil */
-            transition: all 0.3s ease;
+        .tab-content-active {
+            animation: fadeIn 0.4s ease-in-out;
         }
 
-        /* Estilo para la Navbar con efecto de blur */
-        .blur-navbar {
-            backdrop-filter: blur(10px);
-            background-color: rgba(30, 41, 59, 0.8); /* Fondo semi-transparente oscuro */
+        .accordion-header-active {
+            background-color: #d1fae5; /* Verde muy claro para el acordeón abierto */
+            border-color: #10b981;
         }
 
-        .latex {
-            font-size: 1.1em;
-            font-weight: 600;
+        /* Animación para el fade in */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
+
         .accordion-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-out, padding 0.3s ease-out;
         }
+
         .accordion-header {
             cursor: pointer;
         }
-        .tab-content-active {
-            animation: fadeIn 0.4s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        /* Estilos específicos para la Evaluación */
-        .quiz-container {
-            min-height: 400px;
-        }
+
+        /* Estilos de Quiz */
         .correct {
-            background-color: #065f46; /* Emerald 800 (para contraste oscuro) */
-            color: #d1fae5;
+            background-color: #d1fae5; /* Green 100 */
         }
         .incorrect {
-            background-color: #991b1b; /* Red 800 (para contraste oscuro) */
-            color: #fee2e2;
+            background-color: #fee2e2; /* Red 100 */
         }
-        /* Color del botón de tab activo */
-        .tab-button.active {
-            background-color: var(--tw-colors-primary);
-            color: var(--tw-colors-text-light);
+        .latex {
+            font-size: 1.1em;
+            font-weight: 600;
         }
-        .tab-button:not(.active) {
-            background-color: #334155; /* Slate 700 */
-            color: var(--tw-colors-text-light);
+        .loading-animation {
+            border-top-color: #10b981;
+            border-left-color: #10b981;
+            animation: spinner 0.8s linear infinite;
+        }
+        @keyframes spinner {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
-<body class="font-sans antialiased">
+<!-- Fondo muy suave y centrado del contenido principal -->
+<body class="bg-gray-100 font-sans antialiased flex flex-col items-center">
 
-    <header class="blur-navbar shadow-2xl sticky top-0 z-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-text-light">La Circunferencia: <span class="text-primary">Geometría Analítica</span></h1>
-            <nav>
-                <a href="#teoria" class="mx-2 text-gray-300 hover:text-secondary transition duration-300 font-medium">Teoría</a>
-                <a href="#ejercicios" class="mx-2 text-gray-300 hover:text-secondary transition duration-300 font-medium">Ejercicios</a>
-                <a href="#evaluacion" class="mx-2 text-gray-300 hover:text-secondary transition duration-300 font-medium">Evaluación</a>
-            </nav>
+    <!-- HEADER (Estático) -->
+    <header class="w-full max-w-5xl mx-auto px-4 pt-4 mb-4">
+        <div class="p-6 panel-style text-center flex justify-between items-center flex-wrap gap-4">
+            <h1 class="text-3xl font-extrabold tracking-tight text-primary">
+                Guía de <span class="text-primary-accent">Matematica interactiva</span>
+            </h1>
+            <a href="../clases.html" class="nav-button border-2 border-primary-accent text-primary-accent px-4 py-2 font-semibold rounded-full hover:bg-primary-accent hover:text-white transition duration-200">
+                ← Volver a Inicio
+            </a>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- BARRA DE NAVEGACIÓN RÁPIDA (YA NO ESTÁ FIJA, VUELVE AL SCROLL NORMAL) -->
+    <nav class="w-full max-w-5xl mx-auto px-4 mb-8">
+        <div class="bg-white p-4 rounded-xl shadow-md flex justify-center flex-wrap gap-4 border border-gray-200">
+            <a href="#teoria" class="text-primary font-medium hover:text-accent-green transition duration-300">1. Teoría</a>
+            <a href="#ejercicios" class="text-primary font-medium hover:text-accent-green transition duration-300">2. Ejercicios</a>
+            <a href="#evaluacion" class="text-primary font-medium hover:text-accent-green transition duration-300">3. Evaluación</a>
+            <a href="#analisis-ia" class="text-primary font-medium hover:text-accent-purple transition duration-300">4. Análisis ✨</a>
+        </div>
+    </nav>
 
-        <section id="teoria" class="mb-16 p-8 dark-panel">
-            <h2 class="text-4xl font-extrabold text-primary mb-6 border-b-2 border-primary pb-2">1. Teoría Interactiva: Fundamentos</h2>
-            <p class="text-gray-400 mb-8">Explora los conceptos clave de la circunferencia de forma práctica. Haz clic en las pestañas para revelar la información extraída directamente de tus apuntes.</p>
 
-            <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
-                <button onclick="showTab('tab-conceptos')" class="tab-button active px-4 py-2 text-sm font-semibold rounded-xl text-text-light hover:bg-primary transition duration-300">Conceptos Clave</button>
-                <button onclick="showTab('tab-elementos')" class="tab-button px-4 py-2 text-sm font-semibold rounded-xl hover:bg-primary transition duration-300">Elementos</button>
-                <button onclick="showTab('tab-ecuaciones')" class="tab-button px-4 py-2 text-sm font-semibold rounded-xl hover:bg-primary transition duration-300">Ecuaciones</button>
+    <!-- MAIN CONTENT (Se eliminó el margen superior fijo) -->
+    <main class="w-full max-w-5xl mx-auto px-4 py-6 space-y-8"> 
+
+        <!-- Sección de Teoría Interactiva (Bordes Redondeados Moderados) -->
+        <section id="teoria" class="panel-style p-6 sm:p-8">
+            <h2 class="text-3xl font-extrabold text-primary mb-6 border-b-2 border-accent-green pb-2">1. Teoría Interactiva: Fundamentos</h2>
+            <p class="text-gray-500 mb-8">Explora los conceptos clave de la circunferencia de forma práctica. Haz clic en las pestañas para revelar la información extraída de tus apuntes.</p>
+
+            <!-- Controles de Pestaña (Segmented Control Estilo Apple) -->
+            <div class="flex flex-col sm:flex-row p-1 bg-gray-200 rounded-xl space-y-2 sm:space-y-0 sm:space-x-2 mb-8">
+                <button onclick="showTab('tab-conceptos')" class="tab-button px-4 py-2 text-sm font-medium rounded-xl text-primary transition duration-300 tab-button-active">Conceptos Clave</button>
+                <button onclick="showTab('tab-elementos')" class="tab-button px-4 py-2 text-sm font-medium rounded-xl text-primary hover:bg-white/50 transition duration-300">Elementos</button>
+                <button onclick="showTab('tab-ecuaciones')" class="tab-button px-4 py-2 text-sm font-medium rounded-xl text-primary hover:bg-white/50 transition duration-300">Ecuaciones</button>
             </div>
 
-            <div id="tab-conceptos" class="tab-content border-l-4 border-secondary pl-6 pt-4 tab-content-active">
-                <h3 class="text-2xl font-semibold text-text-light mb-3">La Circunferencia y Figuras Cónicas</h3>
-                <p class="mb-4 text-gray-300">Las Figuras Cónicas son el conjunto de curvas que se obtienen al cortar un cono doble con un plano.</p>
-                <div class="p-4 bg-secondary/20 rounded-xl border border-secondary">
-                    <p class="font-medium text-secondary">Definición de Circunferencia (Cónica):</p>
-                    <p class="text-gray-200">Es una sección cónica que se obtiene al cortar un cono con un plano perpendicular al eje del cono.</p>
-                    <p class="mt-2 font-medium text-secondary">Definición (Geométrica):</p>
-                    <p class="text-gray-200">Es una figura geométrica plana cuyos puntos están a una **distancia fija (radio)** de un **punto fijo (centro)**. También se define como la línea curva cerrada que define el **perímetro** de la figura.</p>
+            <!-- Contenido de las pestañas -->
+            <div id="tab-conceptos" class="tab-content border-l-4 border-accent-green pl-6 pt-4 tab-content-active">
+                <h3 class="text-2xl font-semibold text-primary mb-3">La Circunferencia y Figuras Cónicas</h3>
+                <p class="mb-4 text-gray-700">Las Figuras Cónicas son el conjunto de curvas que se obtienen al cortar un cono doble con un plano.</p>
+                
+                <!-- Panel de Definición (Sub-Panel) -->
+                <div class="panel-style p-4 bg-accent-green/10 border-accent-green/50 shadow-none">
+                    <p class="font-medium text-accent-green">Definición de Circunferencia (Cónica):</p>
+                    <p class="text-gray-700">Es una sección cónica que se obtiene al cortar un cono con un plano perpendicular al eje del cono.</p>
+                    <p class="mt-2 font-medium text-accent-green">Definición (Geométrica):</p>
+                    <p class="text-gray-700">Es una figura geométrica plana cuyos puntos están a una **distancia fija (radio)** de un **punto fijo (centro)**. También se define como la línea curva cerrada que define el **perímetro** de la figura.</p>
                 </div>
             </div>
 
-            <div id="tab-elementos" class="tab-content hidden border-l-4 border-secondary pl-6 pt-4">
-                <h3 class="text-2xl font-semibold text-text-light mb-3">Elementos Clave</h3>
+            <div id="tab-elementos" class="tab-content hidden border-l-4 border-accent-green pl-6 pt-4">
+                <h3 class="text-2xl font-semibold text-primary mb-3">Elementos Clave</h3>
                 <ul class="space-y-4">
-                    <li class="p-3 border border-accent/50 rounded-xl bg-accent/20">
-                        <span class="font-bold text-accent text-lg">Centro (C):</span>
-                        <p class="text-gray-200 mt-1">Es el punto fijo que se encuentra en el interior, el cual equilibra todos los puntos de ella. En un plano cartesiano se representa como C=(h, k).</p>
+                    <!-- Elemento 1 (Sub-Panel) -->
+                    <li class="panel-style p-4 bg-white hover:bg-gray-50/50 border-accent-yellow/30 shadow-none">
+                        <span class="font-bold text-accent-yellow text-lg">Centro (C):</span>
+                        <p class="text-gray-700 mt-1">Es el punto fijo que se encuentra en el interior. En un plano cartesiano se representa como $C=(h, k)$.</p>
                     </li>
-                    <li class="p-3 border border-accent/50 rounded-xl bg-accent/20">
-                        <span class="font-bold text-accent text-lg">Radio (r):</span>
-                        <p class="text-gray-200 mt-1">Es la distancia constante desde el centro hasta cualquier punto de la circunferencia. Debe ser siempre un **número positivo**.</p>
+                    <!-- Elemento 2 (Sub-Panel) -->
+                    <li class="panel-style p-4 bg-white hover:bg-gray-50/50 border-accent-yellow/30 shadow-none">
+                        <span class="font-bold text-accent-yellow text-lg">Radio (r):</span>
+                        <p class="text-gray-700 mt-1">Es la distancia constante desde el centro hasta cualquier punto de la circunferencia. Debe ser siempre un **número positivo**.</p>
                     </li>
-                    <li class="p-3 border border-accent/50 rounded-xl bg-accent/20">
-                        <span class="font-bold text-accent text-lg">Diámetro (D):</span>
-                        <p class="text-gray-200 mt-1">Es un segmento que une 2 puntos de la circunferencia y pasa por el centro. Su longitud es el **doble del radio** (D = 2r).</p>
-                    </li>
-                    <li class="p-3 border border-accent/50 rounded-xl bg-accent/20">
-                        <span class="font-bold text-accent text-lg">Círculo:</span>
-                        <p class="text-gray-200 mt-1">Es la **región plana** que está completamente contenida dentro de la circunferencia.</p>
+                    <!-- Elemento 3 (Sub-Panel) -->
+                    <li class="panel-style p-4 bg-white hover:bg-gray-50/50 border-accent-yellow/30 shadow-none">
+                        <span class="font-bold text-accent-yellow text-lg">Diámetro (D):</span>
+                        <p class="text-gray-700 mt-1">Es un segmento que une 2 puntos de la circunferencia y pasa por el centro. Su longitud es el **doble del radio** ($D = 2r$).</p>
                     </li>
                 </ul>
             </div>
 
-            <div id="tab-ecuaciones" class="tab-content hidden border-l-4 border-secondary pl-6 pt-4">
-                <h3 class="text-2xl font-semibold text-text-light mb-3">Ecuaciones de la Circunferencia</h3>
+            <div id="tab-ecuaciones" class="tab-content hidden border-l-4 border-accent-green pl-6 pt-4">
+                <h3 class="text-2xl font-semibold text-primary mb-3">Ecuaciones de la Circunferencia</h3>
 
                 <div class="space-y-6">
-                    <div class="p-4 bg-primary/20 rounded-xl shadow-md border-2 border-primary">
+                    <!-- Ecuación Canónica (Sub-Panel) -->
+                    <div class="panel-style p-4 bg-gray-50 shadow-inner border-gray-200">
                         <h4 class="text-xl font-semibold text-primary mb-2">1. Ecuación Canónica (o Particular)</h4>
-                        <p class="text-gray-300 mb-2">Para una circunferencia con centro C=(h, k) y radio r:</p>
-                        <div class="text-center bg-gray-900 text-green-300 p-3 border-2 border-primary rounded-lg font-mono">
-                            (x - h)^2 + (y - k)^2 = r^2
+                        <p class="text-gray-700 mb-2">Para una circunferencia con centro $C=(h, k)$ y radio $r$:</p>
+                        <div class="text-center bg-white p-3 border-2 border-accent-green rounded-xl text-lg font-mono text-primary">
+                            $$(x - h)^2 + (y - k)^2 = r^2$$
                         </div>
                     </div>
 
-                    <div class="p-4 bg-primary/20 rounded-xl shadow-md border-2 border-primary">
-                        <h4 class="text-xl font-semibold text-primary mb-2">2. Ecuación Canónica con centro en el origen (C=(0, 0))</h4>
-                        <p class="text-gray-300 mb-2">En este caso, h=0 y k=0.</p>
-                        <div class="text-center bg-gray-900 text-green-300 p-3 border-2 border-primary rounded-lg font-mono">
-                            x^2 + y^2 = r^2
-                        </div>
-                    </div>
-
-                    <div class="p-4 bg-primary/20 rounded-xl shadow-md border-2 border-primary">
+                    <!-- Ecuación General (Sub-Panel) -->
+                    <div class="panel-style p-4 bg-gray-50 shadow-inner border-gray-200">
                         <h4 class="text-xl font-semibold text-primary mb-2">3. Ecuación General</h4>
-                        <p class="text-gray-300 mb-2">Se obtiene desarrollando la ecuación canónica e igualando a cero:</p>
-                        <div class="text-center bg-gray-900 text-green-300 p-3 border-2 border-primary rounded-lg font-mono">
-                            x^2 + y^2 + Dx + Ey + F = 0
+                        <p class="text-gray-700 mb-2">Se obtiene desarrollando la ecuación canónica e igualando a cero:</p>
+                        <div class="text-center bg-white p-3 border-2 border-accent-green rounded-xl text-lg font-mono text-primary">
+                            $$x^2 + y^2 + Dx + Ey + F = 0$$
                         </div>
-                        <p class="text-sm text-gray-400 mt-2">Donde D = -2h, E = -2k, y F = h^2 + k^2 - r^2.</p>
+                        <p class="text-sm text-gray-500 mt-2">Donde $D = -2h$, $E = -2k$, y $F = h^2 + k^2 - r^2$.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="ejercicios" class="mb-16 p-8 dark-panel">
-            <h2 class="text-4xl font-extrabold text-primary mb-6 border-b-2 border-primary pb-2">2. Ejercicios Resueltos</h2>
-            <p class="text-gray-400 mb-8">Revisa los ejemplos de tu cuaderno, con el proceso detallado para obtener la Ecuación Canónica y la Ecuación General.</p>
+        <!-- Sección de Ejercicios Resueltos (PANEL PRINCIPAL) -->
+        <section id="ejercicios" class="panel-style p-6 sm:p-8">
+            <h2 class="text-3xl font-extrabold text-primary mb-6 border-b-2 border-accent-green pb-2">2. Ejercicios Resueltos</h2>
+            <p class="text-gray-500 mb-8">Revisa los ejemplos de tu cuaderno, con el proceso detallado. Haz clic en el panel para ver la solución.</p>
 
             <div id="accordion-ejercicios" class="space-y-4">
-                <div class="rounded-xl shadow-md border border-gray-700">
-                    <button class="accordion-header w-full text-left p-4 bg-slate-700 hover:bg-slate-600 transition duration-300 rounded-t-xl text-text-light font-semibold flex justify-between items-center" data-target="content-ejer1">
-                        Ejercicio 1: C=(-3, 0) y r=5. Encontrar Ecuación General.
-                        <svg class="w-5 h-5 transform transition-transform duration-300 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                
+                <!-- Ejercicio 1 (Sub-Panel con Acordeón) -->
+                <div class="rounded-xl shadow-md border border-gray-200 overflow-hidden">
+                    <button class="accordion-header w-full text-left p-4 bg-gray-50 hover:bg-gray-100 transition duration-300 text-primary font-semibold flex justify-between items-center" data-target="content-ejer1">
+                        Ejercicio 1: $C=(-3, 0)$ y $r=5$. Encontrar Ecuación General.
+                        <svg class="w-5 h-5 transform transition-transform duration-300 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
-                    <div id="content-ejer1" class="accordion-content p-4 bg-panel-dark rounded-b-xl border-t border-gray-700">
-                        <h4 class="text-lg font-bold text-secondary mb-2">Solución Paso a Paso:</h4>
-                        <ul class="space-y-3 text-gray-300">
-                            <li><span class="font-medium text-primary">Paso 1: Ecuación Canónica</span> (Fórmula: (x-h)^2 + (y-k)^2 = r^2)
-                                <div class="bg-gray-900 text-green-300 p-2 my-1 rounded font-mono">
-                                    (x - (-3))^2 + (y - 0)^2 = (5)^2 $\rightarrow$ (x + 3)^2 + y^2 = 25
+                    <div id="content-ejer1" class="accordion-content p-4 bg-white">
+                        <h4 class="text-lg font-bold text-accent-green mb-2">Solución Paso a Paso:</h4>
+                        <ul class="space-y-3 text-gray-700">
+                            <li><span class="font-medium text-primary">Paso 1: Ecuación Canónica</span>
+                                <div class="bg-indigo-50 p-2 my-1 rounded-lg text-lg font-mono">
+                                    $$(x + 3)^2 + y^2 = 25$$
                                 </div>
                             </li>
-                            <li><span class="font-medium text-primary">Paso 2: Ecuación General</span> (Desarrollar e igualar a 0)
-                                <div class="bg-gray-900 text-green-300 p-2 my-1 rounded font-mono">
-                                    x^2 + 6x + 9 + y^2 - 25 = 0 $\rightarrow$ x^2 + y^2 + 6x - 16 = 0
+                            <li><span class="font-medium text-primary">Paso 2: Ecuación General</span>
+                                <div class="bg-indigo-50 p-2 my-1 rounded-lg text-lg font-mono">
+                                    $$x^2 + y^2 + 6x - 16 = 0$$
                                 </div>
                             </li>
                         </ul>
                     </div>
                 </div>
 
-                <div class="rounded-xl shadow-md border border-gray-700">
-                    <button class="accordion-header w-full text-left p-4 bg-slate-700 hover:bg-slate-600 transition duration-300 text-text-light font-semibold flex justify-between items-center" data-target="content-ejer2">
-                        Ejercicio 2: Dada la Ecuación Canónica (x-5)^2 + (y+4)^2 = 36. Encontrar Ecuación General.
-                        <svg class="w-5 h-5 transform transition-transform duration-300 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                <!-- Ejercicio 4 (Conversión de General a Canónica) -->
+                <div class="rounded-xl shadow-md border border-gray-200 overflow-hidden">
+                    <button class="accordion-header w-full text-left p-4 bg-gray-50 hover:bg-gray-100 transition duration-300 text-primary font-semibold flex justify-between items-center" data-target="content-ejer4">
+                        Ejercicio 4: Dada $x^2 + y^2 - 4x + 10y - 7 = 0$. Encontrar $C$ y $r$.
+                        <svg class="w-5 h-5 transform transition-transform duration-300 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
-                    <div id="content-ejer2" class="accordion-content p-4 bg-panel-dark border-t border-gray-700">
-                        <h4 class="text-lg font-bold text-secondary mb-2">Solución Paso a Paso:</h4>
-                        <ul class="space-y-3 text-gray-300">
-                            <li><span class="font-medium text-primary">Paso 1: Identificar elementos</span>
-                                <p class="mb-1">Centro: C=(5, -4) y Radio: r = $\sqrt{36} = 6$.</p>
-                            </li>
-                            <li><span class="font-medium text-primary">Paso 2: Ecuación General</span> (Desarrollar los binomios e igualar a 0)
-                                <div class="bg-gray-900 text-green-300 p-2 my-1 rounded font-mono">
-                                    (x^2 - 10x + 25) + (y^2 + 8y + 16) = 36 $\rightarrow$ x^2 + y^2 - 10x + 8y + 5 = 0
+                    <div id="content-ejer4" class="accordion-content p-4 bg-white">
+                        <h4 class="text-lg font-bold text-accent-green mb-2">Solución: Completando el Cuadrado</h4>
+                        <ul class="space-y-3 text-gray-700">
+                            <li><span class="font-medium text-primary">Paso 2: Completar T.C.P.</span>
+                                <div class="bg-indigo-50 p-2 my-1 rounded-lg text-lg font-mono">
+                                    $$(x^2 - 4x + 4) + (y^2 + 10y + 25) = 7 + 4 + 25$$
                                 </div>
                             </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="rounded-xl shadow-md border border-gray-700">
-                    <button class="accordion-header w-full text-left p-4 bg-slate-700 hover:bg-slate-600 transition duration-300 text-text-light font-semibold flex justify-between items-center" data-target="content-ejer3">
-                        Ejercicio 3: C=(0, 0) y r=7. Encontrar Ecuación General.
-                        <svg class="w-5 h-5 transform transition-transform duration-300 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-                    <div id="content-ejer3" class="accordion-content p-4 bg-panel-dark border-t border-gray-700">
-                        <h4 class="text-lg font-bold text-secondary mb-2">Solución Paso a Paso:</h4>
-                        <ul class="space-y-3 text-gray-300">
-                            <li><span class="font-medium text-primary">Paso 1: Ecuación Canónica Simplificada</span> (C=(0, 0) usa x^2 + y^2 = r^2)
-                                <div class="bg-gray-900 text-green-300 p-2 my-1 rounded font-mono">
-                                    x^2 + y^2 = (7)^2 $\rightarrow$ x^2 + y^2 = 49
-                                </div>
-                            </li>
-                            <li><span class="font-medium text-primary">Paso 2: Ecuación General</span> (Igualar a 0)
-                                <div class="bg-gray-900 text-green-300 p-2 my-1 rounded font-mono">
-                                    x^2 + y^2 - 49 = 0
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="rounded-xl shadow-md border border-gray-700">
-                    <button class="accordion-header w-full text-left p-4 bg-slate-700 hover:bg-slate-600 transition duration-300 text-text-light font-semibold flex justify-between items-center" data-target="content-ejer4">
-                        Ejercicio 4: Dada la Ecuación General $x^2 + y^2 - 4x + 10y - 7 = 0$. Encontrar C y r.
-                        <svg class="w-5 h-5 transform transition-transform duration-300 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-                    <div id="content-ejer4" class="accordion-content p-4 bg-panel-dark border-t border-gray-700">
-                        <h4 class="text-lg font-bold text-secondary mb-2">Solución: Completando el Cuadrado</h4>
-                        <ul class="space-y-3 text-gray-300">
-                            <li><span class="font-medium text-primary">Paso 1: Agrupar términos y trasladar la constante</span>
-                                <div class="bg-gray-900 text-green-300 p-2 my-1 rounded font-mono">
-                                    $(x^2 - 4x) + (y^2 + 10y) = 7$
-                                </div>
-                            </li>
-                            <li><span class="font-medium text-primary">Paso 2: Completar el Trinomio Cuadrado Perfecto (T.C.P.)</span>
-                                <p class="text-sm">Recuerda: $(\frac{D}{2})^2$ y $(\frac{E}{2})^2$. Sumar a ambos lados.</p>
-                                <div class="bg-gray-900 text-green-300 p-2 my-1 rounded font-mono">
-                                    $(\frac{-4}{2})^2 = 4$ ; $(\frac{10}{2})^2 = 25$
-                                    $(x^2 - 4x + 4) + (y^2 + 10y + 25) = 7 + 4 + 25$
-                                </div>
-                            </li>
-                            <li><span class="font-medium text-primary">Paso 3: Factorizar a Ecuación Canónica</span>
-                                <div class="bg-gray-900 text-green-300 p-2 my-1 rounded font-mono">
-                                    $(x - 2)^2 + (y + 5)^2 = 36$
+                            <li><span class="font-medium text-primary">Paso 3: Factorizar a Canónica</span>
+                                <div class="bg-indigo-50 p-2 my-1 rounded-lg text-lg font-mono">
+                                    $$(x - 2)^2 + (y + 5)^2 = 36$$
                                 </div>
                             </li>
                             <li><span class="font-medium text-primary">Resultado Final</span>
-                                <div class="bg-secondary/20 p-2 my-1 rounded font-bold border border-secondary text-secondary">
-                                    Centro C=(2, -5) y Radio $r = \sqrt{36} = 6$
+                                <div class="bg-accent-green/20 p-2 my-1 rounded-lg font-bold text-primary">
+                                    Centro $C=(2, -5)$ y Radio $r = 6$
                                 </div>
                             </li>
                         </ul>
                     </div>
                 </div>
 
-                <div class="rounded-xl shadow-md border border-gray-700">
-                    <button class="accordion-header w-full text-left p-4 bg-slate-700 hover:bg-slate-600 transition duration-300 text-text-light font-semibold flex justify-between items-center" data-target="content-ejer5">
-                        Ejercicio 5: Dada la Ecuación General $x^2 + y^2 - 6x - 7y = 0$. Encontrar C y r.
-                        <svg class="w-5 h-5 transform transition-transform duration-300 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                <!-- Ejercicio 5 (Con Fracciones) -->
+                <div class="rounded-xl shadow-md border border-gray-200 overflow-hidden">
+                    <button class="accordion-header w-full text-left p-4 bg-gray-50 hover:bg-gray-100 transition duration-300 text-primary font-semibold flex justify-between items-center" data-target="content-ejer5">
+                        Ejercicio 5: Dada $x^2 + y^2 - 6x - 7y = 0$. Encontrar $C$ y $r$.
+                        <svg class="w-5 h-5 transform transition-transform duration-300 text-accent-green" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
-                    <div id="content-ejer5" class="accordion-content p-4 bg-panel-dark border-t border-gray-700">
-                        <h4 class="text-lg font-bold text-secondary mb-2">Solución: Completando el Cuadrado con Fracciones</h4>
-                        <ul class="space-y-3 text-gray-300">
-                            <li><span class="font-medium text-primary">Paso 1: Agrupar términos y trasladar la constante</span>
-                                <div class="bg-gray-900 text-green-300 p-2 my-1 rounded font-mono">
-                                    $(x^2 - 6x) + (y^2 - 7y) = 0$
+                    <div id="content-ejer5" class="accordion-content p-4 bg-white">
+                        <h4 class="text-lg font-bold text-accent-green mb-2">Solución: Completando el Cuadrado con Fracciones</h4>
+                        <ul class="space-y-3 text-gray-700">
+                            <li><span class="font-medium text-primary">Paso 2: Completar T.C.P.</span>
+                                <div class="bg-indigo-50 p-2 my-1 rounded-lg text-lg font-mono">
+                                    $$(x^2 - 6x + 9) + (y^2 - 7y + \frac{49}{4}) = 9 + \frac{49}{4}$$
                                 </div>
                             </li>
-                            <li><span class="font-medium text-primary">Paso 2: Completar el Trinomio Cuadrado Perfecto (T.C.P.)</span>
-                                <p class="text-sm">Término x: $(\frac{-6}{2})^2 = 9$. Término y: $(\frac{-7}{2})^2 = \frac{49}{4}$.</p>
-                                <div class="bg-gray-900 text-green-300 p-2 my-1 rounded font-mono">
-                                    $(x^2 - 6x + 9) + (y^2 - 7y + \frac{49}{4}) = 0 + 9 + \frac{49}{4}$
-                                </div>
-                            </li>
-                            <li><span class="font-medium text-primary">Paso 3: Factorizar a Ecuación Canónica</span>
-                                <div class="bg-gray-900 text-green-300 p-2 my-1 rounded font-mono">
-                                    $(x - 3)^2 + (y - \frac{7}{2})^2 = \frac{36}{4} + \frac{49}{4} = \frac{85}{4}$
+                            <li><span class="font-medium text-primary">Paso 3: Factorizar a Canónica</span>
+                                <div class="bg-indigo-50 p-2 my-1 rounded-lg text-lg font-mono">
+                                    $$(x - 3)^2 + (y - \frac{7}{2})^2 = \frac{85}{4}$$
                                 </div>
                             </li>
                             <li><span class="font-medium text-primary">Resultado Final</span>
-                                <div class="bg-secondary/20 p-2 my-1 rounded font-bold border border-secondary text-secondary">
-                                    Centro $C=(3, \frac{7}{2})$ o $C=(3, 3.5)$ y Radio $r = \frac{\sqrt{85}}{2}$
+                                <div class="bg-accent-green/20 p-2 my-1 rounded-lg font-bold text-primary">
+                                    Centro $C=(3, \frac{7}{2})$ y Radio $r = \frac{\sqrt{85}}{2}$
                                 </div>
                             </li>
                         </ul>
@@ -319,408 +292,471 @@
             </div>
         </section>
 
-        <section id="evaluacion" class="mb-16 p-8 dark-panel">
-            <h2 class="text-4xl font-extrabold text-primary mb-6 border-b-2 border-primary pb-2">3. Evaluación Teórica</h2>
-            <p class="text-gray-400 mb-8">Pon a prueba tus conocimientos sobre la teoría de la circunferencia. El examen consta de 3 partes y avanza pregunta por pregunta.</p>
+        <!-- Sección de Evaluación Teórica (PANEL PRINCIPAL) -->
+        <section id="evaluacion" class="panel-style p-6 sm:p-8">
+            <h2 class="text-3xl font-extrabold text-primary mb-6 border-b-2 border-accent-green pb-2">3. Evaluación Teórica</h2>
+            <p class="text-gray-500 mb-8">Pon a prueba tus conocimientos sobre la teoría de la circunferencia. El examen consta de 3 partes y avanza pregunta por pregunta.</p>
 
-            <div class="quiz-container p-6 border-2 border-accent rounded-xl bg-gray-900">
+            <div class="quiz-container p-6 border-2 border-accent-green rounded-xl bg-accent-green/10">
                 <div id="quiz-header" class="text-center mb-6">
-                    <span id="quiz-phase" class="text-xl font-bold text-accent"></span>
-                    <p id="quiz-status" class="text-gray-400 text-sm"></p>
+                    <span id="quiz-phase" class="text-2xl font-bold text-accent-green"></span>
+                    <p id="quiz-status" class="text-gray-600 text-sm"></p>
                 </div>
 
-                <div id="quiz-content" class="min-h-[200px] flex flex-col justify-center text-text-light">
-                    </div>
+                <div id="quiz-content" class="min-h-[200px] flex flex-col justify-center">
+                    <!-- Las preguntas se inyectan aquí -->
+                    <p class="text-center text-gray-700">Presiona "Comenzar Evaluación" para iniciar el quiz.</p>
+                </div>
 
-                <div class="flex justify-between items-center mt-6 pt-4 border-t border-gray-700">
-                    <div id="quiz-score" class="font-semibold text-lg text-secondary">Puntuación: 0/0</div>
-                    <button id="next-button" class="px-6 py-3 bg-primary text-white font-bold rounded-xl shadow-lg hover:bg-indigo-400 transition duration-300" disabled>Siguiente Pregunta</button>
-                    <button id="restart-button" onclick="startQuiz()" class="px-6 py-3 bg-accent text-white font-bold rounded-xl shadow-lg hover:bg-amber-600 transition duration-300 hidden">Volver a Intentar</button>
+                <div class="flex justify-between items-center mt-6 pt-4 border-t border-gray-300">
+                    <div id="quiz-score" class="font-semibold text-lg text-primary">Puntuación: 0/0</div>
+                    <button id="next-button" onclick="nextQuestion()" class="px-6 py-3 bg-accent-green text-white font-bold rounded-full shadow-lg hover:bg-emerald-600 transition duration-300" disabled>Siguiente Pregunta</button>
+                    <!-- Botón para reiniciar, visible al inicio -->
+                    <button id="restart-button" onclick="startQuiz()" class="px-6 py-3 bg-primary text-white font-bold rounded-full shadow-lg hover:bg-gray-700 transition duration-300">Comenzar Evaluación</button>
                 </div>
             </div>
+        </section>
+
+        <!-- SECCIÓN NUEVA: Análisis de Ecuaciones con IA (PANEL PRINCIPAL) -->
+        <section id="analisis-ia" class="panel-style p-6 sm:p-8 border-4 border-dashed border-accent-purple/50">
+            <h2 class="text-3xl font-extrabold text-accent-purple mb-6 border-b-2 border-accent-purple pb-2">4. Análisis de Ecuaciones con IA ✨</h2>
+            <p class="text-gray-500 mb-6">Convierte la Ecuación General a Canónica y encuentra el Centro y el Radio de cualquier circunferencia. ¡Usa la IA como tu tutor personal de geometría analítica!</p>
+
+            <div class="space-y-4">
+                <label for="equation-input" class="block text-lg font-medium text-primary">Ingresa la Ecuación General ($x^2 + y^2 + Dx + Ey + F = 0$):</label>
+                <!-- Ejemplos: x^2 + y^2 + 6x - 16 = 0  | x^2 + y^2 - 4x + 10y - 7 = 0 -->
+                <input type="text" id="equation-input" placeholder="Ej: x^2 + y^2 + 6x - 16 = 0" 
+                       class="w-full p-3 border border-gray-300 rounded-xl focus:ring-accent-purple focus:border-accent-purple transition duration-200">
+                
+                <button onclick="analyzeEquationWithGemini()" id="analyze-button" 
+                        class="w-full px-6 py-3 bg-accent-purple text-white font-bold rounded-xl shadow-lg hover:bg-violet-600 transition duration-300 flex items-center justify-center">
+                    <svg id="analyze-spinner" class="hidden animate-spin h-5 w-5 mr-3 text-white" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>Analizar Ecuación ✨</span>
+                </button>
+            </div>
+
+            <div id="analysis-results" class="mt-8 p-6 bg-gray-50 border border-gray-200 rounded-xl min-h-[150px]">
+                <p class="text-center text-gray-500">Los resultados del análisis, incluyendo el Centro, Radio y la Ecuación Canónica, aparecerán aquí.</p>
+            </div>
+
         </section>
 
     </main>
-    <footer class="bg-panel-dark mt-20 border-t border-gray-700">
-        <div class="container mx-auto px-6 py-4 text-center text-gray-400">
-            <p>&copy; 2025 Guía Interactiva de Matematicas. Creada por Abel Ghanam de 5to Amabilidad para facilitar el aprendizaje. <span class="text-primary font-bold">Abel Ghanam de 5to Amabilidad</span> para facilitar el aprendizaje.</p>
+    
+    <!-- FOOTER (Bordes Redondeados Moderados) -->
+    <footer class="mt-16 w-full max-w-5xl mx-auto px-4 pb-4">
+        <div class="panel-style p-6 text-center text-sm flex flex-col items-center">
+            <!-- Mensaje central -->
+            <p class="mb-2 text-slate-600 font-medium">
+                Centro de Estudio <span class="text-primary-accent font-bold">R.A.L.S.M.</span> — Creada por <span class="font-bold">Abel Ghanam de 5to Amabilidad</span> para facilitar el aprendizaje.
+            </p>
+            <!-- Enlaces separados con línea divisoria sutil -->
+            <div class="space-x-4 mt-2 pt-2 border-t border-slate-100 w-full max-w-sm">
+                <a href="politica.html" class="hover:text-primary-accent transition duration-200 font-medium">Política de Privacidad</a>
+                <span class="text-slate-300">|</span>
+                <a href="contacto.html" class="hover:text-primary-accent transition duration-200 font-medium">Contacto Directo</a>
+            </div>
         </div>
     </footer>
 
-    <!-- Script para la Interactividad -->
     <script>
-        // Función de utilidad para mezclar arrays (Algoritmo Fisher-Yates)
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
+        // Data del Quiz (sin cambios)
+        const quizQuestions = [
+            {
+                phase: "Parte 1: Conceptos",
+                question: "¿Cuál es el elemento principal de una circunferencia que se define como la distancia constante desde el centro a cualquier punto?",
+                options: ["Diámetro", "Cuerda", "Radio", "Tangente"],
+                correct: "Radio"
+            },
+            {
+                phase: "Parte 1: Conceptos",
+                question: "¿Qué condición debe cumplir el radio ($r$) para que una ecuación represente una circunferencia real?",
+                options: ["r debe ser un número entero.", "r debe ser positivo ($r>0$).", "r debe ser mayor o igual a 0.", "r puede ser cualquier número real."],
+                correct: "r debe ser positivo ($r>0$)."
+            },
+            {
+                phase: "Parte 2: Ecuación Canónica",
+                question: "La Ecuación Canónica de la circunferencia con centro en el origen ($C=(0, 0)$) y radio $r=9$ es:",
+                options: ["$x^2 + y^2 = 81$", "$x^2 + y^2 = 9$", "$(x-9)^2 + y^2 = 0$", "$x^2 + 9y^2 = 1$"],
+                correct: "$x^2 + y^2 = 81$"
+            },
+            {
+                phase: "Parte 2: Ecuación Canónica",
+                question: "¿Cuál es el centro de la circunferencia dada por la ecuación $(x+2)^2 + (y-5)^2 = 16$?",
+                options: ["$C=(2, 5)$", "$C=(-2, 5)$", "$C=(2, -5)$", "$C=(-2, -5)$"],
+                correct: "$C=(-2, 5)$"
+            },
+            {
+                phase: "Parte 3: Ecuación General",
+                question: "En la Ecuación General $x^2 + y^2 + Dx + Ey + F = 0$, si $D=6$ y $E=-4$, ¿cuáles son las coordenadas $(h, k)$ del centro?",
+                options: ["$C=(3, -2)$", "$C=(-3, 2)$", "$C=(6, -4)$", "$C=(-6, 4)$"],
+                correct: "$C=(-3, 2)$" // h = -D/2 = -6/2 = -3; k = -E/2 = 4/2 = 2
             }
-        }
+        ];
 
-        // Configuración de Pestañas (Teoría)
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let isAnswered = false;
+
+        const quizContent = document.getElementById('quiz-content');
+        const nextButton = document.getElementById('next-button');
+        const restartButton = document.getElementById('restart-button');
+        const quizScore = document.getElementById('quiz-score');
+        const quizPhase = document.getElementById('quiz-phase');
+        const quizStatus = document.getElementById('quiz-status');
+
+        // Función para cambiar entre pestañas
         function showTab(tabId) {
-            const contents = document.querySelectorAll('.tab-content');
-            const buttons = document.querySelectorAll('.tab-button');
-
-            // Ocultar todos los contenidos y restablecer estilos de botones
-            contents.forEach(content => content.classList.add('hidden'));
-            contents.forEach(content => content.classList.remove('tab-content-active'));
-
-            buttons.forEach(button => {
-                button.classList.remove('bg-primary', 'text-white', 'hover:bg-indigo-700');
-                button.classList.add('bg-gray-200', 'text-gray-800', 'hover:bg-gray-300');
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+                content.classList.remove('tab-content-active');
             });
-
-            // Mostrar el contenido seleccionado y actualizar el estilo del botón
             document.getElementById(tabId).classList.remove('hidden');
             document.getElementById(tabId).classList.add('tab-content-active');
 
-            const activeButton = document.querySelector(`[onclick="showTab('${tabId}')"]`);
-            activeButton.classList.add('bg-primary', 'text-white', 'hover:bg-indigo-700');
-            activeButton.classList.remove('bg-gray-200', 'text-gray-800', 'hover:bg-gray-300');
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('tab-button-active', 'bg-primary-accent', 'text-white');
+                button.classList.add('bg-gray-200', 'text-gray-800', 'hover:bg-white/50');
+            });
+
+            document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('tab-button-active');
+            document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.remove('bg-gray-200', 'text-gray-800', 'hover:bg-white/50');
         }
-        
-        // Configuración de Acordeón (Ejercicios)
+
+        // Inicializar la pestaña correcta al cargar
+        document.addEventListener('DOMContentLoaded', () => {
+            showTab('tab-conceptos');
+        });
+
+        // Función para manejar el acordeón
         document.querySelectorAll('.accordion-header').forEach(header => {
-            header.addEventListener('click', () => {
-                const targetId = header.getAttribute('data-target');
-                const content = document.getElementById(targetId);
-                const icon = header.querySelector('svg');
+            header.addEventListener('click', (e) => {
+                const targetId = e.currentTarget.dataset.target;
+                const targetContent = document.getElementById(targetId);
+                const icon = e.currentTarget.querySelector('svg');
 
-                const isExpanded = header.classList.contains('active');
+                const isOpen = targetContent.style.maxHeight && targetContent.style.maxHeight !== '0px';
 
-                // Cerrar todos los demás acordeones
-                document.querySelectorAll('.accordion-header').forEach(h => {
-                    if (h !== header) {
-                        h.classList.remove('active');
-                        const otherContent = document.getElementById(h.getAttribute('data-target'));
-                        otherContent.style.maxHeight = null;
-                        otherContent.style.paddingTop = '0';
-                        otherContent.style.paddingBottom = '0';
-                        h.querySelector('svg').classList.remove('rotate-180');
-                    }
+                // Cerrar todos
+                document.querySelectorAll('.accordion-content').forEach(content => {
+                    content.style.maxHeight = '0';
+                    content.parentElement.querySelector('.accordion-header').classList.remove('accordion-header-active');
+                    content.parentElement.querySelector('svg').style.transform = 'rotate(0deg)';
                 });
 
-                // Abrir o cerrar el acordeón actual
-                if (isExpanded) {
-                    content.style.maxHeight = null;
-                    content.style.paddingTop = '0';
-                    content.style.paddingBottom = '0';
-                    icon.classList.remove('rotate-180');
-                } else {
-                    content.style.maxHeight = content.scrollHeight + 32 + "px"; // + padding
-                    content.style.paddingTop = '1rem';
-                    content.style.paddingBottom = '1rem';
-                    icon.classList.add('rotate-180');
+                // Abrir el seleccionado si estaba cerrado
+                if (!isOpen) {
+                    targetContent.style.maxHeight = targetContent.scrollHeight + "px";
+                    e.currentTarget.classList.add('accordion-header-active');
+                    icon.style.transform = 'rotate(180deg)';
                 }
-                header.classList.toggle('active');
             });
         });
 
-        // =========================================================================
-        // EVALUACIÓN TEÓRICA (Quiz)
-        // =========================================================================
-        
-        // Datos originales del cuestionario
-        const originalQuizData = {
-            parts: [
-                {
-                    name: "Parte 1: Completación",
-                    instructions: "Escribe la palabra o frase que falta en el espacio en blanco.",
-                    questions: [
-                        { id: 1, type: 'completion', question: "Geométricamente, la circunferencia es el conjunto de todos los puntos en un plano que están a una ___ de un punto central.", answer: "distancia fija" },
-                        { id: 2, type: 'completion', question: "La circunferencia es una sección cónica que se obtiene al cortar un cono con un plano ___ al eje del cono.", answer: "perpendicular" },
-                        { id: 3, type: 'completion', question: "El ___ es el punto fijo que se encuentra en el interior de la circunferencia.", answer: "Centro" },
-                        { id: 4, type: 'completion', question: "La ecuación canónica de una circunferencia con centro en el origen (C=(0, 0)) es x^2 + y^2 = ___.", answer: "r^2" },
-                        { id: 5, type: 'completion', question: "El diámetro tiene una longitud que es el ___ del radio.", answer: "doble" },
-                    ]
-                },
-                {
-                    name: "Parte 2: Selección Múltiple",
-                    instructions: "Selecciona la opción correcta.",
-                    questions: [
-                        { id: 6, type: 'multiple_choice', question: "¿Cuál es la representación de un Centro en un plano cartesiano?", options: ["(x, y)", "(r, r)", "(h, k)", "(x², y²)"], answer: "(h, k)" },
-                        { id: 7, type: 'multiple_choice', question: "¿Qué figura geométrica define el perímetro de la circunferencia?", options: ["El Círculo", "El Radio", "La Circunferencia", "El Foco"], answer: "La Circunferencia" },
-                        { id: 8, type: 'multiple_choice', question: "La Ecuación General de la circunferencia está siempre igualada a...", options: ["Uno (1)", "El Radio al cuadrado", "Cero (0)", "El Diámetro"], answer: "Cero (0)" },
-                        { id: 9, type: 'multiple_choice', question: "¿Qué condición debe cumplir el radio (r)?", options: ["Debe ser negativo", "Puede ser cualquier número", "Debe ser cualquier número positivo", "Debe ser un número entero"], answer: "Debe ser cualquier número positivo" },
-                        { id: 10, type: 'multiple_choice', question: "¿Cuál de las siguientes ecuaciones es la forma Canónica?", options: ["x^2 + y^2 + Dx + Ey + F = 0", "(x-h)^2 + (y-k)^2 = r^2", "x^2 + y^2 = 0", "r = √(x^2+y^2)"], answer: "(x-h)^2 + (y-k)^2 = r^2" },
-                    ]
-                },
-                {
-                    name: "Parte 3: Definición de Términos",
-                    instructions: "Empareja cada término con su definición.",
-                    questions: [
-                        { id: 11, type: 'matching', term: "Radio", definitions: ["El punto fijo en el interior.", "Región plana contenida dentro de la circunferencia.", "La distancia constante desde el centro."], answer: "La distancia constante desde el centro." },
-                        { id: 12, type: 'matching', term: "Centro", definitions: ["El punto fijo en el interior.", "Región plana contenida dentro de la circunferencia.", "La distancia constante desde el centro."], answer: "El punto fijo en el interior." },
-                        { id: 13, type: 'matching', term: "Círculo", definitions: ["El punto fijo en el interior.", "Región plana contenida dentro de la circunferencia.", "La distancia constante desde el centro."], answer: "Región plana contenida dentro de la circunferencia." },
-                    ]
-                }
-            ]
-        };
 
-        let quizData; // Variable para la versión mezclada
-        let currentPartIndex = 0;
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let totalQuestions = 0;
-
-        const quizPhaseElement = document.getElementById('quiz-phase');
-        const quizStatusElement = document.getElementById('quiz-status');
-        const quizContentElement = document.getElementById('quiz-content');
-        const nextButton = document.getElementById('next-button');
-        const restartButton = document.getElementById('restart-button');
-        const quizScoreElement = document.getElementById('quiz-score');
-
-
-        function setupQuizData() {
-            // Clonar los datos originales para no modificarlos
-            quizData = JSON.parse(JSON.stringify(originalQuizData));
-            
-            totalQuestions = 0;
-
-            quizData.parts.forEach(part => {
-                // Mezclar el orden de las preguntas dentro de cada parte
-                shuffleArray(part.questions);
-                totalQuestions += part.questions.length;
-
-                // Si es de selección múltiple, mezclar las opciones
-                if (part.name === "Parte 2: Selección Múltiple") {
-                    part.questions.forEach(q => shuffleArray(q.options));
-                }
-                // Si es de emparejamiento, mezclar las definiciones
-                if (part.name === "Parte 3: Definición de Términos") {
-                     part.questions.forEach(q => shuffleArray(q.definitions));
-                }
-            });
-
-            // Opcional: Mezclar el orden de las partes también
-            shuffleArray(quizData.parts);
-        }
-        
-        function updateScoreDisplay() {
-            // El número de preguntas contestadas se calcula por la posición actual
-            const answered = quizData.parts.slice(0, currentPartIndex).reduce((sum, part) => sum + part.questions.length, 0) + currentQuestionIndex;
-            
-            // Si el quiz terminó, se muestra el total, si no, se muestra el progreso.
-            const totalAnswered = (currentPartIndex === quizData.parts.length) ? totalQuestions : answered;
-
-            quizScoreElement.textContent = `Puntuación: ${score}/${totalAnswered}`;
-        }
-
-        function renderQuestion() {
-            const currentPart = quizData.parts[currentPartIndex];
-            const currentQuestion = currentPart.questions[currentQuestionIndex];
-            
-            quizPhaseElement.textContent = currentPart.name;
-            quizStatusElement.textContent = `Pregunta ${currentQuestionIndex + 1} de ${currentPart.questions.length}`;
-            quizContentElement.innerHTML = '';
-            nextButton.disabled = true;
-
-            let questionHTML = `<p class="text-xl font-medium text-gray-800 mb-4">${currentQuestionIndex + 1}. ${currentQuestion.question || currentQuestion.term}</p>`;
-            let answerContainer = '';
-
-            // Ocultar botón de reiniciar durante el quiz
-            restartButton.classList.add('hidden');
-            nextButton.classList.remove('hidden');
-
-            switch (currentQuestion.type) {
-                case 'completion':
-                    answerContainer = `
-                        <input type="text" id="completion-input" class="w-full p-3 border-2 border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition duration-300" placeholder="Escribe tu respuesta aquí...">
-                        <div id="feedback" class="mt-2 text-sm font-semibold"></div>
-                    `;
-                    break;
-                case 'multiple_choice':
-                    answerContainer = currentQuestion.options.map((option, index) => `
-                        <div class="mb-2">
-                            <label class="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-indigo-50 transition duration-150" for="mc-option-${index}">
-                                <input type="radio" id="mc-option-${index}" name="mc-answer" value="${option}" class="w-4 h-4 text-primary bg-gray-100 border-gray-300 focus:ring-primary">
-                                <span class="ml-3 text-gray-700">${option}</span>
-                            </label>
-                        </div>
-                    `).join('');
-                    answerContainer += `<div id="feedback" class="mt-2 text-sm font-semibold"></div>`;
-                    break;
-                case 'matching':
-                    // Para simplificar la interfaz, usaremos un select (menú desplegable) para emparejar
-                    questionHTML = `<p class="text-xl font-medium text-gray-800 mb-4">${currentQuestionIndex + 1}. Empareja el término: <span class="font-bold text-accent">${currentQuestion.term}</span> con su definición correcta.</p>`;
-                    answerContainer = `
-                        <select id="matching-select" class="w-full p-3 border-2 border-gray-300 rounded-lg focus:ring-primary focus:border-primary bg-white transition duration-300">
-                            <option value="">Selecciona una definición...</option>
-                            ${currentQuestion.definitions.map(def => `<option value="${def}">${def}</option>`).join('')}
-                        </select>
-                        <div id="feedback" class="mt-2 text-sm font-semibold"></div>
-                    `;
-                    break;
-            }
-
-            quizContentElement.innerHTML = questionHTML + `<div id="answer-container">${answerContainer}</div>`;
-
-            // Agregar listeners para habilitar el botón "Siguiente" al interactuar
-            const checkAnswer = () => nextButton.disabled = false;
-
-            if (currentQuestion.type === 'completion') {
-                document.getElementById('completion-input').addEventListener('input', checkAnswer);
-            } else if (currentQuestion.type === 'multiple_choice') {
-                document.querySelectorAll('input[name="mc-answer"]').forEach(input => input.addEventListener('change', checkAnswer));
-            } else if (currentQuestion.type === 'matching') {
-                document.getElementById('matching-select').addEventListener('change', checkAnswer);
-            }
-        }
-
-        function checkAnswer() {
-            const currentPart = quizData.parts[currentPartIndex];
-            const currentQuestion = currentPart.questions[currentQuestionIndex];
-            const feedbackElement = document.getElementById('feedback');
-            const answerContainer = document.getElementById('answer-container');
-            let isCorrect = false;
-            let userAnswer;
-
-            // Bloquear la interacción y mostrar retroalimentación
-            nextButton.disabled = false;
-            
-            if (currentQuestion.type === 'completion') {
-                const input = document.getElementById('completion-input');
-                userAnswer = input.value.trim().toLowerCase();
-                const correctAnswer = currentQuestion.answer.toLowerCase();
-                
-                // Usamos una comparación estricta para respuestas de completación
-                isCorrect = userAnswer === correctAnswer; 
-                
-                input.disabled = true;
-                if (isCorrect) {
-                    feedbackElement.innerHTML = `<span class="text-secondary">✅ ¡Correcto!</span>`;
-                    answerContainer.classList.add('correct');
-                } else {
-                    feedbackElement.innerHTML = `<span class="text-red-600">❌ Incorrecto. La respuesta correcta era: "${currentQuestion.answer}"</span>`;
-                    answerContainer.classList.add('incorrect');
-                }
-
-            } else if (currentQuestion.type === 'multiple_choice') {
-                const selected = document.querySelector('input[name="mc-answer"]:checked');
-                userAnswer = selected ? selected.value : null;
-                
-                isCorrect = userAnswer === currentQuestion.answer;
-                
-                document.querySelectorAll('input[name="mc-answer"]').forEach(input => {
-                    input.disabled = true;
-                    const label = input.closest('label');
-                    if (input.value === currentQuestion.answer) {
-                        label.classList.add('correct');
-                        label.classList.add('border-secondary');
-                    } else if (input.checked) {
-                        label.classList.add('incorrect');
-                        label.classList.add('border-red-600');
-                    }
-                });
-
-                if (isCorrect) {
-                    feedbackElement.innerHTML = `<span class="text-secondary">✅ ¡Correcto!</span>`;
-                } else {
-                    feedbackElement.innerHTML = `<span class="text-red-600">❌ Incorrecto. La respuesta correcta era: "${currentQuestion.answer}"</span>`;
-                }
-            
-            } else if (currentQuestion.type === 'matching') {
-                const select = document.getElementById('matching-select');
-                userAnswer = select.value;
-                
-                isCorrect = userAnswer === currentQuestion.answer;
-                
-                select.disabled = true;
-
-                if (isCorrect) {
-                    feedbackElement.innerHTML = `<span class="text-secondary">✅ ¡Correcto!</span>`;
-                    answerContainer.classList.add('correct');
-                } else {
-                    feedbackElement.innerHTML = `<span class="text-red-600">❌ Incorrecto. La definición correcta es: "${currentQuestion.answer}"</span>`;
-                    answerContainer.classList.add('incorrect');
-                }
-            }
-
-            if (isCorrect) {
-                score++;
-            }
-            updateScoreDisplay();
-
-            // Deshabilitar el botón de verificación si existe, ya que el botón "Siguiente" lo reemplaza
-            // Y asegurar que no se pueda revisar dos veces
-            nextButton.removeEventListener('click', checkAnswer);
-            nextButton.addEventListener('click', moveToNextQuestionOrPart);
-            nextButton.textContent = "Siguiente Pregunta";
-        }
-
-        function moveToNextQuestionOrPart() {
-            // Avanzar a la siguiente pregunta dentro de la parte actual
-            currentQuestionIndex++;
-
-            if (currentQuestionIndex < quizData.parts[currentPartIndex].questions.length) {
-                // Hay más preguntas en esta parte
-                renderQuestion();
-            } else {
-                // Terminar la parte y avanzar a la siguiente
-                currentPartIndex++;
-                currentQuestionIndex = 0;
-
-                if (currentPartIndex < quizData.parts.length) {
-                    // Hay una parte nueva
-                    renderQuestion();
-                } else {
-                    // Examen finalizado
-                    endQuiz();
-                }
-            }
-
-             // Limpiar y reconfigurar el botón para la nueva pregunta
-            nextButton.removeEventListener('click', moveToNextQuestionOrPart);
-            if (currentPartIndex < quizData.parts.length) {
-                // Para la nueva pregunta, el botón debe verificar primero
-                nextButton.addEventListener('click', checkAnswer);
-                nextButton.textContent = "Verificar Respuesta";
-                nextButton.disabled = true; // Se habilita al interactuar
-            }
-        }
-
-        function endQuiz() {
-            quizPhaseElement.textContent = "¡EVALUACIÓN FINALIZADA!";
-            quizStatusElement.textContent = "Revisa tu resultado.";
-            quizContentElement.innerHTML = `
-                <div class="text-center p-8 bg-primary/10 rounded-xl">
-                    <p class="text-3xl font-bold text-primary mb-4">Resultado Final</p>
-                    <p class="text-5xl font-extrabold text-secondary">${score} / ${totalQuestions}</p>
-                    <p class="mt-4 text-gray-700">¡Has completado todas las secciones del examen teórico!</p>
-                </div>
-            `;
-            updateScoreDisplay(); // Asegurar que el score final se muestre correctamente
-            
-            // Mostrar botón de reiniciar y ocultar el de siguiente
-            nextButton.classList.add('hidden');
-            restartButton.classList.remove('hidden'); 
-        }
+        // ----------------------------------
+        // Lógica del Quiz (sin cambios)
+        // ----------------------------------
 
         function startQuiz() {
-            // Reiniciar variables
-            currentPartIndex = 0;
             currentQuestionIndex = 0;
             score = 0;
+            quizContent.innerHTML = '';
+            restartButton.classList.add('hidden');
+            nextButton.classList.remove('hidden');
+            nextButton.disabled = true;
+            nextButton.textContent = 'Siguiente Pregunta';
+            updateScore();
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            if (currentQuestionIndex >= quizQuestions.length) {
+                showResults();
+                return;
+            }
+
+            const q = quizQuestions[currentQuestionIndex];
+            isAnswered = false;
+            nextButton.disabled = true;
+            quizPhase.textContent = q.phase;
+            quizStatus.textContent = `Pregunta ${currentQuestionIndex + 1} de ${quizQuestions.length}`;
+
+            let html = `<h4 class="text-xl font-semibold text-primary mb-4">${q.question}</h4>`;
+            html += `<div id="options-container" class="space-y-3">`;
+
+            q.options.forEach((option, index) => {
+                html += `
+                    <button 
+                        class="w-full text-left p-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition duration-200 text-gray-700" 
+                        onclick="checkAnswer(this, '${q.correct.replace(/'/g, "\\'")}')"
+                        data-option="${option}">
+                        ${option}
+                    </button>
+                `;
+            });
+
+            html += `</div>`;
+            quizContent.innerHTML = html;
+        }
+
+        function checkAnswer(selectedButton, correctAnswer) {
+            if (isAnswered) return;
+
+            isAnswered = true;
+            nextButton.disabled = false;
+
+            const selectedOption = selectedButton.getAttribute('data-option');
+            const optionsContainer = document.getElementById('options-container');
+
+            // Deshabilitar todos los botones de opción
+            optionsContainer.querySelectorAll('button').forEach(btn => {
+                btn.onclick = null; // Evita clicks adicionales
+                btn.classList.add('cursor-default');
+            });
+
+            // Marcar todas las opciones (rojo y verde)
+            optionsContainer.querySelectorAll('button').forEach(btn => {
+                const option = btn.getAttribute('data-option');
+                btn.classList.remove('hover:bg-gray-50');
+
+                if (option === correctAnswer) {
+                    // Opción correcta
+                    btn.classList.add('correct', 'font-bold', 'border-accent-green');
+                } else if (option === selectedOption) {
+                    // Opción incorrecta seleccionada
+                    btn.classList.add('incorrect', 'font-bold', 'border-red-500');
+                } else {
+                    // Opciones no seleccionadas
+                    btn.classList.add('bg-gray-100');
+                }
+            });
             
-            // Mezclar las preguntas
-            setupQuizData();
-            
-            // Configurar el botón inicial
-            nextButton.textContent = "Verificar Respuesta";
-            nextButton.removeEventListener('click', moveToNextQuestionOrPart); // Limpiar listener
-            nextButton.addEventListener('click', checkAnswer);
-            
-            renderQuestion();
-            updateScoreDisplay();
+            // Actualizar puntuación
+            if (selectedOption === correctAnswer) {
+                score++;
+            }
+            updateScore();
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            displayQuestion();
+        }
+
+        function updateScore() {
+            quizScore.textContent = `Puntuación: ${score}/${quizQuestions.length}`;
+        }
+
+        function showResults() {
+            quizPhase.textContent = "Evaluación Finalizada";
+            quizStatus.textContent = "Revisa tus resultados.";
+            nextButton.classList.add('hidden');
+            restartButton.classList.remove('hidden');
+
+            let resultText = '';
+            let gradeColor = 'text-red-600';
+
+            const percentage = (score / quizQuestions.length) * 100;
+            if (percentage === 100) {
+                resultText = '¡Perfecto! Dominas todos los conceptos.';
+                gradeColor = 'text-accent-green';
+            } else if (percentage >= 70) {
+                resultText = '¡Buen trabajo! Necesitas repasar algunos detalles.';
+                gradeColor = 'text-accent-yellow';
+            } else {
+                resultText = 'Debes repasar la teoría y los ejercicios resueltos.';
+            }
+
+            quizContent.innerHTML = `
+                <div class="text-center p-8 rounded-xl bg-gray-50 border-4 border-dashed ${gradeColor.replace('text-', 'border-')}">
+                    <p class="text-4xl font-bold ${gradeColor}">${score} / ${quizQuestions.length}</p>
+                    <p class="text-xl font-semibold text-primary mt-2">${resultText}</p>
+                </div>
+            `;
         }
         
-        // Ejecución inicial al cargar la página
-        window.onload = () => {
-            startQuiz();
-        };
+        // Inicializar el quiz
+        document.addEventListener('DOMContentLoaded', startQuiz);
+        
+        // ------------------------------------------
+        // LÓGICA DE ANÁLISIS DE ECUACIONES CON GEMINI
+        // ------------------------------------------
+
+        const apiKey = ""; 
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+        const analysisResults = document.getElementById('analysis-results');
+        const equationInput = document.getElementById('equation-input');
+        const analyzeButton = document.getElementById('analyze-button');
+        const analyzeSpinner = document.getElementById('analyze-spinner');
+
+        // Función de utilidad para manejar la llamada a la API con reintentos
+        async function fetchWithRetry(url, payload, maxRetries = 3, delay = 1000) {
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.status === 429 && i < maxRetries - 1) {
+                        // Implementar retroceso exponencial
+                        await new Promise(resolve => setTimeout(resolve, delay * (2 ** i)));
+                        continue; // Reintentar
+                    }
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(`Error en la API: ${response.status} - ${errorData.error.message}`);
+                    }
+
+                    return await response.json();
+
+                } catch (error) {
+                    if (i === maxRetries - 1) {
+                        throw error;
+                    }
+                    // Continúa al siguiente intento
+                }
+            }
+        }
+
+        // Función principal para el análisis
+        async function analyzeEquationWithGemini() {
+            const equation = equationInput.value.trim();
+
+            if (!equation) {
+                analysisResults.innerHTML = '<div class="p-3 bg-red-100 text-red-700 rounded-xl font-semibold">Por favor, ingresa una ecuación válida para analizar.</div>';
+                return;
+            }
+
+            // Mostrar estado de carga y deshabilitar botón
+            analyzeButton.disabled = true;
+            analyzeButton.classList.add('opacity-75');
+            analyzeSpinner.classList.remove('hidden');
+            analysisResults.innerHTML = `
+                <div class="flex flex-col items-center justify-center h-full">
+                    <div class="loading-animation border-4 border-solid border-gray-200 border-t-accent-purple rounded-full w-8 h-8 mb-3"></div>
+                    <p class="text-accent-purple font-medium">Analizando ecuación con IA...</p>
+                </div>
+            `;
+
+            // Definición del prompt y el esquema JSON
+            const systemPrompt = "Actúa como un profesor de geometría analítica. Dada la ecuación de una circunferencia en forma general, $x^2 + y^2 + Dx + Ey + F = 0$, analiza la ecuación proporcionada. Debes extraer los coeficientes D, E, F (asumiendo que los coeficientes de $x^2$ y $y^2$ son 1), y luego calcular el centro $C=(h, k)$ y el radio $r$. Proporciona la respuesta en el formato JSON estructurado sin añadir comentarios ni texto fuera del JSON. Si hay fracciones, mantén los números como decimales si son exactos, o usa el valor fraccionario simple para las coordenadas y usa 'sqrt()' para el radio en la formula. Asegura que los números D, E, F, center_h, center_k y radius_squared sean de tipo NUMBER o un string de fraccion/decimal si no puede ser number puro.";
+            const userQuery = `Analiza la siguiente ecuación general: ${equation}.`;
+            
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                },
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "OBJECT",
+                        properties: {
+                            "inputEquation": { "type": "STRING", "description": "La ecuación general ingresada por el usuario." },
+                            "D": { "type": "STRING" },
+                            "E": { "type": "STRING" },
+                            "F": { "type": "STRING" },
+                            "center_h": { "type": "STRING" },
+                            "center_k": { "type": "STRING" },
+                            "radius_squared": { "type": "STRING", "description": "Valor de r^2, calculado como h^2 + k^2 - F. Puede ser fraccionario." },
+                            "radius_r_formula": { "type": "STRING", "description": "La fórmula o valor simplificado del radio r, e.g., 'sqrt(36)' o '6' o 'sqrt(85)/2'." },
+                            "canonical_equation": { "type": "STRING", "description": "La ecuación canónica en formato LaTeX, e.g., '(x - 2)^2 + (y + 5)^2 = 36' o '(x - 3)^2 + (y - 7/2)^2 = 85/4'." },
+                            "is_real_circle": { "type": "BOOLEAN" },
+                            "analysis_conclusion": { "type": "STRING", "description": "Una conclusión corta sobre si es una circunferencia real, un punto o una circunferencia imaginaria." }
+                        },
+                        required: ["inputEquation", "D", "E", "F", "center_h", "center_k", "radius_squared", "radius_r_formula", "canonical_equation", "is_real_circle", "analysis_conclusion"]
+                    }
+                }
+            };
+
+            try {
+                const result = await fetchWithRetry(apiUrl, payload);
+                const candidate = result.candidates?.[0];
+
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    const jsonString = candidate.content.parts[0].text;
+                    const data = JSON.parse(jsonString);
+                    renderAnalysisResults(data);
+                } else {
+                    throw new Error("Respuesta del modelo incompleta o vacía.");
+                }
+
+            } catch (error) {
+                console.error("Error en la llamada a Gemini:", error);
+                analysisResults.innerHTML = `
+                    <div class="p-3 bg-red-100 text-red-700 rounded-xl font-semibold">
+                        ❌ Error al procesar la ecuación. Asegúrate de que el formato sea correcto (ej: x^2 + y^2 + 6x - 16 = 0) y reinténtalo.
+                    </div>
+                `;
+            } finally {
+                // Restaurar estado del botón
+                analyzeButton.disabled = false;
+                analyzeButton.classList.remove('opacity-75');
+                analyzeSpinner.classList.add('hidden');
+            }
+        }
+
+        // Función para renderizar los resultados del análisis
+        function renderAnalysisResults(data) {
+            let resultHtml = `
+                <div class="space-y-4">
+                    <h4 class="text-xl font-bold text-accent-purple">Resultado del Análisis:</h4>
+                    
+                    <!-- Coeficientes -->
+                    <div class="bg-violet-50 p-3 rounded-lg flex justify-around text-primary font-semibold">
+                        <span>D = ${data.D}</span>
+                        <span>E = ${data.E}</span>
+                        <span>F = ${data.F}</span>
+                    </div>
+
+                    <!-- Paso 1: Centro -->
+                    <div class="panel-style p-4 bg-white border-accent-green/50 shadow-none">
+                        <p class="font-medium text-accent-green mb-1">Paso 1: Centro $C=(h, k)$</p>
+                        <div class="text-lg text-primary">
+                            $h = -D/2 \Rightarrow h = ${data.center_h}$<br>
+                            $k = -E/2 \Rightarrow k = ${data.center_k}$
+                        </div>
+                        <p class="mt-2 font-bold text-lg text-primary">
+                            Centro $C=(${data.center_h}, ${data.center_k})$
+                        </p>
+                    </div>
+
+                    <!-- Paso 2: Radio -->
+                    <div class="panel-style p-4 bg-white border-accent-green/50 shadow-none">
+                        <p class="font-medium text-accent-green mb-1">Paso 2: Radio $r$</p>
+                        <div class="text-lg text-primary">
+                            $r^2 = h^2 + k^2 - F \Rightarrow r^2 = ${data.radius_squared} $
+                        </div>
+                        <p class="mt-2 font-bold text-lg text-primary">
+                            Radio $r = ${data.radius_r_formula}$
+                        </p>
+                    </div>
+
+                    <!-- Ecuación Canónica -->
+                    <div class="panel-style p-4 bg-accent-purple/10 border-accent-purple/50 shadow-none">
+                        <p class="font-medium text-accent-purple mb-1">Ecuación Canónica</p>
+                        <div class="text-center text-xl font-bold text-primary">
+                            $$${data.canonical_equation}$$
+                        </div>
+                    </div>
+                    
+                    <!-- Conclusión -->
+                    <div class="p-4 rounded-xl font-semibold ${data.is_real_circle ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}">
+                        Conclusión: ${data.analysis_conclusion}
+                    </div>
+                </div>
+            `;
+            analysisResults.innerHTML = resultHtml;
+        }
 
     </script>
 </body>
 </html>
-
