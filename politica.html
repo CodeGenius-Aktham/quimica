@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R.A.L.S.M. | Política de Privacidad y Uso</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-accent': '#059669', /* Verde Esmeralda Profundo */
+                        'primary-light': '#34d399', /* Verde más claro para hover y sombras */
+                        'bg-light': '#fefefe', /* Blanco prístino */
+                        'text-dark': '#1e293b', /* Slate oscuro */
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos de Fondo y Base */
+        body {
+            background-color: #f7f9fc; /* Off-white muy sutil */
+            color: #1e293b; 
+            padding-bottom: 40px; 
+        }
+        
+        /* Estilo base para todos los paneles (Apple look) */
+        .panel-style {
+            border-radius: 2rem; /* 32px - equivalente a rounded-3xl/4xl */
+            background-color: white;
+            /* Sombra sutil pero prominente */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 5px 15px rgba(0, 0, 0, 0.05); 
+            border: 1px solid #f3f4f6; /* Borde muy claro */
+            transition: all 0.3s ease;
+        }
+        
+        /* Botones de Estilo Fino (Color Verde) */
+        .button-style {
+            padding: 14px 30px; 
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            color: #1e293b; 
+            border: 2px solid #059669; /* Borde Verde */
+            border-radius: 9999px; 
+            transition: all 0.3s ease;
+            background-color: transparent;
+        }
+        .button-style:hover {
+            background-color: #059669; /* Relleno Verde en hover */
+            color: white; 
+            box-shadow: 0 5px 15px rgba(5, 150, 105, 0.3); /* Sombra Verde */
+            transform: translateY(-2px);
+        }
+
+        /* Footer Estático como Panel */
+        .static-footer-panel {
+            width: 95%; 
+            max-width: 800px;
+            z-index: 10; 
+            padding: 1rem 1.5rem;
+            border-radius: 1.5rem; 
+            background-color: white;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center pt-12 px-4 font-sans text-text-dark">
+
+    <header class="mb-12 z-10 w-full max-w-4xl p-8 panel-style text-center">
+        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight mb-3">
+            <span class="text-primary-accent">Política de Uso</span> y Privacidad
+        </h1>
+        <p class="text-xl text-slate-500 font-light italic mt-4">
+            Compromiso con la transparencia y tu experiencia educativa.
+        </p>
+    </header>
+
+    <div class="w-full max-w-4xl p-8 sm:p-10 mb-16 elegant-card panel-style z-10 text-lg leading-relaxed">
+        
+        <p class="text-slate-700 mb-6">
+            El Centro de Estudio <strong class="text-primary-accent font-bold">R.A.L.S.M.</strong> fue creado para fomentar la excelencia académica. Esta política rige tu uso de este espacio y describe cómo manejamos la información.
+        </p>
+
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold text-primary-accent border-b border-slate-200 pb-2 mb-4">
+                1. Misión y Acceso al Contenido
+            </h2>
+            <ul class="list-disc list-outside space-y-3 ml-6 text-slate-600">
+                <li>
+                    <strong class="font-bold">Acceso Gratuito:</strong> Toda la información, las clases, los materiales de estudio y la sección de juegos son provistos de forma <strong class="text-primary-accent">completamente gratuita y sin restricciones</strong> de pago. No se requiere suscripción ni información de tarjeta de crédito.
+                </li>
+                <li>
+                    <strong class="font-bold">Uso Académico:</strong> El contenido está diseñado para ser un <strong class="font-bold">complemento</strong> y una herramienta de apoyo a tus estudios formales, especialmente en el contexto del Primer Lapso.
+                </li>
+            </ul>
+        </div>
+        
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold text-primary-accent border-b border-slate-200 pb-2 mb-4">
+                2. Política de Privacidad y Datos
+            </h2>
+            <ul class="list-disc list-outside space-y-3 ml-6 text-slate-600">
+                <li>
+                    <strong class="font-bold">No Recolección de Datos Personales:</strong> Este sitio web <strong class="font-bold">no</strong> solicita, almacena ni rastrea información personal sensible (como nombres, correos electrónicos, números de identificación, etc.). Tu uso del sitio es anónimo.
+                </li>
+                <li>
+                    <strong class="font-bold">Cookies:</strong> El sitio puede usar cookies técnicas (necesarias para el funcionamiento básico o para el servicio de alojamiento) que <strong class="font-bold">no contienen información de identificación personal</strong>.
+                </li>
+                <li>
+                    <strong class="font-bold">Enlaces Externos:</strong> Los enlaces a plataformas de terceros (como Instagram o futuros enlaces educativos) están sujetos a las políticas de privacidad de esas plataformas.
+                </li>
+            </ul>
+        </div>
+
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold text-primary-accent border-b border-slate-200 pb-2 mb-4">
+                3. Participación y Soporte
+            </h2>
+            <ul class="list-disc list-outside space-y-3 ml-6 text-slate-600">
+                <li>
+                    <strong class="font-bold">Feedback:</strong> Valoramos tu <strong class="font-bold">retroalimentación y sugerencias</strong> para mejorar el contenido y la experiencia de usuario. Puedes usar el enlace de contacto para comunicarte.
+                </li>
+                <li>
+                    <strong class="font-bold">Contacto Directo:</strong> Al contactar al creador, cualquier dato que proporciones (ej. tu nombre de Instagram) será utilizado <strong class="font-bold">únicamente</strong> para responder a tu solicitud o sugerencia.
+                </li>
+            </ul>
+        </div>
+
+        <div class="mt-8 pt-4 border-t border-slate-200">
+            <p class="text-base text-slate-500 italic">
+                Al utilizar el Centro de Estudio R.A.L.S.M., aceptas estos términos y condiciones de uso, entendiendo que es un proyecto de apoyo académico gratuito y comprometido con tu privacidad.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="w-full max-w-3xl p-6 mb-20 panel-style flex flex-wrap justify-center gap-6 z-10">
+        <a href="index.html" class="button-style hover:shadow-primary-accent/50">
+            Volver a la Página Principal 🏠
+        </a>
+    </div>
+
+    <footer class="static-footer-panel mt-16 mx-auto py-4 text-slate-500">
+        <div class="max-w-5xl mx-auto text-center text-sm px-4 flex flex-col items-center">
+            <p class="mb-2 text-slate-600 font-medium">
+                Centro de Estudio <span class="text-primary-accent font-bold">R.A.L.S.M.</span> — Creada por <span class="font-bold">Abel Ghanam de 5to Amabilidad</span> para facilitar el aprendizaje.
+            </p>
+            <div class="space-x-4 mt-1 pt-1 border-t border-slate-100 w-full max-w-sm">
+                <a href="politica.html" class="hover:text-primary-accent transition duration-200 font-medium">Política de Privacidad</a>
+                <span class="text-slate-300">|</span>
+                <a href="contacto.html" class="hover:text-primary-accent transition duration-200 font-medium">Contacto Directo</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
