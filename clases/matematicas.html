@@ -4,16 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La Circunferencia: Teoría y Evaluación</title>
-    <!-- Carga de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'primary': '#4f46e5', // Indigo 600
+                        // Colores actualizados para un tema oscuro
+                        'primary': '#6366f1', // Indigo 500 (más brillante para contraste oscuro)
                         'secondary': '#10b981', // Emerald 500
                         'accent': '#f59e0b', // Amber 500
+                        // Colores base del tema oscuro
+                        'bg-dark': '#0f172a', // Fondo principal (Slate 900)
+                        'panel-dark': '#1e293b', // Fondo de paneles (Slate 800)
+                        'text-light': '#f1f5f9', // Color de texto base
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -23,8 +27,28 @@
         }
     </script>
     <style>
+        /* Nuevo estilo para el cuerpo: Modo Oscuro */
+        body {
+            background-color: var(--tw-colors-bg-dark); /* Fondo oscuro principal */
+            color: var(--tw-colors-text-light); /* Texto claro */
+        }
+        
+        /* Estilos base para todos los paneles (un poco de elevación oscura) */
+        .dark-panel {
+            background-color: var(--tw-colors-panel-dark); 
+            border: 1px solid #334155; /* Borde sutil oscuro (Slate 700) */
+            border-radius: 1.5rem; /* Esquinas suaves */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Sombra más oscura y sutil */
+            transition: all 0.3s ease;
+        }
+
+        /* Estilo para la Navbar con efecto de blur */
+        .blur-navbar {
+            backdrop-filter: blur(10px);
+            background-color: rgba(30, 41, 59, 0.8); /* Fondo semi-transparente oscuro */
+        }
+
         .latex {
-            /* Clase deshabilitada en esta versión para mostrar texto simple */
             font-size: 1.1em;
             font-weight: 600;
         }
@@ -40,7 +64,7 @@
             animation: fadeIn 0.4s ease-in-out;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(5px); }
             to { opacity: 1; transform: translateY(0); }
         }
         /* Estilos específicos para la Evaluación */
@@ -48,176 +72,176 @@
             min-height: 400px;
         }
         .correct {
-            background-color: #d1fae5; /* Green 100 */
+            background-color: #065f46; /* Emerald 800 (para contraste oscuro) */
+            color: #d1fae5;
         }
         .incorrect {
-            background-color: #fee2e2; /* Red 100 */
+            background-color: #991b1b; /* Red 800 (para contraste oscuro) */
+            color: #fee2e2;
+        }
+        /* Color del botón de tab activo */
+        .tab-button.active {
+            background-color: var(--tw-colors-primary);
+            color: var(--tw-colors-text-light);
+        }
+        .tab-button:not(.active) {
+            background-color: #334155; /* Slate 700 */
+            color: var(--tw-colors-text-light);
         }
     </style>
 </head>
-<body class="bg-gray-50 font-sans antialiased">
+<body class="font-sans antialiased">
 
-    <!-- Navbar -->
-    <header class="bg-primary text-white shadow-lg sticky top-0 z-10">
+    <header class="blur-navbar shadow-2xl sticky top-0 z-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold">La Circunferencia: Geometría Analítica</h1>
+            <h1 class="text-2xl font-bold text-text-light">La Circunferencia: <span class="text-primary">Geometría Analítica</span></h1>
             <nav>
-                <a href="#teoria" class="mx-2 hover:text-accent transition duration-300">Teoría</a>
-                <a href="#ejercicios" class="mx-2 hover:text-accent transition duration-300">Ejercicios</a>
-                <a href="#evaluacion" class="mx-2 hover:text-accent transition duration-300">Evaluación</a>
+                <a href="#teoria" class="mx-2 text-gray-300 hover:text-secondary transition duration-300 font-medium">Teoría</a>
+                <a href="#ejercicios" class="mx-2 text-gray-300 hover:text-secondary transition duration-300 font-medium">Ejercicios</a>
+                <a href="#evaluacion" class="mx-2 text-gray-300 hover:text-secondary transition duration-300 font-medium">Evaluación</a>
             </nav>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
-        <!-- Sección de Teoría Interactiva -->
-        <section id="teoria" class="mb-16 p-8 bg-white shadow-xl rounded-2xl">
+        <section id="teoria" class="mb-16 p-8 dark-panel">
             <h2 class="text-4xl font-extrabold text-primary mb-6 border-b-2 border-primary pb-2">1. Teoría Interactiva: Fundamentos</h2>
-            <p class="text-gray-600 mb-8">Explora los conceptos clave de la circunferencia de forma práctica. Haz clic en las pestañas para revelar la información extraída directamente de tus apuntes.</p>
+            <p class="text-gray-400 mb-8">Explora los conceptos clave de la circunferencia de forma práctica. Haz clic en las pestañas para revelar la información extraída directamente de tus apuntes.</p>
 
             <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
-                <button onclick="showTab('tab-conceptos')" class="tab-button px-4 py-2 text-sm font-medium rounded-xl bg-primary text-white hover:bg-indigo-700 transition duration-300">Conceptos Clave</button>
-                <button onclick="showTab('tab-elementos')" class="tab-button px-4 py-2 text-sm font-medium rounded-xl bg-gray-200 text-gray-800 hover:bg-gray-300 transition duration-300">Elementos</button>
-                <button onclick="showTab('tab-ecuaciones')" class="tab-button px-4 py-2 text-sm font-medium rounded-xl bg-gray-200 text-gray-800 hover:bg-gray-300 transition duration-300">Ecuaciones</button>
+                <button onclick="showTab('tab-conceptos')" class="tab-button active px-4 py-2 text-sm font-semibold rounded-xl text-text-light hover:bg-primary transition duration-300">Conceptos Clave</button>
+                <button onclick="showTab('tab-elementos')" class="tab-button px-4 py-2 text-sm font-semibold rounded-xl hover:bg-primary transition duration-300">Elementos</button>
+                <button onclick="showTab('tab-ecuaciones')" class="tab-button px-4 py-2 text-sm font-semibold rounded-xl hover:bg-primary transition duration-300">Ecuaciones</button>
             </div>
 
-            <!-- Contenido de las pestañas -->
             <div id="tab-conceptos" class="tab-content border-l-4 border-secondary pl-6 pt-4 tab-content-active">
-                <h3 class="text-2xl font-semibold text-gray-800 mb-3">La Circunferencia y Figuras Cónicas</h3>
-                <p class="mb-4">Las Figuras Cónicas son el conjunto de curvas que se obtienen al cortar un cono doble con un plano.</p>
-                <div class="p-4 bg-secondary/10 rounded-xl border border-secondary/30">
+                <h3 class="text-2xl font-semibold text-text-light mb-3">La Circunferencia y Figuras Cónicas</h3>
+                <p class="mb-4 text-gray-300">Las Figuras Cónicas son el conjunto de curvas que se obtienen al cortar un cono doble con un plano.</p>
+                <div class="p-4 bg-secondary/20 rounded-xl border border-secondary">
                     <p class="font-medium text-secondary">Definición de Circunferencia (Cónica):</p>
-                    <p class="text-gray-700">Es una sección cónica que se obtiene al cortar un cono con un plano perpendicular al eje del cono.</p>
+                    <p class="text-gray-200">Es una sección cónica que se obtiene al cortar un cono con un plano perpendicular al eje del cono.</p>
                     <p class="mt-2 font-medium text-secondary">Definición (Geométrica):</p>
-                    <p class="text-gray-700">Es una figura geométrica plana cuyos puntos están a una **distancia fija (radio)** de un **punto fijo (centro)**. También se define como la línea curva cerrada que define el **perímetro** de la figura.</p>
+                    <p class="text-gray-200">Es una figura geométrica plana cuyos puntos están a una **distancia fija (radio)** de un **punto fijo (centro)**. También se define como la línea curva cerrada que define el **perímetro** de la figura.</p>
                 </div>
             </div>
 
             <div id="tab-elementos" class="tab-content hidden border-l-4 border-secondary pl-6 pt-4">
-                <h3 class="text-2xl font-semibold text-gray-800 mb-3">Elementos Clave</h3>
+                <h3 class="text-2xl font-semibold text-text-light mb-3">Elementos Clave</h3>
                 <ul class="space-y-4">
-                    <li class="p-3 border rounded-xl bg-yellow-50/50">
+                    <li class="p-3 border border-accent/50 rounded-xl bg-accent/20">
                         <span class="font-bold text-accent text-lg">Centro (C):</span>
-                        <p class="text-gray-700 mt-1">Es el punto fijo que se encuentra en el interior, el cual equilibra todos los puntos de ella. En un plano cartesiano se representa como C=(h, k).</p>
+                        <p class="text-gray-200 mt-1">Es el punto fijo que se encuentra en el interior, el cual equilibra todos los puntos de ella. En un plano cartesiano se representa como C=(h, k).</p>
                     </li>
-                    <li class="p-3 border rounded-xl bg-yellow-50/50">
+                    <li class="p-3 border border-accent/50 rounded-xl bg-accent/20">
                         <span class="font-bold text-accent text-lg">Radio (r):</span>
-                        <p class="text-gray-700 mt-1">Es la distancia constante desde el centro hasta cualquier punto de la circunferencia. Debe ser siempre un **número positivo**.</p>
+                        <p class="text-gray-200 mt-1">Es la distancia constante desde el centro hasta cualquier punto de la circunferencia. Debe ser siempre un **número positivo**.</p>
                     </li>
-                    <li class="p-3 border rounded-xl bg-yellow-50/50">
+                    <li class="p-3 border border-accent/50 rounded-xl bg-accent/20">
                         <span class="font-bold text-accent text-lg">Diámetro (D):</span>
-                        <p class="text-gray-700 mt-1">Es un segmento que une 2 puntos de la circunferencia y pasa por el centro. Su longitud es el **doble del radio** (D = 2r).</p>
+                        <p class="text-gray-200 mt-1">Es un segmento que une 2 puntos de la circunferencia y pasa por el centro. Su longitud es el **doble del radio** (D = 2r).</p>
                     </li>
-                    <li class="p-3 border rounded-xl bg-yellow-50/50">
+                    <li class="p-3 border border-accent/50 rounded-xl bg-accent/20">
                         <span class="font-bold text-accent text-lg">Círculo:</span>
-                        <p class="text-gray-700 mt-1">Es la **región plana** que está completamente contenida dentro de la circunferencia.</p>
+                        <p class="text-gray-200 mt-1">Es la **región plana** que está completamente contenida dentro de la circunferencia.</p>
                     </li>
                 </ul>
             </div>
 
             <div id="tab-ecuaciones" class="tab-content hidden border-l-4 border-secondary pl-6 pt-4">
-                <h3 class="text-2xl font-semibold text-gray-800 mb-3">Ecuaciones de la Circunferencia</h3>
+                <h3 class="text-2xl font-semibold text-text-light mb-3">Ecuaciones de la Circunferencia</h3>
 
                 <div class="space-y-6">
-                    <!-- Ecuación Canónica (h, k) -->
-                    <div class="p-4 bg-indigo-50 rounded-xl shadow-md">
+                    <div class="p-4 bg-primary/20 rounded-xl shadow-md border-2 border-primary">
                         <h4 class="text-xl font-semibold text-primary mb-2">1. Ecuación Canónica (o Particular)</h4>
-                        <p class="text-gray-700 mb-2">Para una circunferencia con centro C=(h, k) y radio r:</p>
-                        <div class="text-center bg-white p-3 border-2 border-primary rounded-lg">
+                        <p class="text-gray-300 mb-2">Para una circunferencia con centro C=(h, k) y radio r:</p>
+                        <div class="text-center bg-gray-900 text-green-300 p-3 border-2 border-primary rounded-lg font-mono">
                             (x - h)^2 + (y - k)^2 = r^2
                         </div>
                     </div>
 
-                    <!-- Ecuación Canónica (0, 0) -->
-                    <div class="p-4 bg-indigo-50 rounded-xl shadow-md">
+                    <div class="p-4 bg-primary/20 rounded-xl shadow-md border-2 border-primary">
                         <h4 class="text-xl font-semibold text-primary mb-2">2. Ecuación Canónica con centro en el origen (C=(0, 0))</h4>
-                        <p class="text-gray-700 mb-2">En este caso, h=0 y k=0.</p>
-                        <div class="text-center bg-white p-3 border-2 border-primary rounded-lg">
+                        <p class="text-gray-300 mb-2">En este caso, h=0 y k=0.</p>
+                        <div class="text-center bg-gray-900 text-green-300 p-3 border-2 border-primary rounded-lg font-mono">
                             x^2 + y^2 = r^2
                         </div>
                     </div>
 
-                    <!-- Ecuación General -->
-                    <div class="p-4 bg-indigo-50 rounded-xl shadow-md">
+                    <div class="p-4 bg-primary/20 rounded-xl shadow-md border-2 border-primary">
                         <h4 class="text-xl font-semibold text-primary mb-2">3. Ecuación General</h4>
-                        <p class="text-gray-700 mb-2">Se obtiene desarrollando la ecuación canónica e igualando a cero:</p>
-                        <div class="text-center bg-white p-3 border-2 border-primary rounded-lg">
+                        <p class="text-gray-300 mb-2">Se obtiene desarrollando la ecuación canónica e igualando a cero:</p>
+                        <div class="text-center bg-gray-900 text-green-300 p-3 border-2 border-primary rounded-lg font-mono">
                             x^2 + y^2 + Dx + Ey + F = 0
                         </div>
-                        <p class="text-sm text-gray-500 mt-2">Donde D = -2h, E = -2k, y F = h^2 + k^2 - r^2.</p>
+                        <p class="text-sm text-gray-400 mt-2">Donde D = -2h, E = -2k, y F = h^2 + k^2 - r^2.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Sección de Ejercicios Resueltos -->
-        <section id="ejercicios" class="mb-16 p-8 bg-white shadow-xl rounded-2xl">
+        <section id="ejercicios" class="mb-16 p-8 dark-panel">
             <h2 class="text-4xl font-extrabold text-primary mb-6 border-b-2 border-primary pb-2">2. Ejercicios Resueltos</h2>
-            <p class="text-gray-600 mb-8">Revisa los ejemplos de tu cuaderno, con el proceso detallado para obtener la Ecuación Canónica y la Ecuación General.</p>
+            <p class="text-gray-400 mb-8">Revisa los ejemplos de tu cuaderno, con el proceso detallado para obtener la Ecuación Canónica y la Ecuación General.</p>
 
             <div id="accordion-ejercicios" class="space-y-4">
-                <!-- Ejercicio 1: De C y r a General (C=(-3, 0), r=5) -->
-                <div class="rounded-xl shadow-md border border-gray-200">
-                    <button class="accordion-header w-full text-left p-4 bg-gray-100 hover:bg-gray-200 transition duration-300 rounded-t-xl text-gray-800 font-semibold flex justify-between items-center" data-target="content-ejer1">
+                <div class="rounded-xl shadow-md border border-gray-700">
+                    <button class="accordion-header w-full text-left p-4 bg-slate-700 hover:bg-slate-600 transition duration-300 rounded-t-xl text-text-light font-semibold flex justify-between items-center" data-target="content-ejer1">
                         Ejercicio 1: C=(-3, 0) y r=5. Encontrar Ecuación General.
-                        <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        <svg class="w-5 h-5 transform transition-transform duration-300 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
-                    <div id="content-ejer1" class="accordion-content p-4 bg-white rounded-b-xl">
+                    <div id="content-ejer1" class="accordion-content p-4 bg-panel-dark rounded-b-xl border-t border-gray-700">
                         <h4 class="text-lg font-bold text-secondary mb-2">Solución Paso a Paso:</h4>
-                        <ul class="space-y-3 text-gray-700">
+                        <ul class="space-y-3 text-gray-300">
                             <li><span class="font-medium text-primary">Paso 1: Ecuación Canónica</span> (Fórmula: (x-h)^2 + (y-k)^2 = r^2)
-                                <div class="bg-indigo-50 p-2 my-1 rounded">
-                                    (x - (-3))^2 + (y - 0)^2 = (5)^2 => (x + 3)^2 + y^2 = 25
+                                <div class="bg-gray-900 text-green-300 p-2 my-1 rounded font-mono">
+                                    (x - (-3))^2 + (y - 0)^2 = (5)^2 $\rightarrow$ (x + 3)^2 + y^2 = 25
                                 </div>
                             </li>
                             <li><span class="font-medium text-primary">Paso 2: Ecuación General</span> (Desarrollar e igualar a 0)
-                                <div class="bg-indigo-50 p-2 my-1 rounded">
-                                    x^2 + 6x + 9 + y^2 - 25 = 0 => x^2 + y^2 + 6x - 16 = 0
+                                <div class="bg-gray-900 text-green-300 p-2 my-1 rounded font-mono">
+                                    x^2 + 6x + 9 + y^2 - 25 = 0 $\rightarrow$ x^2 + y^2 + 6x - 16 = 0
                                 </div>
                             </li>
                         </ul>
                     </div>
                 </div>
 
-                <!-- Ejercicio 2: De Canónica a General (C=(5, -4), r=6) -->
-                <div class="rounded-xl shadow-md border border-gray-200">
-                    <button class="accordion-header w-full text-left p-4 bg-gray-100 hover:bg-gray-200 transition duration-300 text-gray-800 font-semibold flex justify-between items-center" data-target="content-ejer2">
+                <div class="rounded-xl shadow-md border border-gray-700">
+                    <button class="accordion-header w-full text-left p-4 bg-slate-700 hover:bg-slate-600 transition duration-300 text-text-light font-semibold flex justify-between items-center" data-target="content-ejer2">
                         Ejercicio 2: Dada la Ecuación Canónica (x-5)^2 + (y+4)^2 = 36. Encontrar Ecuación General.
-                        <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        <svg class="w-5 h-5 transform transition-transform duration-300 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
-                    <div id="content-ejer2" class="accordion-content p-4 bg-white">
+                    <div id="content-ejer2" class="accordion-content p-4 bg-panel-dark border-t border-gray-700">
                         <h4 class="text-lg font-bold text-secondary mb-2">Solución Paso a Paso:</h4>
-                        <ul class="space-y-3 text-gray-700">
+                        <ul class="space-y-3 text-gray-300">
                             <li><span class="font-medium text-primary">Paso 1: Identificar elementos</span>
-                                <p class="mb-1">Centro: C=(5, -4) y Radio: r = √(36) = 6.</p>
+                                <p class="mb-1">Centro: C=(5, -4) y Radio: r = $\sqrt{36} = 6$.</p>
                             </li>
                             <li><span class="font-medium text-primary">Paso 2: Ecuación General</span> (Desarrollar los binomios e igualar a 0)
-                                <div class="bg-indigo-50 p-2 my-1 rounded">
-                                    (x^2 - 10x + 25) + (y^2 + 8y + 16) = 36
-                                    x^2 + y^2 - 10x + 8y + 41 - 36 = 0 => x^2 + y^2 - 10x + 8y + 5 = 0
+                                <div class="bg-gray-900 text-green-300 p-2 my-1 rounded font-mono">
+                                    (x^2 - 10x + 25) + (y^2 + 8y + 16) = 36 $\rightarrow$ x^2 + y^2 - 10x + 8y + 5 = 0
                                 </div>
                             </li>
                         </ul>
                     </div>
                 </div>
 
-                <!-- NUEVO Ejercicio 3: Centro en el Origen -->
-                <div class="rounded-xl shadow-md border border-gray-200">
-                    <button class="accordion-header w-full text-left p-4 bg-gray-100 hover:bg-gray-200 transition duration-300 text-gray-800 font-semibold flex justify-between items-center" data-target="content-ejer3">
+                <div class="rounded-xl shadow-md border border-gray-700">
+                    <button class="accordion-header w-full text-left p-4 bg-slate-700 hover:bg-slate-600 transition duration-300 text-text-light font-semibold flex justify-between items-center" data-target="content-ejer3">
                         Ejercicio 3: C=(0, 0) y r=7. Encontrar Ecuación General.
-                        <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        <svg class="w-5 h-5 transform transition-transform duration-300 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
-                    <div id="content-ejer3" class="accordion-content p-4 bg-white">
+                    <div id="content-ejer3" class="accordion-content p-4 bg-panel-dark border-t border-gray-700">
                         <h4 class="text-lg font-bold text-secondary mb-2">Solución Paso a Paso:</h4>
-                        <ul class="space-y-3 text-gray-700">
+                        <ul class="space-y-3 text-gray-300">
                             <li><span class="font-medium text-primary">Paso 1: Ecuación Canónica Simplificada</span> (C=(0, 0) usa x^2 + y^2 = r^2)
-                                <div class="bg-indigo-50 p-2 my-1 rounded">
-                                    x^2 + y^2 = (7)^2 => x^2 + y^2 = 49
+                                <div class="bg-gray-900 text-green-300 p-2 my-1 rounded font-mono">
+                                    x^2 + y^2 = (7)^2 $\rightarrow$ x^2 + y^2 = 49
                                 </div>
                             </li>
                             <li><span class="font-medium text-primary">Paso 2: Ecuación General</span> (Igualar a 0)
-                                <div class="bg-indigo-50 p-2 my-1 rounded">
+                                <div class="bg-gray-900 text-green-300 p-2 my-1 rounded font-mono">
                                     x^2 + y^2 - 49 = 0
                                 </div>
                             </li>
@@ -225,69 +249,67 @@
                     </div>
                 </div>
 
-                <!-- NUEVO Ejercicio 4: Conversión de General a Canónica (Enteros) -->
-                <div class="rounded-xl shadow-md border border-gray-200">
-                    <button class="accordion-header w-full text-left p-4 bg-gray-100 hover:bg-gray-200 transition duration-300 text-gray-800 font-semibold flex justify-between items-center" data-target="content-ejer4">
-                        Ejercicio 4: Dada la Ecuación General x^2 + y^2 - 4x + 10y - 7 = 0. Encontrar C y r.
-                        <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                <div class="rounded-xl shadow-md border border-gray-700">
+                    <button class="accordion-header w-full text-left p-4 bg-slate-700 hover:bg-slate-600 transition duration-300 text-text-light font-semibold flex justify-between items-center" data-target="content-ejer4">
+                        Ejercicio 4: Dada la Ecuación General $x^2 + y^2 - 4x + 10y - 7 = 0$. Encontrar C y r.
+                        <svg class="w-5 h-5 transform transition-transform duration-300 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
-                    <div id="content-ejer4" class="accordion-content p-4 bg-white">
+                    <div id="content-ejer4" class="accordion-content p-4 bg-panel-dark border-t border-gray-700">
                         <h4 class="text-lg font-bold text-secondary mb-2">Solución: Completando el Cuadrado</h4>
-                        <ul class="space-y-3 text-gray-700">
+                        <ul class="space-y-3 text-gray-300">
                             <li><span class="font-medium text-primary">Paso 1: Agrupar términos y trasladar la constante</span>
-                                <div class="bg-indigo-50 p-2 my-1 rounded">
-                                    (x^2 - 4x) + (y^2 + 10y) = 7
+                                <div class="bg-gray-900 text-green-300 p-2 my-1 rounded font-mono">
+                                    $(x^2 - 4x) + (y^2 + 10y) = 7$
                                 </div>
                             </li>
                             <li><span class="font-medium text-primary">Paso 2: Completar el Trinomio Cuadrado Perfecto (T.C.P.)</span>
                                 <p class="text-sm">Recuerda: $(\frac{D}{2})^2$ y $(\frac{E}{2})^2$. Sumar a ambos lados.</p>
-                                <div class="bg-indigo-50 p-2 my-1 rounded">
+                                <div class="bg-gray-900 text-green-300 p-2 my-1 rounded font-mono">
                                     $(\frac{-4}{2})^2 = 4$ ; $(\frac{10}{2})^2 = 25$
-                                    (x^2 - 4x + 4) + (y^2 + 10y + 25) = 7 + 4 + 25
+                                    $(x^2 - 4x + 4) + (y^2 + 10y + 25) = 7 + 4 + 25$
                                 </div>
                             </li>
-                             <li><span class="font-medium text-primary">Paso 3: Factorizar a Ecuación Canónica</span>
-                                <div class="bg-indigo-50 p-2 my-1 rounded">
-                                    (x - 2)^2 + (y + 5)^2 = 36
+                            <li><span class="font-medium text-primary">Paso 3: Factorizar a Ecuación Canónica</span>
+                                <div class="bg-gray-900 text-green-300 p-2 my-1 rounded font-mono">
+                                    $(x - 2)^2 + (y + 5)^2 = 36$
                                 </div>
                             </li>
                             <li><span class="font-medium text-primary">Resultado Final</span>
-                                <div class="bg-emerald-50 p-2 my-1 rounded font-bold">
-                                    Centro C=(2, -5) y Radio r = √36 = 6
+                                <div class="bg-secondary/20 p-2 my-1 rounded font-bold border border-secondary text-secondary">
+                                    Centro C=(2, -5) y Radio $r = \sqrt{36} = 6$
                                 </div>
                             </li>
                         </ul>
                     </div>
                 </div>
-                
-                <!-- NUEVO Ejercicio 5: Conversión de General a Canónica (Fracciones) -->
-                <div class="rounded-xl shadow-md border border-gray-200">
-                    <button class="accordion-header w-full text-left p-4 bg-gray-100 hover:bg-gray-200 transition duration-300 text-gray-800 font-semibold flex justify-between items-center" data-target="content-ejer5">
-                        Ejercicio 5: Dada la Ecuación General x^2 + y^2 - 6x - 7y = 0. Encontrar C y r.
-                        <svg class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+
+                <div class="rounded-xl shadow-md border border-gray-700">
+                    <button class="accordion-header w-full text-left p-4 bg-slate-700 hover:bg-slate-600 transition duration-300 text-text-light font-semibold flex justify-between items-center" data-target="content-ejer5">
+                        Ejercicio 5: Dada la Ecuación General $x^2 + y^2 - 6x - 7y = 0$. Encontrar C y r.
+                        <svg class="w-5 h-5 transform transition-transform duration-300 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
-                    <div id="content-ejer5" class="accordion-content p-4 bg-white">
+                    <div id="content-ejer5" class="accordion-content p-4 bg-panel-dark border-t border-gray-700">
                         <h4 class="text-lg font-bold text-secondary mb-2">Solución: Completando el Cuadrado con Fracciones</h4>
-                        <ul class="space-y-3 text-gray-700">
+                        <ul class="space-y-3 text-gray-300">
                             <li><span class="font-medium text-primary">Paso 1: Agrupar términos y trasladar la constante</span>
-                                <div class="bg-indigo-50 p-2 my-1 rounded">
-                                    (x^2 - 6x) + (y^2 - 7y) = 0
+                                <div class="bg-gray-900 text-green-300 p-2 my-1 rounded font-mono">
+                                    $(x^2 - 6x) + (y^2 - 7y) = 0$
                                 </div>
                             </li>
                             <li><span class="font-medium text-primary">Paso 2: Completar el Trinomio Cuadrado Perfecto (T.C.P.)</span>
                                 <p class="text-sm">Término x: $(\frac{-6}{2})^2 = 9$. Término y: $(\frac{-7}{2})^2 = \frac{49}{4}$.</p>
-                                <div class="bg-indigo-50 p-2 my-1 rounded">
-                                    (x^2 - 6x + 9) + (y^2 - 7y + \frac{49}{4}) = 0 + 9 + \frac{49}{4}
+                                <div class="bg-gray-900 text-green-300 p-2 my-1 rounded font-mono">
+                                    $(x^2 - 6x + 9) + (y^2 - 7y + \frac{49}{4}) = 0 + 9 + \frac{49}{4}$
                                 </div>
                             </li>
-                             <li><span class="font-medium text-primary">Paso 3: Factorizar a Ecuación Canónica</span>
-                                <div class="bg-indigo-50 p-2 my-1 rounded">
-                                    (x - 3)^2 + (y - \frac{7}{2})^2 = \frac{36}{4} + \frac{49}{4} = \frac{85}{4}
+                            <li><span class="font-medium text-primary">Paso 3: Factorizar a Ecuación Canónica</span>
+                                <div class="bg-gray-900 text-green-300 p-2 my-1 rounded font-mono">
+                                    $(x - 3)^2 + (y - \frac{7}{2})^2 = \frac{36}{4} + \frac{49}{4} = \frac{85}{4}$
                                 </div>
                             </li>
                             <li><span class="font-medium text-primary">Resultado Final</span>
-                                <div class="bg-emerald-50 p-2 my-1 rounded font-bold">
-                                    Centro C=(3, \frac{7}{2}) o C=(3, 3.5) y Radio r = \frac{\sqrt{85}}{2}
+                                <div class="bg-secondary/20 p-2 my-1 rounded font-bold border border-secondary text-secondary">
+                                    Centro $C=(3, \frac{7}{2})$ o $C=(3, 3.5)$ y Radio $r = \frac{\sqrt{85}}{2}$
                                 </div>
                             </li>
                         </ul>
@@ -297,38 +319,34 @@
             </div>
         </section>
 
-        <!-- Sección de Evaluación Teórica -->
-        <section id="evaluacion" class="mb-16 p-8 bg-white shadow-xl rounded-2xl">
+        <section id="evaluacion" class="mb-16 p-8 dark-panel">
             <h2 class="text-4xl font-extrabold text-primary mb-6 border-b-2 border-primary pb-2">3. Evaluación Teórica</h2>
-            <p class="text-gray-600 mb-8">Pon a prueba tus conocimientos sobre la teoría de la circunferencia. El examen consta de 3 partes y avanza pregunta por pregunta.</p>
+            <p class="text-gray-400 mb-8">Pon a prueba tus conocimientos sobre la teoría de la circunferencia. El examen consta de 3 partes y avanza pregunta por pregunta.</p>
 
-            <div class="quiz-container p-6 border-2 border-accent rounded-xl bg-yellow-50">
+            <div class="quiz-container p-6 border-2 border-accent rounded-xl bg-gray-900">
                 <div id="quiz-header" class="text-center mb-6">
                     <span id="quiz-phase" class="text-xl font-bold text-accent"></span>
-                    <p id="quiz-status" class="text-gray-600 text-sm"></p>
+                    <p id="quiz-status" class="text-gray-400 text-sm"></p>
                 </div>
 
-                <div id="quiz-content" class="min-h-[200px] flex flex-col justify-center">
-                    <!-- Las preguntas se inyectan aquí -->
-                </div>
+                <div id="quiz-content" class="min-h-[200px] flex flex-col justify-center text-text-light">
+                    </div>
 
-                <div class="flex justify-between items-center mt-6 pt-4 border-t border-gray-300">
+                <div class="flex justify-between items-center mt-6 pt-4 border-t border-gray-700">
                     <div id="quiz-score" class="font-semibold text-lg text-secondary">Puntuación: 0/0</div>
-                    <button id="next-button" class="px-6 py-3 bg-primary text-white font-bold rounded-xl shadow-lg hover:bg-indigo-700 transition duration-300" disabled>Siguiente Pregunta</button>
-                    <!-- Botón para reiniciar, oculto inicialmente -->
+                    <button id="next-button" class="px-6 py-3 bg-primary text-white font-bold rounded-xl shadow-lg hover:bg-indigo-400 transition duration-300" disabled>Siguiente Pregunta</button>
                     <button id="restart-button" onclick="startQuiz()" class="px-6 py-3 bg-accent text-white font-bold rounded-xl shadow-lg hover:bg-amber-600 transition duration-300 hidden">Volver a Intentar</button>
                 </div>
             </div>
         </section>
 
-     
-
     </main>
-   <footer class="bg-white mt-20 border-t">
-        <div class="container mx-auto px-6 py-4 text-center text-gray-500">
-            <p>&copy; 2025 Guía Interactiva de Matematicas. Creada por Abel Ghanam de 5to Amabilidad para facilitar el aprendizaje.</p>
+    <footer class="bg-panel-dark mt-20 border-t border-gray-700">
+        <div class="container mx-auto px-6 py-4 text-center text-gray-400">
+            <p>&copy; 2025 Guía Interactiva de Matematicas. Creada por Abel Ghanam de 5to Amabilidad para facilitar el aprendizaje. <span class="text-primary font-bold">Abel Ghanam de 5to Amabilidad</span> para facilitar el aprendizaje.</p>
         </div>
     </footer>
+
     <!-- Script para la Interactividad -->
     <script>
         // Función de utilidad para mezclar arrays (Algoritmo Fisher-Yates)
