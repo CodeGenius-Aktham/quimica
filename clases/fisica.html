@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mantenimiento | R.A.L.S.M. Centro de Estudio</title>
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-accent': '#059669', /* Verde Esmeralda Profundo (Color principal) */
+                        'primary-light': '#34d399', /* Verde más claro para hover y sombras */
+                        'bg-light': '#fefefe',
+                        'text-dark': '#1e293b',
+                        'yellow-alert': '#f59e0b', /* Amarillo suave para la alerta */
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Usamos la fuente Inter, ideal para un look moderno y legible -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos de Fondo y Base */
+        body {
+            background-color: #f7f9fc; /* Off-white muy sutil */
+            color: #1e293b; 
+            padding-bottom: 40px; 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* Estilo base para todos los paneles (Apple look) */
+        .panel-style {
+            /* Esquinas grandes y suaves */
+            border-radius: 2rem; 
+            background-color: white;
+            /* Sombra sutil pero prominente */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 5px 15px rgba(0, 0, 0, 0.05); 
+            border: 1px solid #f3f4f6; /* Borde muy claro */
+            transition: all 0.3s ease;
+        }
+        
+        /* Estilo para la navegación superior y botones de acción */
+        .nav-button {
+            transition: all 0.3s ease;
+            border-radius: 9999px;
+            padding: 10px 25px;
+            font-weight: 600;
+        }
+        .nav-button:hover {
+            background-color: #059669;
+            color: white;
+            box-shadow: 0 4px 10px rgba(5, 150, 105, 0.3);
+        }
+
+        /* Footer Estático (Mismo estilo que index.html) */
+        .static-footer-panel {
+            width: 95%; 
+            max-width: 800px;
+            z-index: 10; 
+            padding: 1rem 1.5rem;
+            border-radius: 1.5rem; 
+            background-color: white; 
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-top: auto; /* Empuja el footer hacia abajo */
+        }
+    </style>
+</head>
+<body class="pt-12 px-4 font-sans text-text-dark">
+
+    <!-- PANEL DE NAVEGACIÓN (HEADER) -->
+    <header class="mb-12 z-10 w-full max-w-4xl p-6 panel-style text-center flex justify-between items-center flex-wrap gap-4">
+        <h1 class="text-3xl font-extrabold tracking-tight">
+            Centro de Estudio <span class="text-primary-accent">R.A.L.S.M.</span>
+        </h1>
+        <a href="index.html" class="nav-button border-2 border-primary-accent text-primary-accent">
+            ← Volver a Inicio
+        </a>
+    </header>
+
+    <!-- PANEL PRINCIPAL DE MANTENIMIENTO -->
+    <main class="w-full max-w-3xl flex-grow flex items-center justify-center">
+        
+        <div class="p-10 panel-style z-10 text-center w-full">
+            
+            <!-- Icono de Alerta -->
+            <div class="text-8xl mb-6 text-yellow-alert">🛠️</div>
+
+            <h2 class="text-4xl font-extrabold mb-4 text-text-dark">
+                ¡Estamos Mejorando para Ti!
+            </h2>
+            
+            <p class="text-xl text-slate-700 leading-relaxed mb-8 max-w-xl mx-auto">
+                Actualmente estamos en **mantenimiento** y trabajando arduamente para agregar todo el material de estudio nuevo que necesitas.
+            </p>
+
+            <p class="text-lg text-slate-500 font-medium">
+                Vuelve pronto. ¡La actualización estará lista en breve!
+            </p>
+
+        </div>
+    </main>
+    
+    <!-- FOOTER ESTÁTICO COMO PANEL -->
+    <footer class="static-footer-panel mt-16 mx-auto py-4 text-slate-500">
+        <div class="max-w-5xl mx-auto text-center text-sm px-4 flex flex-col items-center">
+            <!-- Mensaje central -->
+            <p class="mb-2 text-slate-600 font-medium">
+                Centro de Estudio <span class="text-primary-accent font-bold">R.A.L.S.M.</span> — Creada por <span class="font-bold">Abel Ghanam de 5to Amabilidad</span> para facilitar el aprendizaje.
+            </p>
+            <!-- Enlaces separados con línea divisoria sutil -->
+            <div class="space-x-4 mt-1 pt-1 border-t border-slate-100 w-full max-w-sm">
+                <a href="politica.html" class="hover:text-primary-accent transition duration-200 font-medium">Política de Privacidad</a>
+                <span class="text-slate-300">|</span>
+                <a href="contacto.html" class="hover:text-primary-accent transition duration-200 font-medium">Contacto Directo</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
