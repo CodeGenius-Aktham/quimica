@@ -3,110 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página en Remodelación</title>
+    <title>Tu Nombre | Centro de Estudio y Evaluación</title>
     <style>
+        /* Estilos Base y Tipografía */
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Poppins', sans-serif; /* Fuente moderna y legible (asumiendo que se carga o se tiene una sans-serif por defecto) */
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-color: #f4f4f9; /* Fondo claro para contraste */
+            background-color: #f7f9fc; /* Fondo muy claro y profesional */
             color: #333;
             text-align: center;
+            padding: 20px;
         }
 
         h1 {
-            color: #2c3e50; /* Título en color oscuro */
+            color: #2c3e50;
+            font-size: 2.8em;
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            color: #555;
+            font-size: 1.2em;
             margin-bottom: 40px;
-            font-size: 2.5em;
         }
 
+        /* Contenedor Principal (Foto + Texto) */
+        .hero-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 1000px;
+            width: 90%;
+            margin-bottom: 50px;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Sombra elegante */
+            text-align: left;
+        }
+
+        .profile-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%; /* Foto circular */
+            object-fit: cover;
+            border: 5px solid #008000; /* Borde verde a juego */
+            margin-right: 40px;
+            flex-shrink: 0; /* Evita que la foto se encoja */
+        }
+
+        .text-content h2 {
+            color: #008000; /* Verde principal */
+            font-size: 2em;
+            margin-top: 0;
+        }
+
+        .text-content p {
+            line-height: 1.6;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+
+        /* Botones de Navegación */
         .button-container {
             display: flex;
-            gap: 30px; /* Espacio entre los botones */
+            gap: 25px;
+            margin-bottom: 50px;
+            flex-wrap: wrap; /* Para manejo en móviles */
+            justify-content: center;
         }
 
         .button {
             padding: 15px 30px;
-            font-size: 1.2em;
+            font-size: 1.1em;
             font-weight: bold;
             text-decoration: none;
-            color: #ffffff; /* Texto blanco para resaltar */
-            background-color: #006400; /* Verde oscuro base */
+            color: #ffffff;
+            background-color: #008000; /* Verde brillante principal */
             border: none;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra sutil */
-            position: relative;
-            overflow: hidden; /* Necesario para la animación de brillo */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
-        /* Efecto de brillo verde oscuro */
-        .button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -75%;
-            width: 50%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.3); /* Brillo blanco semi-transparente */
-            transform: skewX(-20deg);
-            transition: all 0.7s ease;
+        .button.support {
+            background-color: #e1306c; /* Instagram pink/red */
         }
 
         .button:hover {
-            background-color: #008000; /* Verde un poco más claro al pasar el ratón */
-            transform: translateY(-3px); /* Pequeño levantamiento */
+            background-color: #006400; /* Verde oscuro al pasar el ratón */
+            transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
 
-        .button:hover::before {
-            left: 125%; /* Mueve el brillo a través del botón */
+        .button.support:hover {
+            background-color: #c13584; /* Instagram más oscuro */
+        }
+        
+        /* Sección de Condiciones y Solicitudes */
+        .info-section {
+            max-width: 800px;
+            width: 90%;
+            padding: 25px;
+            background-color: #e8f5e9; /* Fondo muy claro para esta sección */
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-top: 20px;
         }
 
-        .button:active {
-            transform: translateY(0); /* Efecto de "clic" */
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        .info-section h3 {
+            color: #006400; /* Verde oscuro */
+            margin-top: 0;
+            border-bottom: 2px solid #a5d6a7;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
         }
 
-        /* Animación adicional de parpadeo suave para un efecto "brillante" continuo */
-        @keyframes pulse-shadow {
-            0% {
-                box-shadow: 0 0 15px rgba(0, 100, 0, 0.6); /* Verde oscuro más brillante */
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+            text-align: left;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        ul li::before {
+            content: '✅'; /* Un checkmark */
+            position: absolute;
+            left: 0;
+            color: #008000;
+        }
+        
+        /* Media Queries para Responsividad */
+        @media (max-width: 768px) {
+            .hero-section {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
             }
-            50% {
-                box-shadow: 0 0 25px rgba(0, 128, 0, 0.8); /* Máximo brillo */
+            
+            .profile-photo {
+                margin-right: 0;
+                margin-bottom: 25px;
             }
-            100% {
-                box-shadow: 0 0 15px rgba(0, 100, 0, 0.6);
+            
+            h1 {
+                font-size: 2em;
+            }
+
+            .text-content h2 {
+                font-size: 1.5em;
+            }
+
+            .button-container {
+                flex-direction: column;
+                gap: 15px;
             }
         }
-
-        .button {
-            animation: pulse-shadow 2s infinite alternate; /* Aplica la animación */
-        }
-
-        /* Opcional: Estilos para enlaces */
-        .button.quimica:hover { background-color: #007000; }
-        .button.matematica:hover { background-color: #007000; }
-
     </style>
 </head>
 <body>
 
-    <h1>Página en Remodelación 🚧</h1>
-    
-    <div class="button-container">
-        <a href="quimica.html" class="button quimica">Química 🧪</a>
-        
-        <a href="matematicas.html" class="button matematica">Matemática 📐</a>
+    <h1>¡Bienvenido(a) a mi Centro de Estudio!</h1>
+    <p class="subtitle">Tu espacio para dominar el conocimiento del primer lapso.</p>
+
+    <div class="hero-section">
+        <img src="tu-foto.jpg" alt="Tu Foto de Perfil" class="profile-photo">
+        <div class="text-content">
+            <h2>Hola, soy [Tu Nombre]</h2>
+            <p>He creado este rincón digital para que **tú** puedas estudiar y evaluar tus conocimientos de **todas las materias y temas** del **primer lapso**. Mi objetivo es ofrecerte una herramienta de apoyo efectiva y accesible.</p>
+            <p>Aquí encontrarás **clases concisas y evaluaciones interactivas** que te ayudarán a prepararte para tus exámenes y entender los conceptos fundamentales. **¡El conocimiento está al alcance de tu mano!**</p>
+        </div>
     </div>
 
-    <p style="margin-top: 30px; color: #777;">Volveremos pronto con novedades. ¡Gracias por tu paciencia!</p>
+    <div class="button-container">
+        <a href="quimica.html" class="button">Empezar a Estudiar 📚</a>
+        <a href="matematicas.html" class="button">Evaluar mis Conocimientos 📝</a>
+        <a href="#" target="_blank" class="button support">Apóyame en Instagram @[TuIG] ❤️</a>
+    </div>
+
+    <div class="info-section">
+        <h3>Condiciones de Uso y Clases</h3>
+        <ul>
+            <li>**Acceso Libre:** Todas las clases y evaluaciones están disponibles **gratuitamente**. La educación no debe tener barreras.</li>
+            <li>**Contenido Curado:** El material se enfoca específicamente en el **contenido del Primer Lapso**.</li>
+            <li>**Material de Apoyo:** Las clases son un resumen. Úsalas como complemento a tus libros y notas.</li>
+        </ul>
+
+        <h3>Peticiones y Colaboración</h3>
+        <p>Esta web es para ti. Si hay un **tema específico** que necesitas que cubra, un **ejercicio** que no entiendes o una **nueva funcionalidad** que te gustaría ver en la web:</p>
+        <p style="font-weight: bold; color: #388e3c;">¡Siéntete libre de pedírmelo! Usa el botón de contacto o envíame un mensaje directo. Tu feedback es mi mayor motivación.</p>
+    </div>
 
 </body>
 </html>
