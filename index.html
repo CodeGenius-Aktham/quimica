@@ -4,256 +4,207 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>R.A.L.S.M. | Centro de Estudio</title>
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-accent': '#059669', /* Verde Esmeralda Profundo (Nuevo color principal) */
+                        'primary-light': '#34d399', /* Verde más claro para hover y sombras */
+                        'bg-light': '#fefefe', /* Blanco prístino */
+                        'text-dark': '#1e293b', /* Slate oscuro para elegancia */
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Usamos la fuente Inter, ideal para un look moderno y legible -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=100..900&display=swap" rel="stylesheet">
     <style>
-        /* Estilos Base */
+        /* Estilos de Fondo y Base */
         body {
-            font-family: 'Montserrat', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background-color: #f7f9fc;
-            color: #333;
-            text-align: center;
-            padding-top: 50px;
-        }
-
-        /* Título Principal */
-        h1 {
-            color: #2c3e50;
-            font-size: 3em;
-            margin-bottom: 5px;
-            font-weight: 800; /* Negrita */
+            background-color: #f7f9fc; /* Off-white muy sutil */
+            color: #1e293b; 
+            /* Padding inferior reducido, ya que el footer es estático */
+            padding-bottom: 40px; 
         }
         
-        .eslogan {
-            font-style: italic;
-            color: #555;
-            font-size: 1.5em;
-            margin-bottom: 40px;
-        }
-
-        /* Sección Hero (Foto y Eslogan) */
-        .hero-section {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            max-width: 1100px;
-            width: 90%;
-            margin-bottom: 50px;
-            padding: 30px;
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            overflow: hidden; /* Para contener la imagen */
-        }
-
-        .profile-photo {
-            width: 350px; /* Ancho rectangular */
-            height: 250px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 5px solid #008000;
-            margin-right: 40px;
-            flex-shrink: 0;
-            transition: transform 0.5s ease;
+        /* Estilo base para todos los paneles (Apple look) */
+        .panel-style {
+            /* Esquinas grandes y suaves */
+            border-radius: 2rem; /* 32px - equivalente a rounded-3xl/4xl */
+            background-color: white;
+            /* Sombra sutil pero prominente */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 5px 15px rgba(0, 0, 0, 0.05); 
+            border: 1px solid #f3f4f6; /* Borde muy claro */
+            transition: all 0.3s ease;
         }
         
-        .profile-photo:hover {
-            transform: scale(1.03); /* Efecto al pasar el ratón */
+        /* Contenedor Principal de la Tarjeta (Limpia y con sombra sutil) */
+        .elegant-card:hover {
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1); 
+            transform: translateY(-2px);
         }
 
-        .eslogan-text h2 {
-            color: #008000;
-            font-size: 2.5em;
-            margin: 0;
-        }
-        
-        /* Animación del Propósito (Interactive) */
-        .purpose-container {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-            border: 2px dashed #008000;
-            border-radius: 10px;
-        }
-
-        .purpose-text {
-            font-size: 1.3em;
+        /* Botones de Estilo Fino (Color Verde) */
+        .button-style {
+            padding: 14px 30px; 
+            font-size: 1rem;
             font-weight: 600;
-            color: #333;
-            min-height: 3em; /* Mantiene el espacio durante la animación */
-        }
-
-        /* Animación de Escritura (Typing Effect) */
-        .typing-effect::after {
-            content: '|'; /* Cursor que parpadea */
-            display: inline-block;
-            margin-left: 5px;
-            animation: blink 0.7s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        /* Puedes añadir aquí JavaScript para la animación de escritura si lo deseas, 
-           pero por simplicidad usaremos CSS para un efecto interactivo de parpadeo */
-        .purpose-text:hover {
-            color: #006400;
-            text-shadow: 0 0 5px rgba(0, 100, 0, 0.4);
-            transition: color 0.3s ease, text-shadow 0.3s ease;
-        }
-
-
-        /* Botones */
-        .button-container {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 50px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .button {
-            padding: 15px 35px;
-            font-size: 1.1em;
-            font-weight: bold;
             text-decoration: none;
-            color: #ffffff;
-            border: none;
-            border-radius: 30px; /* Bordes redondeados */
-            cursor: pointer;
-            transition: all 0.4s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            color: #1e293b; 
+            border: 2px solid #059669; /* Borde Verde */
+            border-radius: 9999px; 
+            transition: all 0.3s ease;
+            background-color: transparent;
+        }
+        .button-style:hover {
+            background-color: #059669; /* Relleno Verde en hover */
+            color: white; 
+            box-shadow: 0 5px 15px rgba(5, 150, 105, 0.3); /* Sombra Verde */
+            transform: translateY(-2px);
         }
 
-        .button.clases {
-            background-color: #008000; /* Verde */
-        }
-
-        .button.apoyar {
-            background-color: #e1306c; /* Instagram */
-        }
-
-        .button.jugar {
-            background-color: #3498db; /* Azul */
-        }
-
-        .button:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        /* Botón de Apoyo, mantiene el color distintivo de Instagram */
+        .button-support:hover {
+             background-color: #f43f5e !important;
+             color: white !important;
+             box-shadow: 0 5px 15px rgba(244, 63, 94, 0.3);
         }
         
-        .button.clases:hover { background-color: #006400; }
-        .button.apoyar:hover { background-color: #c13584; }
-        .button.jugar:hover { background-color: #2980b9; }
-
-
-        /* Términos y Política */
-        .terms-section {
-            max-width: 900px;
-            width: 90%;
-            padding: 30px;
-            background-color: #e8f5e9;
-            border-radius: 10px;
-            box-shadow: inset 0 0 10px rgba(0, 128, 0, 0.1);
-            margin-bottom: 50px;
-            text-align: left;
+        /* Botón Jugar (Color Azul para un contraste suave con el verde) */
+        .button-jugar {
+            border-color: #3b82f6 !important;
+        }
+        .button-jugar:hover {
+            background-color: #3b82f6 !important;
+            color: white !important;
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3) !important;
         }
 
-        .terms-section h3 {
-            color: #006400;
-            border-bottom: 2px solid #a5d6a7;
-            padding-bottom: 5px;
+
+        /* Estilo para el Eslogan: Cita de Línea Fina */
+        .quote-style {
+            border-left: 3px solid #d1d5db; 
+            padding-left: 20px;
+        }
+
+        /* Footer Estático como Panel (Ahora en flujo normal del documento) */
+        .static-footer-panel {
+            /* Eliminamos fixed, bottom, left, transform y blur */
+            width: 95%; 
+            max-width: 800px;
+            z-index: 10; 
+            padding: 1rem 1.5rem;
+            /* Estilo de panel */
+            border-radius: 1.5rem; 
+            background-color: white; /* Fondo blanco sólido para mejor integración estática */
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
         }
         
-        /* Footer */
-        .footer {
-            width: 100%;
-            background-color: #2c3e50; /* Color oscuro */
-            color: #ecf0f1;
-            padding: 20px 0;
-            font-size: 0.9em;
-            margin-top: auto; /* Empuja el footer hacia abajo */
-        }
-
-        .footer p {
-            margin: 5px 0;
-        }
-
-        /* Media Queries para Responsividad */
-        @media (max-width: 768px) {
-            .hero-section {
-                flex-direction: column;
-                text-align: center;
-                padding: 20px;
-            }
-            
-            .profile-photo {
-                margin-right: 0;
-                margin-bottom: 25px;
-                width: 100%;
-                height: 200px;
-            }
-            
-            h1 {
-                font-size: 2.2em;
-            }
-
-            .eslogan-text h2 {
-                font-size: 1.8em;
-            }
-
-            .button-container {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .button {
-                width: 80%; /* Botones más anchos en móvil */
-            }
-        }
     </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col items-center pt-12 px-4 font-sans text-text-dark">
 
-    <h1>Bienvenido al centro de estudio R.A.L.S.M</h1>
-    <p class="eslogan">Tu puerta de entrada al dominio del primer lapso.</p>
+    <!-- PANEL DEL TÍTULO PRINCIPAL (HEADER) -->
+    <header class="mb-12 z-10 w-full max-w-4xl p-8 panel-style text-center">
+        <h1 class="text-5xl sm:text-6xl font-extrabold tracking-tight mb-3">
+            Bienvenido al <span class="text-primary-accent">Centro de Estudio R.A.L.S.M.</span>
+        </h1>
+        <p class="text-xl text-slate-500 font-light italic mt-4">
+            Tu espacio para el dominio académico del Primer Lapso.
+        </p>
+    </header>
 
-    <div class="hero-section">
-        <img src="tu-foto.jpg" alt="Foto de Perfil del Creador" class="profile-photo">
-        <div class="eslogan-text">
-            <h2>"Yo solo sé que no sé nada"</h2>
-            <p style="font-size: 1.1em; color: #777;">— Sócrates, motivándonos a la búsqueda constante del conocimiento.</p>
+    <!-- Sección Hero (Foto y Texto) - Panel principal grande -->
+    <div class="w-full max-w-5xl p-6 sm:p-10 mb-16 elegant-card panel-style z-10">
+        <div class="flex flex-col md:flex-row items-center md:items-start gap-10">
+            
+            <!-- Contenedor de la Foto (Rectangular, Borde Sutil) -->
+            <div class="flex-shrink-0 order-2 md:order-1">
+                <!-- Por favor, reemplaza "tu-foto.jpg" con la ruta de tu imagen -->
+                <img src="tu-foto.jpg" alt="Foto del Creador" 
+                     class="w-full md:w-[350px] h-64 object-cover rounded-xl border-2 border-slate-200 shadow-md transition duration-300 hover:scale-[1.01] cursor-pointer"
+                     onerror="this.onerror=null; this.src='https://placehold.co/350x250/059669/ffffff?text=Tu+Foto'">
+            </div>
+
+            <!-- Contenido de Texto y Eslogan -->
+            <div class="flex flex-col text-left order-1 md:order-2">
+                <div class="quote-style mb-8">
+                    <p class="text-3xl sm:text-4xl font-light text-slate-700 italic">
+                        "Yo solo sé que no sé nada"
+                    </p>
+                    <footer class="text-base text-slate-500 mt-2">— Un recordatorio socrático que impulsa nuestra curiosidad.</footer>
+                </div>
+
+                <!-- Propósito con Diseño Simple -->
+                <div class="mt-4 border-t border-slate-200 pt-4">
+                    <p class="text-xl font-bold text-primary-accent mb-2">
+                        Propósito Central del Proyecto
+                    </p>
+                    <p class="text-lg text-slate-700 leading-relaxed">
+                        Este espacio está dedicado a la excelencia, ofreciéndote herramientas gratuitas y bien estructuradas para que puedas <strong class="font-bold">estudiar y evaluar</strong> todos los contenidos requeridos para el Primer Lapso de manera efectiva y sin complicaciones.
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
-    
-    <div class="purpose-container">
-        <p class="purpose-text typing-effect">
-            **Propósito de R.A.L.S.M:** ¡Estudia y evalúa tu conocimiento de **TODAS** las materias y temas del **Primer Lapso** de forma didáctica y completamente gratuita!
+
+    <!-- PANEL DE BOTONES DE ACCIÓN (Centrado y Compacto) -->
+    <div class="w-full max-w-3xl p-6 mb-20 panel-style flex flex-wrap justify-center gap-6 z-10">
+        
+        <!-- Botón CLASES (Verde) -->
+        <a href="clases.html" class="button-style hover:shadow-primary-accent/50">
+            Clases 📚
+        </a>
+        
+        <!-- Botón APOYAR (Rosa de IG) -->
+        <!-- Reemplaza el '#' con tu enlace de Instagram -->
+        <a href="#" target="_blank" class="button-style !border-pink-500 button-support">
+            Apoyar al Creador ❤️
+        </a>
+
+        <!-- Botón JUGAR (Azul para diferenciar) -->
+        <a href="jugar.html" class="button-style button-jugar">
+            Jugar 🎮
+        </a>
+    </div>
+
+    <!-- PANEL DE TÉRMINOS Y POLÍTICA DE USO -->
+    <div class="w-full max-w-4xl p-8 elegant-card panel-style z-10">
+        <h3 class="text-2xl font-bold text-primary-accent border-b border-slate-200 pb-3 mb-4">
+            Términos y Condiciones de Uso
+        </h3>
+        <p class="text-slate-600 mb-4 text-sm">
+            La misión es proporcionar educación de calidad, por lo tanto, el acceso a todo el material es <strong class="font-bold">gratuito y sin restricciones</strong>.
         </p>
+        <ul class="list-disc list-inside text-sm text-slate-500 space-y-2 pl-4">
+            <li>**Uso Académico:** El contenido es complementario a tus estudios formales.</li>
+            <li>**Privacidad:** Respetamos tu información. No realizamos rastreo de datos personales sensibles.</li>
+            <li>**Solicitudes:** Tu <strong class="font-bold">feedback</strong> es invaluable. No dudes en contactar para pedir un tema o sugerir una mejora.</li>
+        </ul>
     </div>
 
-    <div class="button-container">
-        <a href="clases.html" class="button clases">Clases 📚</a>
-        <a href="#" target="_blank" class="button apoyar">Apoyar al Creador ❤️</a>
-        <a href="juegos.html" class="button jugar">Jugar y Evaluar 🎮</a>
-    </div>
-
-    <div class="terms-section">
-        <h3>Términos y Política de Uso</h3>
-        <p><strong>Clases y Contenido:</strong> Todo el material es 100% gratuito y está destinado a complementar tu estudio formal, enfocado en el contenido del Primer Lapso. Se prohíbe el uso comercial de este material.</p>
-        <p><strong>Privacidad:</strong> No recolectamos información personal sin tu consentimiento explícito. Consulta nuestra política completa en el *footer*.</p>
-        <p style="margin-top: 20px; font-style: italic; color: #008000;">**¡Libre de Pedir!** Si necesitas un tema, una corrección o una funcionalidad nueva, ¡contáctame! Esta web es una colaboración.</p>
-    </div>
-
-    <div class="footer">
-        <p>© 2025 R.A.L.S.M. Centro de Estudio. Todos los derechos reservados.</p>
-        <p><a href="politica.html" style="color: #a5d6a7; text-decoration: none;">Política de Privacidad</a> | <a href="contacto.html" style="color: #a5d6a7; text-decoration: none;">Contacto y Peticiones</a></p>
-    </div>
+    <!-- FOOTER ESTÁTICO COMO PANEL (Se mantiene al final de la página) -->
+    <footer class="static-footer-panel mt-16 mx-auto py-4 text-slate-500">
+        <div class="max-w-5xl mx-auto text-center text-sm px-4 flex flex-col items-center">
+            <!-- Nuevo mensaje central -->
+            <p class="mb-2 text-slate-600 font-medium">
+                Centro de Estudio <span class="text-primary-accent font-bold">R.A.L.S.M.</span> — Creada por <span class="font-bold">Abel Ghanam de 5to Amabilidad</span> para facilitar el aprendizaje.
+            </p>
+            <!-- Enlaces separados con línea divisoria sutil -->
+            <div class="space-x-4 mt-1 pt-1 border-t border-slate-100 w-full max-w-sm">
+                <a href="politica.html" class="hover:text-primary-accent transition duration-200 font-medium">Política de Privacidad</a>
+                <span class="text-slate-300">|</span>
+                <a href="contacto.html" class="hover:text-primary-accent transition duration-200 font-medium">Contacto Directo</a>
+            </div>
+        </div>
+    </footer>
 
 </body>
 </html>
