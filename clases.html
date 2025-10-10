@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clases | R.A.L.S.M. Centro de Estudio</title>
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-accent': '#059669', /* Verde Esmeralda Profundo (Color principal) */
+                        'primary-light': '#34d399', /* Verde más claro para hover y sombras */
+                        'bg-light': '#fefefe',
+                        'text-dark': '#1e293b',
+                        // Colores de acento para las clases (para diferenciación)
+                        'accent-math': '#3b82f6',    // Azul
+                        'accent-chemistry': '#f59e0b', // Amarillo/Naranja
+                        'accent-physics': '#ef4444',  // Rojo
+                        'accent-spanish': '#6366f1',  // Índigo
+                        'accent-bio': '#10b981',      // Verde Menta
+                        'accent-ghc': '#8b5cf6',      // Violeta
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Usamos la fuente Inter, ideal para un look moderno y legible -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos de Fondo y Base */
+        body {
+            background-color: #f7f9fc; /* Off-white muy sutil */
+            color: #1e293b; 
+            padding-bottom: 40px; 
+        }
+        
+        /* Estilo base para todos los paneles (Apple look) */
+        .panel-style {
+            /* Esquinas grandes y suaves */
+            border-radius: 2rem; 
+            background-color: white;
+            /* Sombra sutil pero prominente */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 5px 15px rgba(0, 0, 0, 0.05); 
+            border: 1px solid #f3f4f6; /* Borde muy claro */
+            transition: all 0.3s ease;
+        }
+
+        /* Estilo para las tarjetas de Clase */
+        .class-card {
+            transition: transform 0.3s ease, box-shadow 0.4s ease, border-color 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent; /* Borde inicial invisible */
+        }
+        
+        .class-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15); 
+        }
+
+        /* Estilo para la navegación superior */
+        .nav-button {
+            transition: all 0.3s ease;
+            border-radius: 9999px;
+            padding: 10px 25px;
+            font-weight: 600;
+        }
+        .nav-button:hover {
+            background-color: #059669;
+            color: white;
+            box-shadow: 0 4px 10px rgba(5, 150, 105, 0.3);
+        }
+
+        /* Footer Estático (Mismo estilo que index.html) */
+        .static-footer-panel {
+            width: 95%; 
+            max-width: 800px;
+            z-index: 10; 
+            padding: 1rem 1.5rem;
+            border-radius: 1.5rem; 
+            background-color: white; 
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center pt-12 px-4 font-sans text-text-dark">
+
+    <!-- PANEL DE NAVEGACIÓN (HEADER) -->
+    <header class="mb-12 z-10 w-full max-w-4xl p-6 panel-style text-center flex justify-between items-center flex-wrap gap-4">
+        <h1 class="text-3xl font-extrabold tracking-tight">
+            <span class="text-primary-accent">Clases</span> del Primer Lapso
+        </h1>
+        <a href="index.html" class="nav-button border-2 border-primary-accent text-primary-accent">
+            ← Volver a Inicio
+        </a>
+    </header>
+
+    <!-- DESCRIPCIÓN Y FILTRO (PANEL COMPLETO) -->
+    <div class="w-full max-w-5xl p-8 mb-12 panel-style z-10">
+        <p class="text-xl text-slate-700 leading-relaxed text-center">
+            Selecciona el área de estudio para acceder a los temas, explicaciones y ejercicios enfocados en el contenido requerido.
+        </p>
+    </div>
+
+    <!-- PANEL DE MATERIAS (LAYOUT DE GRILLA RESPONSIVA) -->
+    <main class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+
+        <!-- Función para generar la tarjeta de clase (usando una macro conceptual) -->
+        
+        <!-- Clase 1: MATEMÁTICAS -->
+        <a href="clases/matematicas.html" class="class-card panel-style p-8 hover:border-accent-math">
+            <div class="text-6xl mb-4 text-accent-math">➗</div>
+            <h2 class="text-2xl font-bold mb-2 text-text-dark">Matemáticas</h2>
+            <p class="text-slate-500">
+                Álgebra, geometría y resolución de problemas fundamentales. ¡Domina los números!
+            </p>
+        </a>
+
+        <!-- Clase 2: QUÍMICA -->
+        <a href="clases/quimica.html" class="class-card panel-style p-8 hover:border-accent-chemistry">
+            <div class="text-6xl mb-4 text-accent-chemistry">🧪</div>
+            <h2 class="text-2xl font-bold mb-2 text-text-dark">Química</h2>
+            <p class="text-slate-500">
+                Conceptos, fórmulas, tabla periódica y las reacciones esenciales del Primer Lapso.
+            </p>
+        </a>
+
+        <!-- Clase 3: FÍSICA -->
+        <a href="clases/fisica.html" class="class-card panel-style p-8 hover:border-accent-physics">
+            <div class="text-6xl mb-4 text-accent-physics">⚛️</div>
+            <h2 class="text-2xl font-bold mb-2 text-text-dark">Física</h2>
+            <p class="text-slate-500">
+                Leyes de movimiento, energía, cinemática y las magnitudes físicas básicas.
+            </p>
+        </a>
+
+        <!-- Clase 4: CASTELLANO -->
+        <a href="clases/castellano.html" class="class-card panel-style p-8 hover:border-accent-spanish">
+            <div class="text-6xl mb-4 text-accent-spanish">📝</div>
+            <h2 class="text-2xl font-bold mb-2 text-text-dark">Castellano</h2>
+            <p class="text-slate-500">
+                Gramática, ortografía avanzada, análisis literario y técnicas de composición escrita.
+            </p>
+        </a>
+
+        <!-- Clase 5: BIOLOGÍA -->
+        <a href="clases/biologia.html" class="class-card panel-style p-8 hover:border-accent-bio">
+            <div class="text-6xl mb-4 text-accent-bio">🌱</div>
+            <h2 class="text-2xl font-bold mb-2 text-text-dark">Biología</h2>
+            <p class="text-slate-500">
+                Estructura celular, procesos vitales, genética básica y la clasificación de los seres vivos.
+            </p>
+        </a>
+
+        <!-- Clase 6: GHC (Geografía, Historia y Ciudadanía) -->
+        <a href="clases/ghc.html" class="class-card panel-style p-8 hover:border-accent-ghc">
+            <div class="text-6xl mb-4 text-accent-ghc">🗺️</div>
+            <h2 class="text-2xl font-bold mb-2 text-text-dark">GHC</h2>
+            <p class="text-slate-500">
+                Geografía, historia contemporánea y los fundamentos de la ciudadanía y la identidad nacional.
+            </p>
+        </a>
+    </main>
+
+    <!-- FOOTER ESTÁTICO COMO PANEL -->
+    <footer class="static-footer-panel mt-16 mx-auto py-4 text-slate-500">
+        <div class="max-w-5xl mx-auto text-center text-sm px-4 flex flex-col items-center">
+            <!-- Mensaje central -->
+            <p class="mb-2 text-slate-600 font-medium">
+                Centro de Estudio <span class="text-primary-accent font-bold">R.A.L.S.M.</span> — Creada por <span class="font-bold">Abel Ghanam de 5to Amabilidad</span> para facilitar el aprendizaje.
+            </p>
+            <!-- Enlaces separados con línea divisoria sutil -->
+            <div class="space-x-4 mt-1 pt-1 border-t border-slate-100 w-full max-w-sm">
+                <a href="politica.html" class="hover:text-primary-accent transition duration-200 font-medium">Política de Privacidad</a>
+                <span class="text-slate-300">|</span>
+                <a href="contacto.html" class="hover:text-primary-accent transition duration-200 font-medium">Contacto Directo</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
