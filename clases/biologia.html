@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mantenimiento | R.A.L.S.M. Centro de Estudio</title>
+    <title>R.A.L.S.M. | Clase de Biología</title>
     <!-- Carga de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -11,11 +11,10 @@
             theme: {
                 extend: {
                     colors: {
-                        'primary-accent': '#059669', /* Verde Esmeralda Profundo (Color principal) */
+                        'primary-accent': '#059669', /* Verde Esmeralda Profundo */
                         'primary-light': '#34d399', /* Verde más claro para hover y sombras */
-                        'bg-light': '#fefefe',
-                        'text-dark': '#1e293b',
-                        'yellow-alert': '#f59e0b', /* Amarillo suave para la alerta */
+                        'bg-light': '#fefefe', /* Blanco prístino */
+                        'text-dark': '#1e293b', /* Slate oscuro */
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -29,93 +28,331 @@
     <style>
         /* Estilos de Fondo y Base */
         body {
-            background-color: #f7f9fc; /* Off-white muy sutil */
+            background-color: #f7f9fc; 
             color: #1e293b; 
             padding-bottom: 40px; 
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
         
         /* Estilo base para todos los paneles (Apple look) */
         .panel-style {
-            /* Esquinas grandes y suaves */
             border-radius: 2rem; 
             background-color: white;
-            /* Sombra sutil pero prominente */
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 5px 15px rgba(0, 0, 0, 0.05); 
-            border: 1px solid #f3f4f6; /* Borde muy claro */
+            border: 1px solid #f3f4f6;
             transition: all 0.3s ease;
-        }
-        
-        /* Estilo para la navegación superior y botones de acción */
-        .nav-button {
-            transition: all 0.3s ease;
-            border-radius: 9999px;
-            padding: 10px 25px;
-            font-weight: 600;
-        }
-        .nav-button:hover {
-            background-color: #059669;
-            color: white;
-            box-shadow: 0 4px 10px rgba(5, 150, 105, 0.3);
         }
 
-        /* Footer Estático (Mismo estilo que index.html) */
+        /* Título de sección dentro del contenido */
+        .content-heading {
+            font-size: 1.5rem; /* text-2xl */
+            font-weight: 700; /* font-bold */
+            color: #059669; /* primary-accent */
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 3px solid #f3f4f6; /* Borde sutil */
+        }
+        
+        /* Contenedor de Fórmulas y Ejemplos (para Tablas de Punnett) */
+        .formula-box {
+            background-color: #ecfdf5; /* Verde muy claro (Emerald 50) */
+            border-left: 5px solid #059669; /* primary-accent */
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+            overflow-x: auto; /* Para tablas grandes en móvil */
+        }
+        
+        /* Estilos de Tabla de Punnett */
+        .punnett-table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .punnett-table th, .punnett-table td {
+            border: 2px solid #34d399; /* Verde más claro */
+            padding: 0.75rem;
+            font-weight: 600;
+            min-width: 40px;
+        }
+        .punnett-table th {
+            background-color: #34d399;
+            color: white;
+        }
+        .punnett-table td {
+            background-color: white;
+            color: #1e293b;
+        }
+
+        /* Botones de Estilo Fino (Usado en el Header) */
+        .nav-button {
+            transition: all 0.3s ease;
+        }
+        .nav-button:hover {
+            box-shadow: 0 5px 15px rgba(5, 150, 105, 0.3); 
+            transform: translateY(-2px);
+        }
+
+        /* Footer Estático como Panel */
         .static-footer-panel {
             width: 95%; 
             max-width: 800px;
             z-index: 10; 
             padding: 1rem 1.5rem;
             border-radius: 1.5rem; 
-            background-color: white; 
+            background-color: white;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            margin-top: auto; /* Empuja el footer hacia abajo */
         }
+        
     </style>
 </head>
-<body class="pt-12 px-4 font-sans text-text-dark">
+<body class="min-h-screen flex flex-col items-center pt-8 px-4 font-sans text-text-dark">
 
-    <!-- PANEL DE NAVEGACIÓN (HEADER) -->
-    <header class="mb-12 z-10 w-full max-w-4xl p-6 panel-style text-center flex justify-between items-center flex-wrap gap-4">
-        <h1 class="text-3xl font-extrabold tracking-tight">
-            Centro de Estudio <span class="text-primary-accent">R.A.L.S.M.</span>
-        </h1>
-        <a href="../clases.html" class="nav-button border-2 border-primary-accent text-primary-accent">
-            ← Volver a Inicio
-        </a>
+    <!-- PANEL DEL TÍTULO PRINCIPAL (HEADER CON BOTÓN) -->
+    <header class="w-full max-w-4xl mx-auto mb-10 z-10">
+        <div class="p-6 panel-style text-center flex justify-between items-center flex-wrap gap-4">
+            
+            <!-- Título Principal -->
+            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-text-dark">
+                Clase de <span class="text-primary-accent">Biología</span>
+            </h1>
+
+            <!-- Botón Volver a Clases (Reemplaza el de abajo) -->
+            <a href="clases.html" class="nav-button border-2 border-primary-accent text-primary-accent px-4 py-2 font-semibold rounded-full hover:bg-primary-accent hover:text-white transition duration-200 text-sm sm:text-base">
+                ← Volver a Clases 📚
+            </a>
+        </div>
+        <p class="text-lg text-slate-500 font-light italic mt-4 text-center">
+            Genética, Herencia y la Base de la Vida
+        </p>
     </header>
 
-    <!-- PANEL PRINCIPAL DE MANTENIMIENTO -->
-    <main class="w-full max-w-3xl flex-grow flex items-center justify-center">
+    <!-- CONTENEDOR PRINCIPAL DEL CONTENIDO -->
+    <main class="w-full max-w-4xl text-slate-700">
+
+        <!-- INTRODUCCIÓN A LA GENÉTICA (PANEL SEPARADO) -->
+        <section class="p-6 sm:p-10 mb-10 panel-style">
+            <h2 class="content-heading">Conceptos Fundamentales de Genética</h2>
+            <p class="mb-6">
+                La genética es la ciencia de la **herencia**, explicando cómo los rasgos se transmiten de una generación a la siguiente.
+            </p>
+            
+            <div class="grid md:grid-cols-2 gap-6 text-base">
+                <!-- Alelos -->
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                    <strong class="text-primary-accent block text-xl mb-1">Alelos</strong>
+                    <p>Son las formas alternativas de un gen. Cada organismo hereda **un alelo de la madre** y **uno del padre** para una característica.</p>
+                </div>
+                <!-- Genotipo -->
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                    <strong class="text-primary-accent block text-xl mb-1">Genotipo</strong>
+                    <p>Es la **composición genética específica** de un organismo; la combinación de alelos heredados (ej. AA, Aa, aa).</p>
+                </div>
+                 <!-- Fenotipo -->
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                    <strong class="text-primary-accent block text-xl mb-1">Fenotipo</strong>
+                    <p>Es la **manifestación física, observable o medible** de un rasgo (ej. color de ojos, altura). Es el resultado del genotipo.</p>
+                </div>
+                 <!-- Tipos de Alelos -->
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                    <strong class="text-primary-accent block text-xl mb-1">Dominantes y Recesivos</strong>
+                    <p>Los **Dominantes** (A) se expresan. Los **Recesivos** (a) solo se expresan en estado homocigoto (aa).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- LEYES DE MENDEL (Contenedor General) -->
+        <section class="mb-10">
+            <h2 class="content-heading w-full max-w-4xl mx-auto">Las Tres Leyes de Mendel</h2>
+            <p class="mb-6 text-center text-lg">Gregor Mendel sentó las bases de la genética moderna con sus experimentos.</p>
+
+            <!-- 1RA LEY: UNIFORMIDAD -->
+            <div class="p-6 sm:p-10 mb-8 panel-style">
+                <h3 class="text-2xl font-bold text-text-dark mb-4 border-b pb-2">1. Principio de Uniformidad (1ra Ley)</h3>
+                <p class="text-slate-700 mb-6">
+                    <strong class="font-semibold text-primary-accent">Explicación:</strong> Al cruzar dos individuos de líneas puras (uno dominante AA y uno recesivo aa), la primera generación (F1) será completamente uniforme, es decir, todos los descendientes serán heterocigotos (Aa) y mostrarán el fenotipo dominante.
+                </p>
+                <!-- Ejemplo de Cuadro de Punnett (Ley 1) -->
+                <div class="formula-box">
+                    <p class="font-mono text-base text-text-dark mb-3">Ejemplo: Cruce AA (Amarillo) x aa (Verde)</p>
+                    <table class="punnett-table text-base">
+                        <thead>
+                            <tr>
+                                <th>♀ / ♂</th>
+                                <th>A</th>
+                                <th>A</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>a</th>
+                                <td>Aa</td>
+                                <td>Aa</td>
+                            </tr>
+                            <tr>
+                                <th>a</th>
+                                <td>Aa</td>
+                                <td>Aa</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="mt-3 text-sm text-center font-bold">Resultado F1: 100% Heterocigoto (Aa) y 100% Amarillo.</p>
+                </div>
+            </div>
+
+            <!-- 2DA LEY: SEGREGACIÓN -->
+            <div class="p-6 sm:p-10 mb-8 panel-style">
+                <h3 class="text-2xl font-bold text-text-dark mb-4 border-b pb-2">2. Principio de Segregación (2da Ley)</h3>
+                <p class="text-slate-700 mb-6">
+                    <strong class="font-semibold text-primary-accent">Explicación:</strong> Cuando los individuos de la primera generación ($\text{F1}$) se cruzan entre sí (Aa x Aa), los alelos se separan (segregan) durante la formación de los gametos, permitiendo que el alelo recesivo reaparezca en la segunda generación ($\text{F2}$).
+                </p>
+                 <!-- Ejemplo de Cuadro de Punnett (Ley 2) -->
+                <div class="formula-box">
+                    <p class="font-mono text-base text-text-dark mb-3">Ejemplo: Cruce Aa x Aa</p>
+                    <table class="punnett-table text-base">
+                        <thead>
+                            <tr>
+                                <th>♀ / ♂</th>
+                                <th>A</th>
+                                <th>a</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>A</th>
+                                <td>AA</td>
+                                <td>Aa</td>
+                            </tr>
+                            <tr>
+                                <th>a</th>
+                                <td>Aa</td>
+                                <td>aa</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="mt-3 text-sm text-center">Proporción Fenotípica F2: **3 (Amarillo) : 1 (Verde)**</p>
+                    <p class="mt-1 text-sm text-center">Proporción Genotípica F2: 1 (AA) : 2 (Aa) : 1 (aa)</p>
+                </div>
+            </div>
+
+            <!-- 3RA LEY: TRANSMISIÓN INDEPENDIENTE -->
+            <div class="p-6 sm:p-10 panel-style">
+                <h3 class="text-2xl font-bold text-text-dark mb-4 border-b pb-2">3. Principio de la Transmisión Independiente (3ra Ley)</h3>
+                <p class="text-slate-700 mb-6">
+                    <strong class="font-semibold text-primary-accent">Explicación:</strong> Al considerar la herencia de **dos caracteres diferentes** a la vez (dihibridismo), los alelos para un carácter se heredan independientemente de los alelos para el otro carácter.
+                </p>
+                <!-- Ejemplo de Cuadro de Punnett (Ley 3) - Usando notación simplificada -->
+                <div class="formula-box">
+                    <p class="font-mono text-base text-text-dark mb-3">Ejemplo: Cruce Dihíbrido (Planta: Color y Pétalos)</p>
+                    <p class="text-sm mb-2">R = Rojo, r = Blanco | P = 7 Pétalos, p = 5 Pétalos</p>
+                    <p class="text-sm mb-3">Cruce: RrPp x RrPp (Todos los gametos posibles: RP, Rp, rP, rp)</p>
+                    <div class="overflow-x-auto">
+                        <table class="punnett-table text-base min-w-[500px]">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>RP</th>
+                                    <th>Rp</th>
+                                    <th>rP</th>
+                                    <th>rp</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>RP</th>
+                                    <td>RRPP</td>
+                                    <td>RRPp</td>
+                                    <td>RrPP</td>
+                                    <td>RrPp</td>
+                                </tr>
+                                <tr>
+                                    <th>Rp</th>
+                                    <td>RRPp</td>
+                                    <td>RRpp</td>
+                                    <td>RrPp</td>
+                                    <td>Rrpp</td>
+                                </tr>
+                                <tr>
+                                    <th>rP</th>
+                                    <td>RrPP</td>
+                                    <td>RrPp</td>
+                                    <td>rrPP</td>
+                                    <td>rrPp</td>
+                                </tr>
+                                <tr>
+                                    <th>rp</th>
+                                    <td>RrPp</td>
+                                    <td>Rrpp</td>
+                                    <td>rrPp</td>
+                                    <td>rrpp</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="mt-6 text-sm font-semibold">
+                         <p class="text-center font-bold">Proporción Fenotípica F2 (Clásica 9:3:3:1):</p>
+                         <ul class="list-disc list-inside ml-8 mt-2 text-left font-normal text-base">
+                             <li><strong class="font-bold">9/16:</strong> Rojo con 7 Pétalos (56.25%)</li>
+                             <li><strong class="font-bold">3/16:</strong> Rojo con 5 Pétalos (18.75%)</li>
+                             <li><strong class="font-bold">3/16:</strong> Blanco con 7 Pétalos (18.75%)</li>
+                             <li><strong class="font-bold">1/16:</strong> Blanco con 5 Pétalos (6.25%)</li>
+                         </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
         
-        <div class="p-10 panel-style z-10 text-center w-full">
+        <!-- CROMOSOMAS: CONCEPTO, ESTRUCTURA Y FUNCIÓN -->
+        <section class="p-6 sm:p-10 mb-10 panel-style">
+            <h2 class="content-heading">Cromosomas: Base de la Herencia y la Vida</h2>
             
-            <!-- Icono de Alerta -->
-            <div class="text-8xl mb-6 text-yellow-alert">🛠️</div>
-
-            <h2 class="text-4xl font-extrabold mb-4 text-text-dark">
-                ¡Estamos Mejorando para Ti!
-            </h2>
-            
-            <p class="text-xl text-slate-700 leading-relaxed mb-8 max-w-xl mx-auto">
-                Actualmente estamos en **mantenimiento** y trabajando arduamente para agregar todo el material de estudio nuevo que necesitas.
+            <h3 class="text-xl font-bold text-text-dark mb-3">Concepto e Importancia</h3>
+            <p class="text-slate-700 mb-6 border-b pb-4">
+                Los cromosomas contienen la **Información Genética (ADN)**, asegurando que esta se transmita de manera organizada para mantener las características de la especie a través del tiempo y permitir la evolución.
             </p>
 
-            <p class="text-lg text-slate-500 font-medium">
-                Vuelve pronto. ¡La actualización estará lista en breve!
-            </p>
+            <div class="grid md:grid-cols-2 gap-6 text-base">
+                <!-- Importancia -->
+                <div class="space-y-4">
+                    <h4 class="text-lg font-bold text-primary-accent border-b border-slate-200 pb-1">Importancia biológica:</h4>
+                    <p><strong class="text-text-dark">1. Conservación de la especie:</strong> Mantiene las características esenciales.</p>
+                    <p><strong class="text-text-dark">2. Crecimiento y reparación:</strong> Permite la formación de nuevos tejidos mediante la **Mitosis**.</p>
+                    <p><strong class="text-text-dark">3. Base de herencia:</strong> Explica el parecido familiar sin la identidad total.</p>
+                </div>
+                <!-- Funciones -->
+                <div class="space-y-4">
+                     <h4 class="text-lg font-bold text-primary-accent border-b border-slate-200 pb-1">Funciones clave:</h4>
+                    <p><strong class="text-text-dark">1. Almacenar información:</strong> Los genes son segmentos de ADN con instrucciones para producir proteínas.</p>
+                    <p><strong class="text-text-dark">2. División celular:</strong> Los cromosomas se duplican y reparten la información equitativamente.</p>
+                    <p><strong class="text-text-dark">3. Garantizar herencia:</strong> La **Meiosis** reduce los cromosomas a la mitad para los gametos.</p>
+                </div>
+            </div>
+        </section>
 
-        </div>
+        <!-- ALCANCES DE LA GENÉTICA (PANEL SEPARADO) -->
+        <section class="p-6 sm:p-10 mb-10 panel-style">
+            <h2 class="content-heading">Principales Aplicaciones de la Genética Moderna</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-base">
+                <p class="p-3 bg-slate-50 rounded-lg"><strong class="font-bold text-primary-accent">1. Medicina y salud:</strong> Desarrollo de terapias génicas y vacunas.</p>
+                <p class="p-3 bg-slate-50 rounded-lg"><strong class="font-bold text-primary-accent">2. Medicina personalizada:</strong> Tratamientos ajustados al perfil genético individual.</p>
+                <p class="p-3 bg-slate-50 rounded-lg"><strong class="font-bold text-primary-accent">3. Agricultura y alimentación:</strong> Mejora de cultivos y resistencia a plagas (OGM).</p>
+                <p class="p-3 bg-slate-50 rounded-lg"><strong class="font-bold text-primary-accent">4. Evolución y biodiversidad:</strong> Trazabilidad de especies y conservación.</p>
+                <p class="p-3 bg-slate-50 rounded-lg"><strong class="font-bold text-primary-accent">5. Sociedad y ética:</strong> Debate sobre ingeniería genética y clonación.</p>
+                <p class="p-3 bg-slate-50 rounded-lg"><strong class="font-bold text-primary-accent">6. Criminología e identificación:</strong> Análisis de ADN en investigaciones forenses.</p>
+            </div>
+        </section>
+        
     </main>
     
     <!-- FOOTER ESTÁTICO COMO PANEL -->
-    <footer class="static-footer-panel mt-16 mx-auto py-4 text-slate-500">
+    <footer class="static-footer-panel mx-auto py-4 text-slate-500 mt-8">
         <div class="max-w-5xl mx-auto text-center text-sm px-4 flex flex-col items-center">
             <!-- Mensaje central -->
             <p class="mb-2 text-slate-600 font-medium">
-                Centro de Estudio <span class="text-primary-accent font-bold">R.A.L.S.M.</span> — Creada por <span class="font-bold">Abel Ghanam de 5to Amabilidad</span> para facilitar el aprendizaje.
+                Centro de Estudio <span class="text-primary-accent font-bold">R.A.L.S.M.</span> — Creada por <span class="font-bold">Abel Ghanam de 5to Amabilidad</span>.
             </p>
             <!-- Enlaces separados con línea divisoria sutil -->
             <div class="space-x-4 mt-1 pt-1 border-t border-slate-100 w-full max-w-sm">
